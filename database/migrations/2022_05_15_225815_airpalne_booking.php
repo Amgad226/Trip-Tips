@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('airpalne_booking', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('Airplane_id')->unsigned()->index();
+            $table->integer('airplane_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
 
             $table->integer('booking_days')->nullable();
@@ -29,7 +29,7 @@ return new class extends Migration
            
 
             $table->foreign('user_id')           ->references('id')->on('users')          ->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('Airplane_id')       ->references('id')->on('airplane')     ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('airplane_id')       ->references('id')->on('airplane')     ->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();
         });

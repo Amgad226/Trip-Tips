@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('package_booking', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('Package_id')->unsigned()->index();
+            $table->integer('package_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
         
             $table->integer('img_qr')->nullable();
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamps();
 
 
-            $table->foreign('Package_id')->references('id')->on('package')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('package_id')->references('id')->on('package')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')   ->references('id')->on('users')  ->onDelete('cascade')->onUpdate('cascade');
 
         });

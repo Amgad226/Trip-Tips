@@ -35,7 +35,7 @@ class add extends Controller
         // dd($request->name_en);
 
          $data = [
-             'name_EN'             => $request->name_en,
+             'name_en'             => $request->name_en,
             ];
          $Hotel = Hotel::create($data);
      
@@ -48,7 +48,7 @@ class add extends Controller
     public function addAirplane(Request $request)
     {
          $data = [
-             'name_EN'             => $request->name_en,
+             'name_en'             => $request->name_en,
             ];
          $Airplane = Airplane::create($data);
      
@@ -62,8 +62,8 @@ class add extends Controller
     public function addPackage(Request $request)
     {
          $data = [
-             'name_EN'             => $request->name_en,
-             'Hotel_id'             => $request->Hotel_id,
+             'name_en'             => $request->name_en,
+             'hotel_id'             => $request->Hotel_id,
              'airplane_id'             => $request->airplane_id,
              'restaurant_id'             => $request->restaurant_id,
             ];
@@ -83,7 +83,7 @@ class add extends Controller
     {
          $data = [
             
-             'Restaurant_id'             => $request->restaurant_id,
+             'restaurant_id'             => $request->restaurant_id,
              'user_id'             => $request->user_id,
             ];
          $BookingRestaurant = BookingRestaurant::create($data);
@@ -115,7 +115,7 @@ class add extends Controller
     {
          $data = [
             
-             'Airplane_id'             => $request->airplane_id,
+             'airplane_id'             => $request->airplane_id,
              'user_id'             => $request->user_id,
             ];
          $BookingAirplane = BookingAirplane::create($data);
@@ -131,7 +131,7 @@ class add extends Controller
     public function add_Package_Booking(Request $request)
     {
          $data = [
-             'Package_id'             => $request->Package_id,
+             'package_id'             => $request->Package_id,
              'user_id'             => $request->user_id,
             ];
             

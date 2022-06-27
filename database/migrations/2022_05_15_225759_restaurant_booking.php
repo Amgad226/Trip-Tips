@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('restaurant_booking', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('Restaurant_id')->unsigned()->index();
+            $table->integer('restaurant_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
 
             $table->integer('booking_days')->nullable();
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')           ->references('id')->on('users')          ->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('Restaurant_id')     ->references('id')->on('restaurant')     ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('restaurant_id')     ->references('id')->on('restaurant')     ->onDelete('cascade')->onUpdate('cascade');
 
         });
     }

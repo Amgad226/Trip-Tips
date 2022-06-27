@@ -14,7 +14,7 @@ class BookingAirplane extends Authenticatable
     protected $table = 'airpalne_booking';
 
     protected $fillable = [
-        'Airplane_id',
+        'airplane_id',
         'user_id',
         'password',
     ];

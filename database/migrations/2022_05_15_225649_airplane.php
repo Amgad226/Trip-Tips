@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('airplane', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name_EN')->nullable();
-            $table->string('name_AR')->nullable();
-            $table->integer('rate')->nullable();
-            $table->string('location')->nullable();
-            $table->integer('Payment')->nullable();
-            $table->integer('price_calss_A')->nullable();
-            $table->integer('price_calss_B')->nullable();
-            $table->string('support_email')->nullable();
+            $table->string('name_en') ;
+            $table->string('name_ar') ->nullable();
+            $table->integer('rate')   ;
+            $table->string('location');
+            $table->integer('Payment');
+            $table->integer('price_calss_A');
+            $table->integer('price_calss_B');
+            $table->string('support_email') ;
             $table->timestamps();
 
         });
