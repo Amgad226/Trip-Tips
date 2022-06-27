@@ -14,13 +14,13 @@ class BookingPackage extends Authenticatable
     protected $table = 'package_booking';
 
     protected $fillable = [
-        'Package_id',
+        'package_id',
         'user_id',
     ];
 
 
     public function package() {
-        return $this->belongsTo(Package::class ,'Package_id');
+        return $this->belongsTo(Package::class ,'package_id');
     }
 
     public function user() {

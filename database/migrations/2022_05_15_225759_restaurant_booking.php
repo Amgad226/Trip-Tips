@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('restaurant_booking', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('restaurant_id')->unsigned()->index();
-            $table->integer('user_id')->unsigned()->index();
+            $table->integer('user_id')      ->unsigned()->index();
 
-            $table->integer('booking_days')->nullable();
-            $table->integer('img_qr')->nullable();
-            $table->integer('number_of_people')->nullable();
-            $table->integer('price')->nullable();
-            $table->integer('id_your_chois')->nullable();
+            $table->integer('booking_days')     ->nullable();
+            $table->integer('img_qr')           ->nullable();
+            $table->integer('number_of_people') ->nullable();
+            $table->integer('price')            ->nullable();
+            $table->integer('id_your_chois')    ->nullable();
            
 
             $table->timestamps();
