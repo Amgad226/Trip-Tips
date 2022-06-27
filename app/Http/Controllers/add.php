@@ -29,7 +29,7 @@ class add extends Controller
          ]);     
     }
 //yass
-
+//amgad 
     public function addHotel(Request $request)
     {
         // dd($request->name_en);
