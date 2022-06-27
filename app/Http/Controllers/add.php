@@ -28,7 +28,7 @@ class add extends Controller
              'item'=>$restaurant,
          ]);     
     }
-
+//yass
 
     public function addHotel(Request $request)
     {
