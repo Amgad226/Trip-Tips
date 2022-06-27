@@ -14,7 +14,7 @@ class Package extends Authenticatable
     protected $table = 'package';
 
     protected $fillable = [
-        'name_EN',
+        'name_en',
         'Hotel_id',
         'airplane_id',
         'restaurant_id',

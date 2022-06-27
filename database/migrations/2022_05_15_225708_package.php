@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('package', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name_EN')->nullable();
-            $table->string('name_AR')->nullable();
-            $table->integer('price')->nullable();
-            $table->integer('number_of_reservation')->nullable()->default(0);
+            $table->string('name_en');
+            $table->string('name_ar')->nullable();
+            $table->integer('price');
+            $table->integer('number_of_reservation')->default(0);
 
-            $table->integer('Hotel_id')->unsigned()->index();
+            $table->integer('hotel_id')->unsigned()->index();
             $table->integer('airplane_id')->unsigned()->index();
             $table->integer('restaurant_id')->unsigned()->index();
-            $table->integer('Tourist_Supervisor_id')->nullable();
+            $table->integer('tourist_supervisor_id')->nullable();
            
             $table->timestamps();
 

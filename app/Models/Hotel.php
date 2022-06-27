@@ -15,7 +15,7 @@ class Hotel extends Authenticatable
     protected $table = 'hotel';
     
     protected $fillable = [
-        'name_EN',
+        'name_en',
    
     ];
 }

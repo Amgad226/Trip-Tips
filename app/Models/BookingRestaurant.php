@@ -14,7 +14,7 @@ class BookingRestaurant extends Authenticatable
     protected $table = 'restaurant_booking';
 
     protected $fillable = [
-        'Restaurant_id',
+        'restaurant_id',
         'user_id',
     ];
 }

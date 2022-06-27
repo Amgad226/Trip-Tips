@@ -17,7 +17,7 @@ class Airplane extends Authenticatable
     protected $table = 'airplane';
 
     protected $fillable = [
-        'name_EN',
+        'name_en',
      
     ];
 
