@@ -15,7 +15,7 @@ class Package extends Authenticatable
 
     protected $fillable = [
         'name_en',
-        'Hotel_id',
+        'hotel_id',
         'airplane_id',
         'restaurant_id',
      
@@ -31,5 +31,13 @@ class Package extends Authenticatable
     public function airplane()
     {
         return $this->belongsTo(Airplane::class,'airplane_id' );
+    }
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class,'restaurant_id' );
+    }
+    public function hotel()
+    {
+        return $this->belongsTo(Hotel::class,'hotel_id' );
     }
 }

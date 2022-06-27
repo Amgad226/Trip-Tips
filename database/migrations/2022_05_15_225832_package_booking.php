@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('package_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
         
-            $table->integer('img_qr')->nullable();
-            $table->integer('number_of_people')->nullable();
+            $table->integer('img_qr')           ->nullable()    ;
+            $table->integer('number_of_people') ->nullable()    ;
        
             $table->timestamps();
 

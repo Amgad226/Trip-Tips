@@ -63,11 +63,12 @@ class add extends Controller
     {
          $data = [
              'name_en'             => $request->name_en,
-             'hotel_id'             => $request->Hotel_id,
-             'airplane_id'             => $request->airplane_id,
-             'restaurant_id'             => $request->restaurant_id,
+             'hotel_id'            => $request->hotel_id,
+             'airplane_id'         => $request->airplane_id,
+             'restaurant_id'       => $request->restaurant_id,
             ];
-            // dd($request->name_en); 
+            // dd(($data));
+            // dd($request->hotel_id); 
          $Package = Package::create($data);
      
          return response()->json([
@@ -136,7 +137,17 @@ class add extends Controller
             ];
             
             $Booking = BookingPackage::with('package')->where('id',1)->first();
-            dd($Booking->package->airplane->name_EN);
+
+
+            $data_to_restaurant = [
+                'restaurant_id'             => $Booking->package->restaurant->id,
+                'user_id'             => $request->user_id,
+               ];
+            BookingRestaurant::create($data_to_restaurant);
+            // dd()
+            // $Book_in_restaurant::cerate()
+            // dd($Booking->package->airplane->name_en);
+            // dd($Booking->package->restaurant->id);
 
             $BookingPackage = BookingPackage::create($data);
     //  dd($BookingPackage);

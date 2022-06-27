@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('restaurant', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('category_id')->nullable();
-
-            $table->string('name_en')->nullable();
-            $table->string('name_ar')->nullable();
-            $table->integer('rate')->nullable();
-            $table->string('location')->nullable();
-            $table->integer('Payment')->nullable();
-            $table->integer('price_calss_A')->nullable();
-            $table->integer('price_calss_B')->nullable();
-            $table->string('support_email')->nullable();
+            
+            $table->integer('category_id')   ->nullable();
+            $table->string('name_en')        ->nullable();
+            $table->string('name_ar')        ->nullable();
+            $table->integer('rate')          ->nullable();
+            $table->string('location')       ->nullable();
+            $table->integer('Payment')       ->nullable();
+            $table->integer('price_calss_A') ->nullable();
+            $table->integer('price_calss_B') ->nullable();
+            $table->string('support_email')  ->nullable();
             $table->boolean('active')->default(0);
 
 
