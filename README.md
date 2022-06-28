@@ -1,10 +1,9 @@
 
 # About Install project
 
-## after you install project by 
-<br>
-git clone https://github.com/Amgad226/Trip-Tips.git
-
+after you install project by 
+### git clone https://github.com/Amgad226/Trip-Tips.git
+ 
 Rename .env.example file to .env inside your project root 
 and fill the database information .
 
