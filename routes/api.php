@@ -39,3 +39,7 @@ Route::post ('/add_Package_Booking',   [add::class,  'add_Package_Booking'    ] 
 
 
 Route::post('/register' ,         [APILog::class, 'register'            ]);
+Route::post('/login' ,         [APILog::class, 'login'            ]);
+Route::middleware("auth:api")->group( function(){
+
+Route::post('/logout' ,         [APILog::class, 'logout'            ]);});
