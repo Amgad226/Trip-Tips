@@ -1,7 +1,8 @@
 
 # About Install project
 
-<bold>after tou install project by <bold> <br>
+##after you install project by 
+<br>
 git clone https://github.com/Amgad226/Trip-Tips.git
 
 Rename .env.example file to .env inside your project root 
