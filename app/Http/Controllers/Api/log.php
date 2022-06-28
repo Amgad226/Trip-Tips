@@ -31,52 +31,24 @@ class log extends Controller
               );
         }
         
-        // اذا مافي صورة بل ريكويست 
-        //عبيلي قيم الريكويست ما عدا الصوة بل داتا 
-        //ووقت ينبعتو البيانات عل داتابيز لحالها الصورة هنيك بتصير نال
+      
         if($request->img==null){
             $input = [
-                'first_name'=> $request->first_name,
-                'last_name' => $request->last_name,
+                'name'      => $request->name,
                 'email'     => $request->email,
                 'password'  => $request->password,
                 'phone'     => $request->phone,
             ];
         }
 
-        if($request->hasFile('img'))
-        { 
-            $uniqid='('.uniqid().')';                                 //كل كرة بيعطيني رقم فريد     انا عم استخدمو مشان اسم كل صورة يكون غير التاني حتى لو اسم الصورة والمستخدم  نفسو
-
-            $destination_path = 'public/images/users';                       //storage بمسار الصورة للتخزين جوات ال  
-            $request->file('img')->storeAs($destination_path,$uniqid.$request->img->getClientOriginalName());  //بل اسم واللاحقة الصح storage/public/images/users تخزينن الصورة بل
-            //هلأ هون نحنا عاملين 
-            //php artisan storage:link
-            //The [C:\Users\ASUS\Desktop\New folder\X-Buyer old\public\storage] link has been connected to [C:\Users\ASUS\Desktop\New folder\X-Buyer old\storage\app/public].
-            //الملفات الموجودة بل ستوريج بروح لحالها بصير بل بابليك ب هاد المسار
-            $image_path = "/storage/images/users/" . $uniqid.$request->img->getClientOriginalName();           // مشان نبعتو بل ريسبونس للفلاتر publicباث الصورة يلي بل 
-            //هيك الصورة فيك تفتحا ب رابط لوكال هوست متل ال بهب لانو صارت ب ملف البابليك وهيك بدا يوصللها لفلاتر 
-            
-            $input = [
-                'first_name'=> $request->first_name,
-                'last_name' => $request->last_name,
-                'email'     => $request->email,
-                'password'  => $request->password,
-                'phone'     => $request->phone,
-                'img'       => $image_path,   //هون حطيت باث الصورة يلي بل بابليك مشان يروح الباث عل داتا بيز واسيل تاخد هاد الباث 
-          ];
-         }
         $input['password'] = Hash::make($input['password']);
+        // dd();
         $user = User::create($input);
 
         
-        $success['token'] = $user->createToken('AyhamAseelAmgadNour')->accessToken;
-        // event(new Registered($user));
-        // $user->notify(new WelcomeEmailNotification());
-        // Mail::to($user->email)->send(new ResetMail ($details));
-        // dd($input['first_name']);
-        // Mail::to($user->email)->send(new welcomeMail($input));ph
-
+        $success['token'] = $user->createToken('aa')->accessToken;
+        dd($success['token']);
+        // 
         return response()->json([
         'msg' => 'User successfully registered',
         'token' => $success,
@@ -98,18 +70,6 @@ class log extends Controller
             ], 201);
         }
 
-        else if(Auth::attempt(['first_name' =>$request->first_name, 'password' => $request->password]))
-        {
-            $user = Auth::user();
-            
-            $success['token'] = $user->createToken('a')->accessToken;
-
-            return response()->json([
-               'msg'=> 'User successfully login',
-                'token'=>$success,
-                'user' => $user
-            ], 201);
-        }
         else {
             return response()->json(['error' => 'Wrong email or password'], 401);
         }

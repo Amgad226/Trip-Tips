@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('img')->nullable();
             $table->integer('password_token')->nullable();
             $table->string('verifay_code')->nullable();
-            $table->boolean('is_verifaied')->defalte(0);
-            $table->integer('role_id')->unsigned()->index();;
+            $table->boolean('is_verifaied')->default(false);
+            $table->integer('role_id')->default(1)->unsigned()->index();
             // $table->boolean('wallet_id')->unsigned()->index();;
             
             //->unsigned()->index();
