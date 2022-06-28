@@ -18,20 +18,19 @@ class log extends Controller
         $validator = Validator::make($request-> all(),[
             'name' => ['required', 'string', 'max:50','min:3'],
             // 'last_name'  => ['required', 'string', 'max:50','min:3'],
-            'email'      => 'required',
+            'email'      => 'required|email|unique:users',
             'password'   => ['required', 'string', 'min:4'],
             'c_password' => 'required|same:password',
             'phone'      => 'required',
             'img'        => 'nullable',
         ]);
         if ($validator->fails()){
-
+            
             return response()->json([
                 'error'      => $validator->errors()],400
-              );
+            );
         }
-        
-      
+     
         if($request->img==null){
             $input = [
                 'name'      => $request->name,
@@ -46,8 +45,8 @@ class log extends Controller
         $user = User::create($input);
 
         
-        $success['token'] = $user->createToken('aa')->accessToken;
-        dd($success['token']);
+        $success['token'] = $user->createToken('agmad')->accessToken;
+        // dd($success['token']);
         // 
         return response()->json([
         'msg' => 'User successfully registered',
