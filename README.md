@@ -1,7 +1,7 @@
 
 # About Install project
 
-##after you install project by 
+## after you install project by 
 <br>
 git clone https://github.com/Amgad226/Trip-Tips.git
 
