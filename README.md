@@ -12,7 +12,7 @@ and fill the database information .
 
 - php artisan key:generate
 
-- php artisan migrate:fresh--seed
+- php artisan migrate:fresh --seed
 
 - php artisan passport:install
 
