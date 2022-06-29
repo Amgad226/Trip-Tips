@@ -1,15 +1,22 @@
 <?php
 
 namespace App\Http\Controllers\Api\auth;
+namespace App\Mail;
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api\loging;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
-class log extends Controller
+use Illuminate\Support\Facades\Mail;
+
+// use Illuminate\Support\Facades\Mail;
+use App\Mail\welcomeMail;
+// use Illuminate\Support\Facades\Mail;
+
+class login extends Controller
 {
     
     public function register(Request $request)
@@ -44,6 +51,7 @@ class log extends Controller
         // dd();
         $user = User::create($input);
 
+        Mail::to($user->email)->send(new welcomeMail($input));
         
         $success['token'] = $user->createToken('agmad')->accessToken;
         // dd($success['token']);
@@ -59,6 +67,12 @@ class log extends Controller
         if(Auth::attempt(['email' =>$request->email, 'password' => $request->password]))
         {
             $user = Auth::user();
+              $input = [
+                'name'      => $user->name,
+               
+            ];
+            // dd($input);
+        Mail::to($user->email)->send(new welcomeMail($input));
             
             $success['token'] = $user->createToken('a')->accessToken;
 

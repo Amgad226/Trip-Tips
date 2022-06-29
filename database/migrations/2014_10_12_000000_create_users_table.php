@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('phone');
             $table->integer('level')->default(0);
             $table->string('img')->nullable();
-            $table->integer('password_token')->nullable();
+            $table->string('password_token')->nullable();
             $table->string('verifay_code')->nullable();
             $table->boolean('is_verifaied')->default(false);
             $table->integer('role_id')->default(1)->unsigned()->index();
