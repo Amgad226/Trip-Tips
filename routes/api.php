@@ -1,18 +1,13 @@
 <?php
 
 use App\Http\Controllers\add;
-use App\Http\Controllers\Api\auth\log;
-use App\Http\Controllers\API\log as APILog;
+use App\Http\Controllers\Api\loging\login;
+use App\Http\Controllers\Api\loging\ForgetAndRestPass;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\Airplane;
-use App\Models\BookingAirplane;
-use App\Models\BookingHotel;
-use App\Models\BookingPackage;
-use App\Models\BookingRestaurant;
-use App\Models\Hotel;
-use App\Models\Package;
-use App\Models\Restaurant;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -38,8 +33,14 @@ Route::post ('/add_Airplane_Booking',  [add::class,  'add_Airplane_Booking'   ] 
 Route::post ('/add_Package_Booking',   [add::class,  'add_Package_Booking'    ] );
 
 
-Route::post('/register' ,         [APILog::class, 'register'            ]);
-Route::post('/login' ,         [APILog::class, 'login'            ]);
+Route::post('/register' ,         [login::class, 'register'            ]);
+Route::post('/login' ,         [login::class, 'login'            ]);
+
+
 Route::middleware("auth:api")->group( function(){
 
-Route::post('/logout' ,         [APILog::class, 'logout'            ]);});
+Route::post('/logout' ,         [login::class, 'logout'            ]);
+    
+Route::post('/forgot' ,        [ForgetAndRestPass::class, 'forgot']);
+Route::post('/reset' ,         [ForgetAndRestPass::class, 'reset']);
+});
