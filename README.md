@@ -18,5 +18,7 @@ and fill the database information .
 
 - php artisan passport:client --personal
 
+-php artisan key:generate
+
 - php artisan serve
 
