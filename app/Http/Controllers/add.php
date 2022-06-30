@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Airplane;
 use App\Models\BookingAirplane;
 use App\Models\BookingHotel;
