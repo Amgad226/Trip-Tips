@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\welcomeMail;
+use App\Models\token;
+use Illuminate\Support\Facades\DB;
 use Laravel\Passport\Bridge\AuthCode;
 
 class login extends Controller
@@ -68,6 +70,7 @@ class login extends Controller
         
         //create token 
         $token = $user->createToken('agmad')->accessToken;
+        $user->sendEmailVerificationNotification();
 
         return response()->json([
         'message' => 'User successfully registered',
@@ -98,7 +101,16 @@ class login extends Controller
     }
     // _________________________________________________________________________________
     public function logout(Request $request) 
-    {        
+    {       
+        //  dd();
+        // DB::table('oauth_access_tokens')->insert(['id'=>'20ed8d6050e4b28766a7988c16318af4010a09a9a0dec1965027c0adf609cde82c3a4adf1b5ea32ca','client_id'=>'1','revoked'=>false]);
+
+    //    dd($request->bearerToken());
+        // $token =token::where('id',$request->bearerToken())->first();
+        // dd($token);
+        // if ($token==null)
+    //    { return 'amgasd';}
+
       $request->user()->token()->revoke();
       return response()->json(['message' => 'User successfully logged out'],200);
     }

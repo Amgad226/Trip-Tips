@@ -79,7 +79,7 @@ function requestTokenGoogle(Request $request){
         function addPasswordSocialite(Request $request){
 
             // $password= Hash::make($request->password); // with enconding password
-            $password= $request->password;
+            $password= Hash::make($request->password);
             $userId = Auth::id();
             // dd($userId);
             User::where('id',$userId)->update(['password' =>$password]);

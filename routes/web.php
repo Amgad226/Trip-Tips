@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/for-middelwarer-transfare-to-login-route-in-web', function () {
-    return response()->json(['Message' => 'error'], 400);})->name('not_logging');
+// Route::get('/for-middelwarer-transfare-to-login-route-in-web', function () {
+//     return response()->json(['Message' => 'you shoud login to use this route [middelwere->route web]'], 400);})->name('not_logging');
 
 Auth::routes();
 

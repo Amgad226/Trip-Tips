@@ -2,9 +2,10 @@
   <div class="wrapper-1">
     <div class="wrapper-2">
       <h1>Thank you !</h1>
-      <p>Thanks for verification in <span class="one">Trip Tips</span> .  </p>      
+      <p>{{$text}}<span class="one">Trip Tips</span> .  </p>      
+      <button type="button" class="btn btn-warning">Warning</button>
     </div>
-   
+
 </div>
 </div>
 
