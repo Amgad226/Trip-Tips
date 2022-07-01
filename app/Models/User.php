@@ -25,4 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'img'
 
     ];
+    public function role() {
+        return $this->belongsTo(Role::class );
+    }
 }
