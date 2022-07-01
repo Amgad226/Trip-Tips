@@ -51,7 +51,7 @@ class ForgetAndRestPass extends Controller
         //اخدنا المعلومات من الريكويست وخزناهن
         $token = $request->token;
         $email=$request->eamil;
-        $pssword= Hash::make($request->password);
+        $password= Hash::make($request->password);
 
         //طابقنا الايميل يلي مبعوت مع اليوزرات يلي عنا ازا مافي هيك يوزر ف باي 
         $user = DB::table('users')->where('email',$email)->first();
@@ -67,7 +67,7 @@ class ForgetAndRestPass extends Controller
         }
         //ازا الشرطين ما تحققو
         //وقتا عدلي كلمة السر بل كلمة الجديدة يلي باعتلي ياها
-        DB::table('users')->where('email',$email)->update(['password' =>$pssword]);
+        DB::table('users')->where('email',$email)->update(['password' =>$password]);
 
         //وساويلي الباسورد توكين نال مشان ما يضل يستخدم هاد الرمز ويغير كلمة السر كل شوي 
         DB::table('users')->where('email',$email)->update(['password_token' => null]);

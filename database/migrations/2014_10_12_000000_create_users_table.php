@@ -17,21 +17,16 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email');//->unique();
-            $table->string('password');
-            $table->string('phone');
+            $table->string('password')->nullable();
+            $table->string('phone')->nullable();
             $table->integer('level')->default(0);
             $table->string('img')->nullable();
             $table->string('password_token')->nullable();
-            $table->string('verifay_code')->nullable();
             $table->boolean('is_verifaied')->default(false);
             $table->integer('role_id')->default(1)->unsigned()->index();
-            // $table->boolean('wallet_id')->unsigned()->index();;
             
-            //->unsigned()->index();
-            $table->timestamp('email_verified_at')->nullable();
             
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
-            // $table->foreign('wallet_id')->references('id')->on('wallets')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
 
         });

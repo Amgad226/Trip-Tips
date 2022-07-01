@@ -22,6 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'phone',
         'level',
         'is_verifaied',
+        'img'
 
     ];
 }
