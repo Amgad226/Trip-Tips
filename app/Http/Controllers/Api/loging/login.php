@@ -44,7 +44,7 @@ class login extends Controller
          }
          else
          {
-            $image_path='/user_default.png' ;
+            $image_path='/default_photo/user_default.png' ;
          }
          $input = [
             'name'      =>$request->name,
