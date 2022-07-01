@@ -10,6 +10,7 @@ use Faker\Extension\Container;
 use Faker\Generator;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -17,11 +18,13 @@ class UserSeeder extends Seeder
    
     public function run()
     {
+$password=Hash::make(123456);
+
         
         $amgad = [
             'name'      =>'amgad wattar',
             'email'     => 'amgad@gmail.com',
-            'password'  => '123456',
+            'password'  => $password,
             'phone'     => '094562182',
             'img'       => '/default_photo/amgad.jpg' ,
             'role_id'=>4
@@ -30,7 +33,7 @@ class UserSeeder extends Seeder
       $ayham = [
         'name'      =>'ayham',
         'email'     => 'ayham@gmail.com',
-        'password'  => '123456',
+        'password'  => $password,
         'phone'     => '294564',
         'img'       => '/default_photo/ayham.jpg' ,
          'role_id'=>3
@@ -40,16 +43,17 @@ class UserSeeder extends Seeder
   $aseel = [
     'name'      =>'Aseel',
     'email'     => 'aseel@gmail.com',
-    'password'  => '123456',
+    'password'  => $password,
     'phone'     => '58546546',
     'img'       => '/default_photo/aseel.jpg' ,
     'role_id'=>2
 
 ];
+
 $yassmin = [
     'name'      =>'yassmin',
     'email'     => 'aseel@gmail.com',
-    'password'  => '123456',
+    'password'  => $password,
     'phone'     => '985681',
     'img'       => '/default_photo/yassmin.jpg' ,
     'role_id'=>1
