@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\welcomeMail;
+use Laravel\Passport\Bridge\AuthCode;
 
 class login extends Controller
 {
@@ -72,7 +73,7 @@ class login extends Controller
         'Message' => 'User successfully registered',
         'token' => $token,
         'user' => $user
-        ], 201);
+        ], 200);
     }
     // _________________________________________________________________________________
     public function login(Request $request){ 
@@ -88,18 +89,17 @@ class login extends Controller
                'Message'=> 'User successfully login',
                 'token'=>$token,
                 'user' => $user
-            ], 201);
+            ], 200);
         }
 
         else {
-            return response()->json(['Message' => 'Wrong email or password'], 401);
+            return response()->json(['Message' => 'Wrong email or password'], 400);
         }
     }
     // _________________________________________________________________________________
     public function logout(Request $request) 
-    {
-   
+    {        
       $request->user()->token()->revoke();
-      return response()->json(['Message' => 'User successfully logged out']);
+      return response()->json(['Message' => 'User successfully logged out'],200);
     }
 }
