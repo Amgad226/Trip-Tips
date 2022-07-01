@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'email'     => 'amgad@gmail.com',
             'password'  => '123456',
             'phone'     => '094562182',
-            'img'       => '/user_default.png' ,
+            'img'       => '/default_photo/amgad.jpg' ,
             'role_id'=>4
 
       ];
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
         'email'     => 'ayham@gmail.com',
         'password'  => '123456',
         'phone'     => '294564',
-        'img'       => '/user_default.png' ,
+        'img'       => '/default_photo/ayham.jpg' ,
          'role_id'=>3
 
   ];
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
     'email'     => 'aseel@gmail.com',
     'password'  => '123456',
     'phone'     => '58546546',
-    'img'       => '/user_default.png' ,
+    'img'       => '/default_photo/aseel.jpg' ,
     'role_id'=>2
 
 ];
@@ -51,7 +51,7 @@ $yassmin = [
     'email'     => 'aseel@gmail.com',
     'password'  => '123456',
     'phone'     => '985681',
-    'img'       => '/user_default.png' ,
+    'img'       => '/default_photo/yassmin.jpg' ,
     'role_id'=>1
 ];
         //encoding password before adding to databse
