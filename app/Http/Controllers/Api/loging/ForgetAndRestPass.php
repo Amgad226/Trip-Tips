@@ -19,7 +19,7 @@ class ForgetAndRestPass extends Controller
         $user=User::where('email',$request->eamil)->first();
         //ازا مو موجود بل داتا بيز رجعلي رسالة فشل 
         if($user==null)
-        return response()->json(['Message'=>'user not exist',404  ]);
+        return response()->json(['message'=>'user not exist',404  ]);
 
         //انشأنا رمز عشوائي من 10 حروف 
         $token = Str::random(10);
@@ -36,14 +36,14 @@ class ForgetAndRestPass extends Controller
                 DB::table('users')->where('email',$request->eamil)->update(['password_token' => $token]);
 
                 // DB::table('users')->insert(['password_token'=>$token]);
-                return response()->json(['Message'=>'check your email']);
+                return response()->json(['message'=>'check your email']);
             }  
 
         catch(\Exception $e) 
             {
                 //يفضل نستخدم تراي وكاتش  وقت نستعمل ال 
                 //DB:table 
-                return response()->json(['Message'=>$e->getMessage()]);
+                return response()->json(['message'=>$e->getMessage()]);
             } }
 //_____________________________________________________________________________________/
   public function  reset(Request $request){
@@ -58,12 +58,12 @@ class ForgetAndRestPass extends Controller
 
         if( $user  ==null)
         {
-            return response()->json(['Message '=>'user dosent exist',404]);
+            return response()->json(['message '=>'user dosent exist',404]);
         }
         //ازا كان الرمز يلي كاتبلليي ياه بل ريكويست غير يلي مخزن بل داتا بيز برضو باي 
         if($user->password_token!=$token)
         {
-            return response()->json(["Message"=>'invalide token',403]);
+            return response()->json(["message"=>'invalide token',403]);
         }
         //ازا الشرطين ما تحققو
         //وقتا عدلي كلمة السر بل كلمة الجديدة يلي باعتلي ياها
@@ -72,6 +72,6 @@ class ForgetAndRestPass extends Controller
         //وساويلي الباسورد توكين نال مشان ما يضل يستخدم هاد الرمز ويغير كلمة السر كل شوي 
         DB::table('users')->where('email',$email)->update(['password_token' => null]);
 
-        return response()->json(['Message'=>'success']);}}
+        return response()->json(['message'=>'success']);}}
 
 

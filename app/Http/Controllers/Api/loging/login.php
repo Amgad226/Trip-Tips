@@ -26,7 +26,7 @@ class login extends Controller
         ]);
         if ($validator->fails())
         {
-            return response()->json(['Message'      => $validator->errors()],400);
+            return response()->json(['message'      => $validator->errors()],400);
         }
      
       
@@ -44,7 +44,7 @@ class login extends Controller
          }
          else
          {
-            $image_path=null;
+            $image_path='/user_default.png' ;
          }
          $input = [
             'name'      =>$request->name,
@@ -70,7 +70,7 @@ class login extends Controller
         $token = $user->createToken('agmad')->accessToken;
 
         return response()->json([
-        'Message' => 'User successfully registered',
+        'message' => 'User successfully registered',
         'token' => $token,
         'user' => $user
         ], 200);
@@ -86,20 +86,20 @@ class login extends Controller
             $token = $user->createToken('a')->accessToken;
 
             return response()->json([
-               'Message'=> 'User successfully login',
+               'message'=> 'User successfully login',
                 'token'=>$token,
                 'user' => $user
             ], 200);
         }
 
         else {
-            return response()->json(['Message' => 'Wrong email or password'], 400);
+            return response()->json(['message' => 'Wrong email or password'], 400);
         }
     }
     // _________________________________________________________________________________
     public function logout(Request $request) 
     {        
       $request->user()->token()->revoke();
-      return response()->json(['Message' => 'User successfully logged out'],200);
+      return response()->json(['message' => 'User successfully logged out'],200);
     }
 }

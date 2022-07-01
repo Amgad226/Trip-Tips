@@ -15,8 +15,12 @@ function requestTokenGoogle(Request $request){
     // dd();
             if (!$UserFormGoogle)
             {
-                return response()->json('You do not have access to this email ',400);
+            return response()->json([
+                'message' => 'You do not have access to this email',
+
+               ], 400);         
             }
+          
     
             $UserToDataBase = User::create(
                 [
@@ -30,7 +34,7 @@ function requestTokenGoogle(Request $request){
             $token= $UserToDataBase->createToken('agadsdguas')->accessToken;
     
              return response()->json([
-            'Message' => 'User successfully registered',
+            'message' => 'User successfully registered',
             'token' => $token,
             'user' => $user
             ], 200);}
@@ -41,10 +45,15 @@ function requestTokenGoogle(Request $request){
              $UserFormFacebook =  Socialite::driver('facebook')->stateless()->userFromToken($request->token);
             dd($UserFormFacebook);
 
+
             if (!$UserFormFacebook)
             {
-                return response()->json('You do not have access to this email ',400);
+            return response()->json([
+                'message' => 'You do not have access to this email',
+
+               ], 400);         
             }
+    
     
             $UserToDataBase = User::create(
                 [
@@ -60,7 +69,7 @@ function requestTokenGoogle(Request $request){
             $token = $UserToDataBase->createToken('amgad226')->accessToken;
     
              return response()->json([
-            'Message' => 'User successfully registered',
+            'message' => 'User successfully registered',
             'token' => $token,
             'user' => $user
             ], 200);
@@ -74,6 +83,6 @@ function requestTokenGoogle(Request $request){
             // dd($userId);
             User::where('id',$userId)->update(['password' =>$password]);
         
-             return response()->json([ 'Message' => 'Password successfully adding',], 200);
+             return response()->json([ 'message' => 'Password successfully adding',], 200);
         }
         }
