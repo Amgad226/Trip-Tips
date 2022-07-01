@@ -15,7 +15,7 @@ function requestTokenGoogle(Request $request){
     // dd();
             if (!$UserFormGoogle)
             {
-                return response()->json('You do not have access to this email ',402);
+                return response()->json('You do not have access to this email ',400);
             }
     
             $UserToDataBase = User::create(
@@ -33,7 +33,7 @@ function requestTokenGoogle(Request $request){
             'Message' => 'User successfully registered',
             'token' => $token,
             'user' => $user
-            ], 201);}
+            ], 200);}
                // _________________________________________________________________________________
         function requestTokenFacebook(Request $request){
             // dd();
@@ -43,7 +43,7 @@ function requestTokenGoogle(Request $request){
 
             if (!$UserFormFacebook)
             {
-                return response()->json('You do not have access to this email ',402);
+                return response()->json('You do not have access to this email ',400);
             }
     
             $UserToDataBase = User::create(
@@ -63,17 +63,17 @@ function requestTokenGoogle(Request $request){
             'Message' => 'User successfully registered',
             'token' => $token,
             'user' => $user
-            ], 201);
+            ], 200);
         }
             
         function addPasswordSocialite(Request $request){
-            // dd();
-            // Getting the user from socialite using token from google
-            $password= Hash::make($request->password);
+
+            // $password= Hash::make($request->password); // with enconding password
+            $password= $request->password;
             $userId = Auth::id();
             // dd($userId);
             User::where('id',$userId)->update(['password' =>$password]);
         
-             return response()->json([ 'Message' => 'Password successfully adding',], 201);
+             return response()->json([ 'Message' => 'Password successfully adding',], 200);
         }
         }

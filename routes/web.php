@@ -17,6 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/for-middelwarer-transfare-to-login-route-in-web', function () {
+    return response()->json(['Message' => 'error'], 400);})->name('not_logging');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

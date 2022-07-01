@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Route;
 //NOTE add fun groupe middelware to routes have the same middelware 
 Route::post('/register' ,          [login                ::class, 'register'   ]);
 Route::post('/login' ,             [login                ::class, 'login'      ]);
-Route::post('/logout' ,            [login                ::class, 'logout'     ])->middleware(['auth:api']);
+Route::post('/logout' ,           [login                ::class, 'logout'     ])->middleware(['auth:api']);
 
 Route::post('/forgot' ,            [ForgetAndRestPass    ::class, 'forgot'     ]);
 Route::post('/reset' ,             [ForgetAndRestPass    ::class, 'reset'      ]);
 
-Route::post('/send_notification',  [VerifyEmailController::class, 'resend'     ])->middleware(['auth:api'])->name('verification.send');
+Route::post('/send_notification',  [VerifyEmailController::class, 'resend'     ])->name('verification.send');
 Route::get ('/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'     ])->middleware(['signed'  ])->name('verification.verify');
 
 Route::post('requestTokenGoogle',  [SocialiteLog::class, 'requestTokenGoogle'  ]);
