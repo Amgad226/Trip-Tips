@@ -61,7 +61,7 @@ class login extends Controller
 
         //عرفنا متحول وجبناه من جديد لليوزر مشان نحطو بل ريسبونس كامل
         //اما لو بدنا نبعتلو يلي فوق المعلومات يلي ما بدخلها بأيدو اليوزر ما رح تطلع متل الرول ايدي
-        $user =User::where('email',$request->email)->first(); 
+        $user =User::with('role')->where('email',$request->email)->first(); 
     
         //بعتنا ايميل  عن طريق ال ويلكوم ايميل يلي مأنشأينا نحن وعبيناها بمعلومات اليوزر 
         // Mail::to($user->email)->send(new welcomeMail($input));
@@ -80,7 +80,7 @@ class login extends Controller
         if(Auth::attempt(['email' =>$request->email, 'password' => $request->password]))
            {
           
-            $user =User::where('email',$request->email)->first(); 
+            $user =User::with('role')->where('email',$request->email)->first(); 
 
         
             $token = $user->createToken('a')->accessToken;

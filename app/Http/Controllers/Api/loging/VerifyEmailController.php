@@ -18,6 +18,6 @@ class VerifyEmailController extends Controller
 
         request()->user()->sendEmailVerificationNotification();
 
-        return response()->json(['message'=> 'Request has been sent!'],200);
+        return response()->json(['message'=> 'Email has been sent!'],200);
     }
 }

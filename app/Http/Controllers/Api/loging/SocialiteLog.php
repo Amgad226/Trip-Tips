@@ -30,7 +30,8 @@ function requestTokenGoogle(Request $request){
                     'is_verifaied'=>true,
                 ]);
             $id=$UserToDataBase->id;
-            $user =User::where('id',$id)->first(); 
+            $user =User::with('role')->where('id',$id)->first(); 
+
             $token= $UserToDataBase->createToken('agadsdguas')->accessToken;
     
              return response()->json([
