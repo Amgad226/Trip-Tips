@@ -3,6 +3,7 @@
 use App\Http\Controllers\add;
 use App\Http\Controllers\Api\loging\login;
 use App\Http\Controllers\Api\loging\ForgetAndRestPass;
+use App\Http\Controllers\Api\loging\SocialiteLog;
 use App\Http\Controllers\Api\loging\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 //_____________________________________________________________________________________________________________________//
@@ -10,14 +11,20 @@ use Illuminate\Support\Facades\Route;
 
 //loging Routes
 //NOTE add fun groupe middelware to routes have the same middelware 
-Route::post('/register' ,         [login                ::class, 'register']);
-Route::post('/login' ,            [login                ::class, 'login'   ]);
-Route::post('/logout' ,           [login                ::class, 'logout'  ])->middleware(['auth:api']);
-Route::post('/forgot' ,           [ForgetAndRestPass    ::class, 'forgot'  ]);
-Route::post('/reset' ,            [ForgetAndRestPass    ::class, 'reset'   ]);
-Route::post('/send_notification', [VerifyEmailController::class, 'resend'  ])->middleware(['auth:api'])->name('verification.send');
-Route::get ('/verify/{id}/{hash}',[VerifyEmailController::class, 'verify'  ])->middleware(['signed'  ])->name('verification.verify');
+Route::post('/register' ,          [login                ::class, 'register'   ]);
+Route::post('/login' ,             [login                ::class, 'login'      ]);
+Route::post('/logout' ,            [login                ::class, 'logout'     ])->middleware(['auth:api']);
 
+Route::post('/forgot' ,            [ForgetAndRestPass    ::class, 'forgot'     ]);
+Route::post('/reset' ,             [ForgetAndRestPass    ::class, 'reset'      ]);
+
+Route::post('/send_notification',  [VerifyEmailController::class, 'resend'     ])->middleware(['auth:api'])->name('verification.send');
+Route::get ('/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'     ])->middleware(['signed'  ])->name('verification.verify');
+
+Route::post('requestTokenGoogle',  [SocialiteLog::class, 'requestTokenGoogle'  ]);
+Route::post('requestTokenFacebook',[SocialiteLog::class, 'requestTokenFacebook']);
+Route::post('addPasswordSocialite',[SocialiteLog::class, 'addPasswordSocialite'])->middleware(['auth:api']);
+//_____________________________________________________________________________________________________________________//
 //Adding places in dashbord
 Route::post ('/addRestaurant',         [add::class,  'addRestaurant'          ] );
 Route::post ('/addHotel',              [add::class,  'addHotel'               ] );
