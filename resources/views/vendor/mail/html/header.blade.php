@@ -1,12 +1,13 @@
 <tr>
 <td class="header">
 <a href="{{ $url }}" style="display: inline-block;">
-@if (trim($slot) === 'Laravel')
+@if (trim($slot) === 'Trip-Tips')
 <!-- <img src="{{url('/storage/6.png')}}" class="logo" alt="Trip-Tips Logo"> -->
-<span class="one">Trip Tips</span>
+<span style="color: #FCB700;font-size: 40px; " class="one">Trip Tips</span>
 @else
 {{ $slot }}
 @endif
 </a>
 </td>
 </tr>
+
