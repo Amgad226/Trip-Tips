@@ -66,11 +66,11 @@ class login extends Controller
         $user =User::with('role')->where('email',$request->email)->first(); 
     
         //بعتنا ايميل  عن طريق ال ويلكوم ايميل يلي مأنشأينا نحن وعبيناها بمعلومات اليوزر 
-        // Mail::to($user->email)->send(new welcomeMail($input));
+        Mail::to($user->email)->send(new welcomeMail($input));
+        // $user->sendEmailVerificationNotification();
         
         //create token 
         $token = $user->createToken('agmad')->accessToken;
-        $user->sendEmailVerificationNotification();
 
         return response()->json([
         'message' => 'User successfully registered',

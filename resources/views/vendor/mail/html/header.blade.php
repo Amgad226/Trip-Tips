@@ -3,7 +3,7 @@
 <a href="{{ $url }}" style="display: inline-block;">
 @if (trim($slot) === 'Trip-Tips')
 <!-- <img src="{{url('/storage/6.png')}}" class="logo" alt="Trip-Tips Logo"> -->
-<span style="color: #FCB700;font-size: 40px; " class="one">Trip Tips</span>
+<span style="color: #FCB700;font-size: 40px;font-family:'Oleo Script' " class="one">Trip Tips</span>
 @else
 {{ $slot }}
 @endif

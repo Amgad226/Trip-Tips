@@ -17,6 +17,8 @@ Route::post('/register' ,          [login                ::class, 'register'   ]
 Route::post('/login' ,             [login                ::class, 'login'      ]);
 Route::post('/logout' ,            [login                ::class, 'logout'     ])->middleware(['auth:api']);
 
+Route::get('/aa' ,            [ForgetAndRestPass    ::class, 'aa'     ]);
+
 Route::post('/forgot' ,            [ForgetAndRestPass    ::class, 'forgot'     ]);
 Route::post('/reset' ,             [ForgetAndRestPass    ::class, 'reset'      ]);
 

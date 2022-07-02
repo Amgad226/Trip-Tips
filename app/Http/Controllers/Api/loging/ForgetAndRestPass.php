@@ -13,10 +13,10 @@ use Illuminate\Support\Str;
 
 class ForgetAndRestPass extends Controller
 {
-  public function forgot($request){
+  public function forgot(Request $request){
 
         //جبنا اليوزر يلي بل ريكويست
-        $user=User::where('email',$request->eamil)->first();
+        $user=User::where('email',$request->email)->first();
         //ازا مو موجود بل داتا بيز رجعلي رسالة فشل 
         if($user==null)
         return response()->json(['message'=>'user not exist',404  ]);
