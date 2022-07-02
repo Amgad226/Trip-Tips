@@ -5,9 +5,14 @@ use App\Http\Controllers\Api\loging\login;
 use App\Http\Controllers\Api\loging\ForgetAndRestPass;
 use App\Http\Controllers\Api\loging\SocialiteLog;
 use App\Http\Controllers\Api\loging\VerifyEmailController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 //_____________________________________________________________________________________________________________________//
-
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('cache:clear');
+    $exitCode = Artisan::call('config:cache');
+    return 'DONE'; //Return anything
+});
 Route::get('/for-middelwarer[Auth:api]-transfare-to-login-route-in-web-she-transfare-to-this-error-messaage', function () {
     return response()->json(['Message' => 'you shoud login to use this route [middelwere->route]'], 400);})->name('not_logging');
 

@@ -52,7 +52,7 @@ $password=Hash::make(123456);
 
 $yassmin = [
     'name'      =>'yassmin',
-    'email'     => 'aseel@gmail.com',
+    'email'     => 'yassmin@gmail.com',
     'password'  => $password,
     'phone'     => '985681',
     'img'       => '/default_photo/yassmin.jpg' ,

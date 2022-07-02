@@ -21,14 +21,30 @@ function requestTokenGoogle(Request $request){
                ], 400);         
             }
           
-    
-            $UserToDataBase = User::create(
-                [
-                    'name'=>$UserFormGoogle->name,
-                    'email' => $UserFormGoogle->email,
-                    'img'=>$UserFormGoogle->avatar,
-                    'is_verifaied'=>true,
-                ]);
+            if($UserFormGoogle->avatar!=null)
+            { 
+                // dd($UserFormGoogle->avatar);
+                $uniqid='('.uniqid().')';         
+                $imaged = file_get_contents($UserFormGoogle->avatar);
+                file_put_contents(public_path('/storage/images/users/'.$uniqid.$UserFormGoogle->name.'a.png'), $imaged);
+
+                $destination_path = 'public/images/users';    
+                // $imaged->storeAs($destination_path,$uniqid.$UserFormGoogle->avatar->getClientOriginalName()); 
+                
+                $image_path = "/storage/images/users/".$uniqid.$UserFormGoogle->name.'a.png';       
+            }
+             else
+             {
+                $image_path='/default_photo/user_default.png' ;
+             }
+             $input = [
+                'name'      =>$UserFormGoogle->name,
+                'email'     => $UserFormGoogle->email,
+                'phone'     => $request->phone,
+                'is_verifaied'=>true,
+                'img'       => $image_path,   //هون حطيت باث الصورة يلي بل بابليك مشان يكون بل داتا بيز الباث يلي بينعرض  
+          ];
+            $UserToDataBase = User::create($input);
             $id=$UserToDataBase->id;
             $user =User::with('role')->where('id',$id)->first(); 
 
