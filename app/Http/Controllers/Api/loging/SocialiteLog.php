@@ -7,13 +7,10 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-
 class SocialiteLog extends Controller
 {
 function registerSocialite(Request $request){
-    // Getting the user from socialite using token from google
-    // $UserFormGoogle = Socialite::driver('google')->stateless()->userFromToken($request->token);
- 
+    
     $user =User::with('role')->where('email',$request->email)->first();
         if($user!=null && $user->is_registered==1)
         {
@@ -24,7 +21,7 @@ function registerSocialite(Request $request){
                 'token' => $token,
                 'user' => $user
             ], 200);
-
+ 
         }
         else
         {
