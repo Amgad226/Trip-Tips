@@ -27,7 +27,10 @@ function registerSocialite(Request $request){
         {
             if($user!=null && $user->is_registered==0)
             {
-                unlink(substr( $user->img,1) );
+                if($user->img!='/default_photo/user_default.png')
+                {
+                    unlink(substr( $user->img,1) );
+                }
                 $user->delete();     
             }
                 if($request->img!=null)
@@ -40,11 +43,7 @@ function registerSocialite(Request $request){
                 }
                 else
                 {
-                    $uniqid='('.uniqid().')';         
-                    $image = file_get_contents(public_path('/default_photo/user_default.png'));
-                    file_put_contents(public_path('/storage/images/users/'.$uniqid.$request->name.'a.png'), $image);        
-                    $image_path = "/storage/images/users/".$uniqid.$request->name.'a.png';  
-                //    $image_path='/default_photo/user_default.png' ;
+                   $image_path='/default_photo/user_default.png' ;
                 }   
                 $input = [
                     'name'      =>$request->name,
