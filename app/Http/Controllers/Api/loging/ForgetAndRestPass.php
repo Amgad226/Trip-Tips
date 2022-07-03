@@ -55,7 +55,7 @@ class ForgetAndRestPass extends Controller
 
         //اخدنا المعلومات من الريكويست وخزناهن
         $token = $request->token;
-        $email=$request->eamil;
+        $email=$request->email;
         $password= Hash::make($request->password);
 
         //طابقنا الايميل يلي مبعوت مع اليوزرات يلي عنا ازا مافي هيك يوزر ف باي 
@@ -85,7 +85,7 @@ class ForgetAndRestPass extends Controller
 
             //اخدنا المعلومات من الريكويست وخزناهن
             $token = $request->token;
-            $email=$request->eamil;
+            $email=$request->email;
     
             //طابقنا الايميل يلي مبعوت مع اليوزرات يلي عنا ازا مافي هيك يوزر ف باي 
             $user = DB::table('users')->where('email',$email)->first();
