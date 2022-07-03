@@ -48,26 +48,27 @@ class login extends Controller
          {
             $image_path='/default_photo/user_default.png' ;
          }
-         $input = [
-            'name'      =>$request->name,
-            'email'     => $request->email,
-            'password'  => $request->password,
-            'phone'     => $request->phone,
-            'is_registered'=>true,
-            'img'       => $image_path,   //هون حطيت باث الصورة يلي بل بابليك مشان يكون بل داتا بيز الباث يلي بينعرض  
+         $input= [
+            'name'         => $request->name,
+            'email'        => $request->email,
+            'password'     => $request->password,
+            'phone'        => $request->phone,
+            'img'          => $image_path,   //هون حطيت باث الصورة يلي بل بابليك مشان يكون بل داتا بيز الباث يلي بينعرض  
+            'is_registered'=> '1',
       ];
         //encoding password before adding to databse
         $input['password'] = Hash::make($input['password']);
 
         //adding to database
-        User::create($input);
+        $a=User::create($input);
+        User::where('id',$a->id)->update(['is_registered' => 1]);
 
         //عرفنا متحول وجبناه من جديد لليوزر مشان نحطو بل ريسبونس كامل
-        //اما لو بدنا نبعتلو يلي فوق المعلومات يلي ما بدخلها بأيدو اليوزر ما رح تطلع متل الرول ايدي
-        $user =User::with('role')->where('email',$request->email)->first(); 
-    
-        //بعتنا ايميل  عن طريق ال ويلكوم ايميل يلي مأنشأينا نحن وعبيناها بمعلومات اليوزر 
-        Mail::to($user->email)->send(new welcomeMail($input));
+        // اما لو بدنا نبعتلو يلي فوق المعلومات يلي ما بدخلها بأيدو اليوزر ما رح تطلع متل الرول ايدي وال از فيريفاي
+        $user =User::with('role')->where('id',$a->id)->first(); 
+        
+        //welcome email and verifay Eamil to user
+        // Mail::to($user->email)->send(new welcomeMail($input));
         // $user->sendEmailVerificationNotification();
         
         //create token 
