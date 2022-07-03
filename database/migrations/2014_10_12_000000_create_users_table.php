@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('img')->nullable();
             $table->string('password_token')->nullable();
             $table->boolean('is_verifaied')->default(false);
+            $table->boolean('is_registered')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->integer('role_id')->default(1)->unsigned()->index();
             
             

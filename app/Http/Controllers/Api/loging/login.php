@@ -53,6 +53,7 @@ class login extends Controller
             'email'     => $request->email,
             'password'  => $request->password,
             'phone'     => $request->phone,
+            'is_registered'=>true,
             'img'       => $image_path,   //هون حطيت باث الصورة يلي بل بابليك مشان يكون بل داتا بيز الباث يلي بينعرض  
       ];
         //encoding password before adding to databse

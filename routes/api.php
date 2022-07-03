@@ -31,8 +31,7 @@ Route::post('/send_notification',  [VerifyEmailController::class, 'resend'     ]
 Route::get ('/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'     ])->middleware(['signed'  ])->name('verification.verify');
 Route::post ('/Verify_checking',   [VerifyEmailController::class, 'Verify_checking'])->middleware(['auth:api']);
 
-Route::post('requestTokenGoogle',  [SocialiteLog::class, 'requestTokenGoogle'  ]);
-Route::post('requestTokenFacebook',[SocialiteLog::class, 'requestTokenFacebook']);
+Route::post('registerSocialite',  [SocialiteLog::class, 'registerSocialite'  ]);
 Route::post('addPasswordSocialite',[SocialiteLog::class, 'addPasswordSocialite'])->middleware(['auth:api']);
 //_____________________________________________________________________________________________________________________//
 //Adding places in dashbord 
