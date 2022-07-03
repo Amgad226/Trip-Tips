@@ -22,10 +22,10 @@ Route::post('/register' ,          [login                ::class, 'register'   ]
 Route::post('/login' ,             [login                ::class, 'login'      ]);
 Route::post('/logout' ,            [login                ::class, 'logout'     ])->middleware(['auth:api']);
 
-Route::get('/aa' ,            [ForgetAndRestPass    ::class, 'aa'     ]);
 
 Route::post('/forgot' ,            [ForgetAndRestPass    ::class, 'forgot'     ]);
 Route::post('/reset' ,             [ForgetAndRestPass    ::class, 'reset'      ]);
+Route::post('/checkToken' ,        [ForgetAndRestPass    ::class, 'checkToken'      ]);
 
 Route::post('/send_notification',  [VerifyEmailController::class, 'resend'     ])->middleware(['auth:api'])->name('verification.send');
 Route::get ('/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'     ])->middleware(['signed'  ])->name('verification.verify');
