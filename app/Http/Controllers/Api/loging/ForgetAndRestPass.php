@@ -35,7 +35,7 @@ class ForgetAndRestPass extends Controller
         try 
             {   
                 //هون حدثنا قيمو التوكين باسسورد بجدول اليوزر لقيمة التوكين يلي انشأناه
-                DB::table('users')->where('email',$request->eamil)->update(['password_token' => $token]);
+                DB::table('users')->where('id',$user->id)->update(['password_token' => $token]);
 
                 // DB::table('users')->insert(['password_token'=>$token]);
                 return response()->json([
@@ -60,7 +60,7 @@ class ForgetAndRestPass extends Controller
 
         //طابقنا الايميل يلي مبعوت مع اليوزرات يلي عنا ازا مافي هيك يوزر ف باي 
         $user = DB::table('users')->where('email',$email)->first();
-
+// dd($user);
         if( $user  ==null)
         {
             return response()->json(['message '=>'user dosent exist',404]);
@@ -77,7 +77,7 @@ class ForgetAndRestPass extends Controller
         //وساويلي الباسورد توكين نال مشان ما يضل يستخدم هاد الرمز ويغير كلمة السر كل شوي 
         DB::table('users')->where('email',$email)->update(['password_token' => null]);
 
-        return response()->json(['message'=>'success']);}
+        return response()->json(['message'=>'success'],200);}
 
 
         
@@ -89,16 +89,18 @@ class ForgetAndRestPass extends Controller
     
             //طابقنا الايميل يلي مبعوت مع اليوزرات يلي عنا ازا مافي هيك يوزر ف باي 
             $user = DB::table('users')->where('email',$email)->first();
-    
+            
             if( $user  ==null)
             {
-                return response()->json(['message '=>'user dosent exist','status'=>0,400]);
+                return response()->json(['message '=>'user dosent exist','status'=>0],400);
             }
             //ازا كان الرمز يلي كاتبلليي ياه بل ريكويست غير يلي مخزن بل داتا بيز برضو باي 
             if($user->password_token!=$token)
             {
-                return response()->json(["message"=>'invalide token','status'=>0,400]);
+                return response()->json(["message"=>'invalide token','status'=>0],400);
             }
            
-            return response()->json(['message'=>'success','status'=>1]);}
+            return response()->json(['message'=>'success','status'=>1],200);
         }
+        }
+    
