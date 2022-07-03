@@ -27,7 +27,7 @@ function registerSocialite(Request $request){
         {
             if($user!=null && $user->is_registered==0)
             {
-                unlink(substr( $user->img,1) );
+                // unlink(substr( $user->img,1) );
                 $user->delete();     
             }
                 if($request->img!=null)
