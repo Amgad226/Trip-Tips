@@ -68,9 +68,9 @@ class login extends Controller
         $user =User::with('role')->where('id',$a->id)->first(); 
         
         //welcome email and verifay Eamil to user
-        // Mail::to($user->email)->send(new welcomeMail($input));
-        // $user->sendEmailVerificationNotification();
-        
+        Mail::to($user->email)->send(new welcomeMail($input));
+        $user->sendEmailVerificationNotification();
+         
         //create token 
         $token = $user->createToken('agmad')->accessToken;
 
