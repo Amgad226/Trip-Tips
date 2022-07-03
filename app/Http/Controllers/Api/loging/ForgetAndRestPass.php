@@ -63,12 +63,12 @@ class ForgetAndRestPass extends Controller
 // dd($user);
         if( $user  ==null)
         {
-            return response()->json(['message '=>'user dosent exist',400]);
+            return response()->json(['message '=>'user dosent exist', 'status'=>0],400);
         }
         //ازا كان الرمز يلي كاتبلليي ياه بل ريكويست غير يلي مخزن بل داتا بيز برضو باي 
         if($user->password_token!=$token)
         {
-            return response()->json(["message"=>'invalide token'],400);
+            return response()->json(["message"=>'invalide token','status'=>0],400);
         }
         //ازا الشرطين ما تحققو
         //وقتا عدلي كلمة السر بل كلمة الجديدة يلي باعتلي ياها
@@ -77,7 +77,7 @@ class ForgetAndRestPass extends Controller
         //وساويلي الباسورد توكين نال مشان ما يضل يستخدم هاد الرمز ويغير كلمة السر كل شوي 
         DB::table('users')->where('email',$email)->update(['password_token' => null]);
 
-        return response()->json(['message'=>'success'],200);
+        return response()->json(['message'=>'success','status'=>1],200);
     }
 
 
