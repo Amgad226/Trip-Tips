@@ -24,6 +24,7 @@ class login extends Controller
             'phone'      => 'required',
             'img'        => 'nullable',
         ]);
+        //
         if ($validator->fails())
         {
             return response()->json(['message'      => $validator->errors()],400);
