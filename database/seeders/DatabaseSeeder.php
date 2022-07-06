@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
         Storage::disk('local')->makeDirectory('public/images/users');
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(FacilitieSeeder::class);
+        
 
         // \App\Models\User::factory(10)->create();
 
