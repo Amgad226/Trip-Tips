@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('airplanes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name') ;
-            $table->integer('rate')            ;
             $table->string('location')         ;
             $table->integer('Payment')         ;
 
             $table->string('support_email')    ;
             $table->string('img_title_deed')       ;
+            $table->boolean('active')->default(0);
 
             $table->timestamps();
 

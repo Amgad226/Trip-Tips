@@ -18,6 +18,10 @@ class Airplane extends Authenticatable
 
     protected $fillable = [
         'name',
+        'location',
+        'Payment',
+        'support_email',
+        'img_title_deed',
      
     ];
 

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('Payment')       ;
             $table->string('support_email')  ;
             $table->string('img_title_deed')     ;
+            $table->boolean('active')->default(0);
             
             // $table->integer('category_id')   ->nullable();
             // $table->foreign('category_id') ->references('id')->on('catigories')->onDelete('cascade')->onUpdate('cascade');
