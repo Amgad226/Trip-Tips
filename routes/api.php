@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\add;
+// use App\Http\Controllers\Api\AddPlace;
+
+use App\Http\Controllers\Api\AddPlace;
 use App\Http\Controllers\Api\loging\login;
 use App\Http\Controllers\Api\loging\ForgetAndRestPass;
 use App\Http\Controllers\Api\loging\SocialiteLog;
@@ -27,21 +29,21 @@ Route::post('/forgot' ,            [ForgetAndRestPass    ::class, 'forgot'     ]
 Route::post('/reset' ,             [ForgetAndRestPass    ::class, 'reset'      ]);
 Route::post('/checkToken' ,        [ForgetAndRestPass    ::class, 'checkToken'      ]);
 
-Route::post('/send_notification',  [VerifyEmailController::class, 'resend'     ])->middleware(['auth:api'])->name('verification.send');
-Route::get ('/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'     ])->middleware(['signed'  ])->name('verification.verify');
+Route::post('/send_notification',  [VerifyEmailController::class, 'resend'     ])->middleware(['auth:api']);
+Route::get ('/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'     ])->middleware(['signed'  ])->name('verify');
 Route::post ('/Verify_checking',   [VerifyEmailController::class, 'Verify_checking'])->middleware(['auth:api']);
 
 Route::post('registerSocialite',  [SocialiteLog::class, 'registerSocialite'  ]);
 Route::post('addPasswordSocialite',[SocialiteLog::class, 'addPasswordSocialite'])->middleware(['auth:api']);
 //_____________________________________________________________________________________________________________________//
 //Adding places in dashbord 
-Route::post ('/addRestaurant',         [add::class,  'addRestaurant'          ] );
-Route::post ('/addHotel',              [add::class,  'addHotel'               ] );
-Route::post ('/addAirplane',           [add::class,  'addAirplane'            ] );
-Route::post ('/addPackage',            [add::class,  'addPackage'             ] );
+Route::post ('/addRestaurant',         [AddPlace::class,  'addRestaurant'          ] );
+Route::post ('/addHotel',              [AddPlace::class,  'addHotel'               ] );
+Route::post ('/addAirplane',           [AddPlace::class,  'addAirplane'            ] );
+Route::post ('/addPackage',            [AddPlace::class,  'addPackage'             ] );
 
 //add Booking to places in flutter
-Route::post ('/add_Restaurant_Booking',[add::class,  'add_Restaurant_Booking' ] );
-Route::post ('/add_Hotel_Booking',     [add::class,  'add_Hotel_Booking'      ] );
-Route::post ('/add_Airplane_Booking',  [add::class,  'add_Airplane_Booking'   ] );
-Route::post ('/add_Package_Booking',   [add::class,  'add_Package_Booking'    ] );
+Route::post ('/add_Restaurant_Booking',[AddPlace::class,  'add_Restaurant_Booking' ] );
+Route::post ('/add_Hotel_Booking',     [AddPlace::class,  'add_Hotel_Booking'      ] );
+Route::post ('/add_Airplane_Booking',  [AddPlace::class,  'add_Airplane_Booking'   ] );
+Route::post ('/add_Package_Booking',   [AddPlace::class,  'add_Package_Booking'    ] );

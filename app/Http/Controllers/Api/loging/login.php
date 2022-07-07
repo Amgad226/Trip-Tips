@@ -19,7 +19,9 @@ class login extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request-> all(),[
-            'name'       => ['required', 'string', 'max:50','min:3'],
+            'name'       => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/', 'max:50','min:3'],
+          
+            // 'email'      =>   'required|email|unique:users,message',
             'email'      => 'required|email|unique:users',
             'password'   => ['required', 'string', 'min:4'],
             'c_password' => 'required|same:password',
@@ -28,9 +30,21 @@ class login extends Controller
         ]);
         if ($validator->fails())
         {
-            return response()->json(['message'      => $validator->errors()],400);
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+
+            return response()->json( $errors,400);
         }
-     
+        $extension='.'.$request->img->getclientoriginalextension();
+
+        if(!in_array($extension, config('global.allowed_extention')))
+        {
+            return response()->json(['message' => 'invalide image ectension' ]);   
+        }
       
         if($request->hasFile('img'))
         { 
@@ -68,9 +82,9 @@ class login extends Controller
         $user =User::with('role')->where('id',$a->id)->first(); 
         
         //welcome email and verifay Eamil to user
-        Mail::to($user->email)->send(new welcomeMail($input));
-        $user->sendEmailVerificationNotification();
-         
+            // Mail::to($user->email)->send(new welcomeMail($input));
+            // $user->sendEmailVerificationNotification();
+
         //create token 
         $token = $user->createToken('agmad')->accessToken;
 

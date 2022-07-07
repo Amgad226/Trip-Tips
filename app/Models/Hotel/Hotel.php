@@ -8,9 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Hotel extends Authenticatable
-{
-    use HasApiTokens, HasFactory, Notifiable;
+    class Hotel extends Authenticatable
+    {
+        use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'hotels';
 
@@ -18,11 +18,20 @@ class Hotel extends Authenticatable
         'name',
         'rate',
         'location',
-        'payment',
+        'Payment',
         'support_email',
         'catigory_id',
+        'img_title_deed',
+        'img',
+        'hotel_id'
 
     ];
+
+
+    public function s(){
+        return $this->hasMany(HotelImages::class);
+    }
+
     public function catigorys(){
         return $this->belongsTo(Category::class);
     }

@@ -32,7 +32,7 @@ class VerifyEmailController extends Controller
     }
 
     public function resend() {
-
+        //    Illuminate\Auth\Notifications\VerifyEmail
         request()->user()->sendEmailVerificationNotification();
 
         return response()->json(['message'=> 'Email has been sent!'],200);

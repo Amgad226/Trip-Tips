@@ -11,11 +11,13 @@ class HotelImages extends Model
 {
 
     use HasApiTokens, HasFactory, Notifiable;
-    protected $table = 'images_hotel';
+    protected $table = 'images_hotels';
 
     protected $fillable = [
    'img','hotel_id'
     ];
-
+    public function hotel(){
+        return $this->belongsTo(Hotel::class,'hotel_id');
+    }
  
 }

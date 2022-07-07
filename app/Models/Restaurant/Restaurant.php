@@ -15,15 +15,14 @@ class Restaurant extends Authenticatable
 
 
     protected $fillable = [
-        'name_en',
-        'name_ar',
+        'name',
         'rate',
         'location',
-        'payment',
-        'price_class_A',
-        'price_class_B',
+        'Payment',
         'support_email',
         'catigory_id',
+        'img_title_deed',
+        'img',
 
     ];
     public function catigorys(){
@@ -34,6 +33,9 @@ class Restaurant extends Authenticatable
         return $this->hasMany(Restaurant_comment::class,'restaurant_id');
     }
 
+    public function images(){
+        return $this->hasMany(RestaurantImage::class);
+    }
     public function restaurant_favorites(){
         return $this->hasMany(Restaurant_favorite::class,'restaurant_id');
     }
