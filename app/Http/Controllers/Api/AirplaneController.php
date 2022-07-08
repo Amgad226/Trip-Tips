@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use  Image;
 
-class AddPlace extends Controller
+class AirplaneController extends Controller
 {
 
     public function addRestaurant(Request $request){       
