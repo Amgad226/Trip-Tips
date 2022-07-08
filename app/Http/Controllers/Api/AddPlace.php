@@ -69,7 +69,8 @@ class AddPlace extends Controller
             $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
             $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name.'/title_deed/'.'resize '.$Restuarant_Name.$extension ));
             //store without resize 
-            $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Restuarant_Name.$extension);  
+            // $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Restuarant_Name.$extension);  
+
             $image_title_deed_path = "/storage/images/restaurant/".$Restuarant_Name.'/title_deed/'. $Restuarant_Name.$extension;        
          
          
@@ -85,7 +86,7 @@ class AddPlace extends Controller
            
          $restaurant = Restaurant::create($data);
          RestaurantRole::create(['user_id'=>Auth::id(),'restaurant_id'=>$restaurant->id,'role_facilities_id'=>1]);
-         DB::table('users')->where('id',Auth::id())->update(['role_person_id' =>2]);
+         DB::table('users')->where('id',Auth::id())->update(['have_facilities' =>1]);
 
          $images_restaurant=$request->img;
 
@@ -104,14 +105,17 @@ class AddPlace extends Controller
 
                      return response()->json(['message' => 'restaurant doesnot regeistered because you enter invalide image ectension' ]);   
                  }
-                $destination_path ='public/images/restaurant/'.$Restuarant_Name; 
+                $destination_path ='public/images/restaurant/'.$Restuarant_Name; //غير مستعمل
+
+                //store with resize
                 $image=$image_restaurant ; 
                 $image_resize = Image::make($image->getRealPath());              
                 $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
                 $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name ."/". $i.'resize'."_".$Restuarant_Name.$extension ));
 
                 //store without resize
-                $image_restaurant->storeAs($destination_path,  $i."_". $Restuarant_Name.$extension);  
+                // $image_restaurant->storeAs($destination_path,  $i."_". $Restuarant_Name.$extension);  
+
                 $image_path_to_database = "/storage/images/restaurant/".$Restuarant_Name ."/". $i."_".$Restuarant_Name.$extension;        
                 $image_data=['img'=>$image_path_to_database,'restaurant_id'=>$restaurant->id];
                 RestaurantImage::create($image_data);
@@ -183,7 +187,7 @@ class AddPlace extends Controller
 
     public function ShowAllResturants(){
 
-        $restaurant_acceptable = Restaurant::with('images')->get()->where('acceptable',1);
+        $restaurant_acceptable = Restaurant::with('images')->where('acceptable',1)->get();
  
          return response()->json(['message'=>' successfuly','restaurants'=>$restaurant_acceptable,'status'=>1],200);
    
@@ -246,7 +250,7 @@ class AddPlace extends Controller
             $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
             $image_resize->save(public_path("/storage/images/hotel/".$Hotel_Name.'/title_deed/'.'resize '.$Hotel_Name.$extension ));
             //store without resize
-            $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Hotel_Name.$extension); 
+            // $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Hotel_Name.$extension); 
    
             $image_title_deed_path = "/storage/images/hotel/".$Hotel_Name.'/title_deed/'. $uniqid.$Hotel_Name.$extension;        
          
@@ -261,7 +265,7 @@ class AddPlace extends Controller
             'img_title_deed'=> $image_title_deed_path, 
            ];
          $hotel = Hotel::create($data);
-         User::where('id',Auth::id())->update(['role_person_id'=>2]);
+         DB::table('users')->where('id',Auth::id())->update(['have_facilities' =>1]);
          HotelRole::create(['user_id'=>Auth::id(),'hotel_id'=>$hotel->id,'role_facilities_id'=>1]);
          
          $images_hotel=$request->img;
@@ -291,7 +295,7 @@ class AddPlace extends Controller
                 $image_resize->save(public_path("/storage/images/hotel/".$Hotel_Name ."/". $i.'resize'."_".$Hotel_Name.$extension ));
 
                 //store without resize
-                $image_hotel->storeAs($destination_path,  $i."_". $Hotel_Name.$extension);
+                // $image_hotel->storeAs($destination_path,  $i."_". $Hotel_Name.$extension);
                 
                 
                 $image_path_to_database = "/storage/images/hotel/".$Hotel_Name ."/". $i."_".$Hotel_Name.$extension;   
@@ -351,7 +355,7 @@ class AddPlace extends Controller
             $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
             $image_resize->save(public_path("/storage/images/airplane/".$request->name.'/title_deed/'.'resize '.$Airplane_Name.$extension ));
             //store without resize
-            $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Airplane_Name.$extension); 
+            // $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Airplane_Name.$extension); 
 
             $image_title_deed_path = "/storage/images/airplane/".$request->name.'/title_deed/'.$Airplane_Name.$extension;
 
@@ -365,7 +369,7 @@ class AddPlace extends Controller
             'img_title_deed'=> $image_title_deed_path, 
            ];
          $airplane = Airplane::create($data);
-         User::where('id',Auth::id())->update(['role_person_id'=>2]);
+         DB::table('users')->where('id',Auth::id())->update(['have_facilities' =>1]);
          AirplaneRole::create(['user_id'=>Auth::id(),'airplane_id'=>$airplane->id,'role_facilities_id'=>1]);
          
      

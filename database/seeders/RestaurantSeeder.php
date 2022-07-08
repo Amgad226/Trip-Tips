@@ -7,6 +7,8 @@ use App\Models\Hotel\Hotel;
 use App\Models\Hotel\HotelImages;
 use App\Models\Restaurant\Restaurant;
 use App\Models\Restaurant\RestaurantImage;
+use App\Models\Restaurant\RestaurantRole;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,59 +21,70 @@ class RestaurantSeeder extends Seeder
      */
     public function run()
     {
+        $user_id=2;
        $data=[
         'name'=>'SweetPark',
-        'user_id'=>2,
+        'user_id'=>$user_id,
         'rate'=>5,
         'location'=>'altal',
         'Payment'=>config('global.Payment_retaurant'),
         'support_email'=>'ayham@gmail.com',
         'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg'
        ];
+       User::where('id',$user_id)->update(['have_facilities'=>1]);
       $res= Restaurant::create($data);
-      $image_data1=['img'=>'/default_photo/SweetPark/sweet1.jpg','restaurant_id'=>$res->id];
-      $image_data2=['img'=>'/default_photo/SweetPark/sweet2.jpg','restaurant_id'=>$res->id];
-      $image_data3=['img'=>'/default_photo/SweetPark/sweet3.jpg','restaurant_id'=>$res->id];
-      $image_data4=['img'=>'/default_photo/SweetPark/sweet4.jpg','restaurant_id'=>$res->id];
+      $restaurant_id=$res->id;
+      $image_data1=['img'=>'/default_photo/SweetPark/sweet1.jpg','restaurant_id'=>$restaurant_id];
+      $image_data2=['img'=>'/default_photo/SweetPark/sweet2.jpg','restaurant_id'=>$restaurant_id];
+      $image_data3=['img'=>'/default_photo/SweetPark/sweet3.jpg','restaurant_id'=>$restaurant_id];
+      $image_data4=['img'=>'/default_photo/SweetPark/sweet4.jpg','restaurant_id'=>$restaurant_id];
       RestaurantImage::create($image_data1);    
       RestaurantImage::create($image_data2);    
       RestaurantImage::create($image_data3);    
       RestaurantImage::create($image_data4);    
+      RestaurantRole::create(['user_id'=>$user_id , 'restaurant_id'=>$restaurant_id,'role_facilities_id'=>1]);
 
 
+      $user_id=1;
       $data=[
         'name'=>'Mac',
-        'user_id'=>1,
+        'user_id'=>$user_id,
         'rate'=>5,
         'location'=>'USA',
         'Payment'=>config('global.Payment_retaurant'),
         'support_email'=>'Mac@gmail.com',
         'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg'
        ];
+       User::where('id',$user_id)->update(['have_facilities'=>1]);
       $res= Restaurant::create($data);
-      $image_data1=['img'=>'/default_photo/Mac/1.jpg','restaurant_id'=>$res->id];
-      $image_data2=['img'=>'/default_photo/Mac/2.jpg','restaurant_id'=>$res->id];
-      $image_data3=['img'=>'/default_photo/Mac/3.jpg','restaurant_id'=>$res->id];
+      $restaurant_id=$res->id;
+      $image_data1=['img'=>'/default_photo/Mac/1.jpg','restaurant_id'=>$restaurant_id];
+      $image_data2=['img'=>'/default_photo/Mac/2.jpg','restaurant_id'=>$restaurant_id];
+      $image_data3=['img'=>'/default_photo/Mac/3.jpg','restaurant_id'=>$restaurant_id];
       RestaurantImage::create($image_data1);    
       RestaurantImage::create($image_data2);    
       RestaurantImage::create($image_data3);    
+      RestaurantRole::create(['user_id'=>$user_id , 'restaurant_id'=>$restaurant_id,'role_facilities_id'=>1]);
 
 
-
+      $user_id=1;
       $data=[
         'name'=>'uncel osaca',
-        'user_id'=>1,
+        'user_id'=>$user_id,
         'rate'=>5,
         'location'=>'jordan',
         'Payment'=>config('global.Payment_retaurant'),
         'support_email'=>'uncel@gmail.com',
         'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg'
        ];
+       User::where('id',$user_id)->update(['have_facilities'=>1]);
       $res= Restaurant::create($data);
-      $image_data1=['img'=>'/default_photo/Uncel/uncel2.jpg','restaurant_id'=>$res->id];
-      $image_data2=['img'=>'/default_photo/Uncel/uncel.jpg','restaurant_id'=>$res->id];
+      $restaurant_id=$res->id;
+      $image_data1=['img'=>'/default_photo/Uncel/uncel2.jpg','restaurant_id'=>$restaurant_id];
+      $image_data2=['img'=>'/default_photo/Uncel/uncel.jpg' ,'restaurant_id'=>$restaurant_id];
       RestaurantImage::create($image_data1);    
       RestaurantImage::create($image_data2);    
+      RestaurantRole::create(['user_id'=>$user_id , 'restaurant_id'=>$restaurant_id,'role_facilities_id'=>1]);
 
       
 

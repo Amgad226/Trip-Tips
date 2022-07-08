@@ -11,7 +11,7 @@ class checkuer extends Controller
 {
     public function check(Request $request)
     {
-        echo "hi other";
+        echo "hi admin/owner";
     }
     
 }

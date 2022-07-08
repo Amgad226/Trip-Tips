@@ -82,7 +82,7 @@ class login extends Controller
 
         //عرفنا متحول وجبناه من جديد لليوزر مشان نحطو بل ريسبونس كامل
         // اما لو بدنا نبعتلو يلي فوق المعلومات يلي ما بدخلها بأيدو اليوزر ما رح تطلع متل الرول ايدي وال از فيريفاي
-        $user =User::where('id',$a->id)->first(); 
+        $user =User::with('RestaurantRole','HotelRole','AirplaneRole')->where('email',$a->email)->first(); 
         
         //welcome email and verifay Eamil to user
             // Mail::to($user->email)->send(new welcomeMail($input));
@@ -102,7 +102,7 @@ class login extends Controller
         if(Auth::attempt(['email' =>$request->email, 'password' => $request->password]))
            {
           
-            $user =User::with('RestaurantRole','HotelRole','AirplaneRole','AppRole')->where('email',$request->email)->first(); 
+            $user =User::with('RestaurantRole','HotelRole','AirplaneRole')->where('email',$request->email)->first(); 
 
         
             $token = $user->createToken('a')->accessToken;

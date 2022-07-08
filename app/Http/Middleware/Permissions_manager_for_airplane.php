@@ -20,7 +20,7 @@ class Permissions_manager_for_airplane
     public function handle(Request $request, Closure $next)
     {
       
-        $user =User::with('RestaurantRole','HotelRole','AirplaneRole','AppRole')->where('id',Auth::id())->first(); 
+        $user =User::with('AirplaneRole')->where('id',Auth::id())->first(); 
         
         
             foreach($user->AirplaneRole as $q)

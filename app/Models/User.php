@@ -25,11 +25,10 @@ class User extends Authenticatable
         'level',
         'img',
         'password_token',
-        'verifay_code',
         'is_verifaied',
-        'role_id',
+        'role_person_id',
+        'have_facilities',
         'wallet_id',
-
     ];
     
     public function RestaurantRole(){
@@ -41,9 +40,7 @@ class User extends Authenticatable
     public function AirplaneRole(){
         return $this->hasMany(AirplaneRole ::class);
     }
-    public function AppRole(){
-        return $this->hasMany(AppRollUser ::class);
-    }
+   
 //-------------------------------------------------------------------------------------------------------
     public function roles()
     {

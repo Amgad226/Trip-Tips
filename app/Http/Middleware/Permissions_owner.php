@@ -20,15 +20,13 @@ class Permissions_owner
     public function handle(Request $request, Closure $next)
     {
       
-        $user =User::with('RestaurantRole','HotelRole','AirplaneRole','AppRole')->where('id',Auth::id())->first(); 
-        //دخول ازا كان الاونر
-         foreach($user->AppRole as $q)
-         {
-            if($q->user_id==Auth::id()&&$q->roles_app_id==1)
+        $user =User::where('id',Auth::id())->first(); 
+      
+            if($user->role_person_id==3)
             {
                 return $next($request);
             }
-         }
+         
       
             return response()->json(['message'=>'انت مالك اونار ','status'=>0],400);
 

@@ -25,8 +25,9 @@ return new class extends Migration
             $table->boolean('is_verifaied')->default(false);
             $table->boolean('is_registered')->default(false);
             $table->boolean('is_active')->default(true);
+            $table->integer('have_facilities')->default(0);
             
-         
+            
             $table->integer('role_person_id')->default(1)->unsigned()->index();
             $table->foreign('role_person_id')->references('id')->on('roles_person')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

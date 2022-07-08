@@ -22,10 +22,10 @@ class RoleSeeder extends Seeder
         RoleFacilities::create( ['role_name'=>'manager'         ,'id'=>1]);
         RoleFacilities::create( ['role_name'=>'supervisor'      ,'id'=>2]);
 
-        RoleApp::create( ['role_name'=>'owner'        ,'id'=>1]);
-        RoleApp::create( ['role_name'=>'admin'        ,'id'=>2]);
+     
 
         RolePerson::create(['role_name'=>'user'       ,'id'=>1]);
-        RolePerson::create(['role_name'=>'other'      ,'id'=>2]);
+        RolePerson::create(['role_name'=>'admin'      ,'id'=>2]);
+        RolePerson::create(['role_name'=>'owner'      ,'id'=>3]);
     }
 }

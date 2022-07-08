@@ -30,7 +30,8 @@ $password=Hash::make(123456);
             'password'  => $password,
             'phone'     => '094562182',
             'img'       => '/default_photo/amgad.jpg' ,
-            'role_person_id'=>2,
+            'role_person_id'=>3,
+            'have_facilities'=>0,
             'is_registered'=>true,
             'is_verifaied'=>true,
 
@@ -42,6 +43,7 @@ $password=Hash::make(123456);
         'phone'     => '294564',
         'img'       => '/default_photo/ayham.jpg' ,
          'role_person_id'=>2,
+         'have_facilities'=>0,
          'is_registered'=>true,
          'is_verifaied'=>true,
 
@@ -54,6 +56,7 @@ $password=Hash::make(123456);
     'phone'     => '58546546',
     'img'       => '/default_photo/aseel.jpg' ,
     'role_person_id'=>2,
+    'have_facilities'=>0,
     'is_registered'=>true,
     'is_verifaied'=>true,
 
@@ -65,7 +68,19 @@ $yassmin = [
     'password'  => $password,
     'phone'     => '985681',
     'img'       => '/default_photo/yassmin.jpg' ,
+    'role_person_id'=>2,
+    'have_facilities'=>0,
+    'is_registered'=>true,
+    'is_verifaied'=>true,
+];
+$user = [
+    'name'      =>'user',
+    'email'     => 'user@gmail.com',
+    'password'  => $password,
+    'phone'     => '985681',
+    'img'       => '/default_photo/user_default.png' ,
     'role_person_id'=>1,
+    'have_facilities'=>0,
     'is_registered'=>true,
     'is_verifaied'=>true,
 ];
@@ -76,8 +91,8 @@ $yassmin = [
         User::create($ayham);
         User::create($aseel);
         User::create($yassmin);
+        User::create($user);
 
 
-        AppRollUser::create(['user_id'=>2,'roles_app_id'=>1]);
     }
 }

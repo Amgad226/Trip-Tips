@@ -20,7 +20,7 @@ class Permissions_manager_for_restaurant
     public function handle(Request $request, Closure $next)
     {
       
-        $user =User::with('RestaurantRole','HotelRole','AirplaneRole','AppRole')->where('id',Auth::id())->first(); 
+        $user =User::with('RestaurantRole')->where('id',Auth::id())->first(); 
         //دخول ازا كان الاونر
          foreach($user->AppRole as $q)
          {

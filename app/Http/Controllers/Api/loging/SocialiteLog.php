@@ -55,7 +55,7 @@ function registerSocialite(Request $request){
                 // dd();
                 $UserToDataBase = User::create($input);
                 $id=$UserToDataBase->id;
-                $user =User::with('role')->where('id',$id)->first(); 
+                $user =User::with('RestaurantRole','HotelRole','AirplaneRole')->where('email',$request->email)->first(); 
             
                 $token= $UserToDataBase->createToken('agadsdguas')->accessToken;
             
