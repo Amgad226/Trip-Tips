@@ -39,6 +39,43 @@ class RestaurantSeeder extends Seeder
       RestaurantImage::create($image_data4);    
 
 
+      $data=[
+        'name'=>'Mac',
+        'user_id'=>1,
+        'rate'=>5,
+        'location'=>'USA',
+        'Payment'=>config('global.Payment_retaurant'),
+        'support_email'=>'Mac@gmail.com',
+        'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg'
+       ];
+      $res= Restaurant::create($data);
+      $image_data1=['img'=>'/default_photo/Mac/1.jpg','restaurant_id'=>$res->id];
+      $image_data2=['img'=>'/default_photo/Mac/2.jpg','restaurant_id'=>$res->id];
+      $image_data3=['img'=>'/default_photo/Mac/3.jpg','restaurant_id'=>$res->id];
+      RestaurantImage::create($image_data1);    
+      RestaurantImage::create($image_data2);    
+      RestaurantImage::create($image_data3);    
+
+
+
+      $data=[
+        'name'=>'uncel osaca',
+        'user_id'=>1,
+        'rate'=>5,
+        'location'=>'jordan',
+        'Payment'=>config('global.Payment_retaurant'),
+        'support_email'=>'uncel@gmail.com',
+        'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg'
+       ];
+      $res= Restaurant::create($data);
+      $image_data1=['img'=>'/default_photo/Uncel/uncel2.jpg','restaurant_id'=>$res->id];
+      $image_data2=['img'=>'/default_photo/Uncel/uncel.jpg','restaurant_id'=>$res->id];
+      RestaurantImage::create($image_data1);    
+      RestaurantImage::create($image_data2);    
+
+      
+
+
       // $data=[
       //   'name'=>'Hilton',
       //   'rate'=>5,
