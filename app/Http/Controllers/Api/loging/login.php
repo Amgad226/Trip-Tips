@@ -39,15 +39,18 @@ class login extends Controller
 
             return response()->json( $errors,400);
         }
-        $extension='.'.$request->img->getclientoriginalextension();
+        // dd($request->img->getclientoriginalextension());
 
+
+      
+        if($request->hasFile('img'))
+        { 
+        $extension='.'.$request->img->getclientoriginalextension();
+            
         if(!in_array($extension, config('global.allowed_extention')))
         {
             return response()->json(['message' => 'invalide image ectension' ]);   
         }
-      
-        if($request->hasFile('img'))
-        { 
             $uniqid='('.uniqid().')';          //كل كرة بيعطيني رقم فريد     انا عم استخدمو مشان اسم كل صورة يكون غير التاني حتى لو اسم الصورة والمستخدم  نفسو
 
             $destination_path = 'public/images/users';    //storage بمسار الصورة للتخزين جوات ال  
@@ -79,7 +82,7 @@ class login extends Controller
 
         //عرفنا متحول وجبناه من جديد لليوزر مشان نحطو بل ريسبونس كامل
         // اما لو بدنا نبعتلو يلي فوق المعلومات يلي ما بدخلها بأيدو اليوزر ما رح تطلع متل الرول ايدي وال از فيريفاي
-        $user =User::with('role')->where('id',$a->id)->first(); 
+        $user =User::where('id',$a->id)->first(); 
         
         //welcome email and verifay Eamil to user
             // Mail::to($user->email)->send(new welcomeMail($input));

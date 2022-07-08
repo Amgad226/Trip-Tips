@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AcceptFacilities;
 use App\Models\Airplane\Airplane;
 use App\Models\Airplane\AirplaneBooking;
 use App\Models\Airplane\AirplaneRole;
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use  Image;
 
 class AddPlace extends Controller
@@ -131,37 +133,73 @@ class AddPlace extends Controller
 
     public function ShowResturant(Request $req){
 
-      $restaurant_not_active = Restaurant::with('images')->get()->where('is_active',0);
-      return response()->json(['message'=>$restaurant_not_active]);
+      $restaurant_not_acceptable = Restaurant::with('images')->get()->where('acceptable',0);
+      return response()->json(['message'=>$restaurant_not_acceptable]);
 
         return response()->json(['message'=>'hello '.Auth::user()->name .' you the manager for  this restaurant']);
     }
 
 
     public function AcceptResturant(Request $req){
+        dd(config('app.APP_NAME'));
+        $restaurant_to_accept=Restaurant::where('id',$req->id)->first();
+        
+        if($restaurant_to_accept==null){
+        return response()->json(['message'=>'restaurant not exists','status'=>0],400);
+        }
+        // dd($restaurant_to_accept->acceptable);
+        // if($restaurant_to_accept->acceptable==1){
+        // return response()->json(['message'=>'allready accepted','status'=>0],400);
+        // }
+        $restaurant_to_accept->update(['acceptable'=>1]);
+        // $restaurant_to_accept->acceptable=1;
+        // $restaurant_to_accept->save();
+        
 
-       Restaurant::where('id',$req->id)->update(['is_active'=>1]);
-
-        return response()->json(['message'=>'accept successfuly','status'=>1],200);
-  
+        $text='Congratulations your Restaurant '.$restaurant_to_accept->name.' has been accepted in trip tips manage your project by';
+        $details=[
+            'body'=>$text,
+            'link_to_web'=>'1'
+        ]; 
+        // dd();
+               //بعتنا عل ايميل الدعم رسالة نجاح تسجيل المطعم بل برنامج عنا 
+        Mail::to($restaurant_to_accept->support_email)->send(new AcceptFacilities ($details));   
+        return response()->json(['message'=>'accept successfuly','status'=>1,'acceptable'=>$restaurant_to_accept->acceptable],200);
       }
 
       public function RefusResturant(Request $req){
 
-        $r= Restaurant::where('id',$req->id);
-        $res_name=$r->name;
+        $restaurant_to_refuse= Restaurant::where('id',$req->id)->first();
+        // dd($r);
+
+        if($restaurant_to_refuse==null){
+        return response()->json(['message'=>'restaurant not exists','status'=>0],400);
+        }
+        if($restaurant_to_refuse->acceptable==1){
+        return response()->json(['message'=>'this restaurant is accepteble','status'=>0],400);
+        }
+        else{
+            
+            $text='Sorry your Restaurant '.$restaurant_to_refuse->name.'  has been Refus by Admins Because your restaurant does not follow the conditions of society TripTips ';
+            $details=[
+                'body'=>$text,
+                'link_to_web'=>0
+            ];
+            //بعتنا عل ايميل تبع اليوزر هاد الرمز 
+        Mail::to($restaurant_to_refuse->support_email)->send(new AcceptFacilities ($details));   
+        $res_name=$restaurant_to_refuse->name;
         File::deleteDirectory(public_path('storage/images/restaurant/'.$res_name));
-        RestaurantImage::where('restaurant_id',$r->id)->truncate();
-        $r->delete();
-         return response()->json(['message'=>'refuse and delete information successfuly','status'=>1],200);
-   
+        RestaurantImage::where('restaurant_id',$restaurant_to_refuse->id)->delete();
+        $restaurant_to_refuse->delete();
+        return response()->json(['message'=>'refuse and delete information successfuly','status'=>1],200);
+        }
        }
 
        public function ShowAllResturants(){
 
-        $restaurant_active = Restaurant::with('images')->get()->where('is_active',1);
+        $restaurant_acceptable = Restaurant::with('images')->get()->where('acceptable',1);
  
-         return response()->json(['message'=>' successfuly','restaurants'=>$restaurant_active,'status'=>1],200);
+         return response()->json(['message'=>' successfuly','restaurants'=>$restaurant_acceptable,'status'=>1],200);
    
        }
 

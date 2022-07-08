@@ -48,8 +48,20 @@ Route::post('registerSocialite',  [SocialiteLog::class, 'registerSocialite'  ]);
 Route::post('addPasswordSocialite',[SocialiteLog::class, 'addPasswordSocialite'])->middleware(['auth:api']);
 //_____________________________________________________________________________________________________________________//
 //Adding places in dashbord 
-Route::post ('/addRestaurant',         [AddPlace::class,  'addRestaurant'          ] )->middleware(['auth:api']);
-Route::post ('/ShowResturant',         [AddPlace::class,  'ShowResturant'          ] )->middleware(['auth:api'])->middleware('checkuser')->middleware('manager_restaurant');
+Route::post ('/addRestaurant',      [AddPlace::class,  'addRestaurant'    ] )->middleware(['auth:api']);
+
+Route::post ('/AcceptResturant',    [AddPlace::class,  'AcceptResturant'  ] )->middleware(['auth:api'])->middleware('checkuser')->middleware('admin');
+
+Route::post ('/RefusResturant',     [AddPlace::class,  'RefusResturant'   ] )->middleware(['auth:api'])->middleware('checkuser')->middleware('admin');
+
+Route::post ('/ShowResturant',      [AddPlace::class,  'ShowResturant'    ] );//->middleware(['auth:api'])->middleware('checkuser')->middleware('supervisor_restaurant');
+Route::post ('/ShowAllResturants',  [AddPlace::class,  'ShowAllResturants'] );//->middleware(['auth:api'])->middleware('checkuser')->middleware('supervisor_restaurant');
+
+
+
+
+
+
 Route::post ('/addHotel',              [AddPlace::class,  'addHotel'               ] )->middleware(['auth:api']);
 Route::post ('/addAirplane',           [AddPlace::class,  'addAirplane'            ] )->middleware(['auth:api']);
 

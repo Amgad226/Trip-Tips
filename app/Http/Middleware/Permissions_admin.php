@@ -21,7 +21,6 @@ class Permissions_admin
     {
       
         $user =User::with('RestaurantRole','HotelRole','AirplaneRole','AppRole')->where('id',Auth::id())->first(); 
-        //دخول ازا كان الاونر
          foreach($user->AppRole as $q)
          {
             if($q->user_id==Auth::id())
