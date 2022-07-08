@@ -22,8 +22,8 @@ class DatabaseSeeder extends Seeder
         Storage::disk('local')->makeDirectory('public/default_photo/SweetPark/title_deed');
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
-        $this->call(FacilitieSeeder::class);
-        $this->call(RestaurantSeeder::class);
+        // $this->call(FacilitieSeeder::class);
+        // $this->call(RestaurantSeeder::class);
         
 
         // \App\Models\User::factory(10)->create();

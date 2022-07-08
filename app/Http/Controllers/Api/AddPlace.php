@@ -2,18 +2,25 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Airplane\AirplaneBooking;
-use App\Models\Package\PackageBooking;
-use App\Models\Restaurant\RestaurantBooking;
-use App\Models\Hotel\HotelBooking;
 use App\Models\Airplane\Airplane;
-use App\Models\Hotel\Hotel;
-use App\Models\Hotel\HotelImages;
-use App\Models\Package\Package;
+use App\Models\Airplane\AirplaneBooking;
+use App\Models\Airplane\AirplaneRole;
+use App\Models\Restaurant\RestaurantBooking;
 use App\Models\Restaurant\Restaurant;
 use App\Models\Restaurant\RestaurantImage;
+use App\Models\Restaurant\RestaurantRole;
+
+use App\Models\Hotel\Hotel;
+use App\Models\Hotel\HotelImages;
+use App\Models\Hotel\HotelBooking;
+use App\Models\Hotel\HotelRole;
+
+use App\Models\Package\Package;
+use App\Models\Package\PackageBooking;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
@@ -66,6 +73,7 @@ class AddPlace extends Controller
          
          
          $data = [
+            'user_id'=>Auth::id(),
             'name'          => $request->name,
             'rate'          => $request->rate,
             'location'      => $request->location,
@@ -73,10 +81,13 @@ class AddPlace extends Controller
             'support_email' => $request->support_email,
             'img_title_deed'=> $image_title_deed_path, 
            ];
+           
          $restaurant = Restaurant::create($data);
-         
+         RestaurantRole::create(['user_id'=>Auth::id(),'restaurant_id'=>$restaurant->id,'role_facilities_id'=>1]);
+         DB::table('users')->where('id',Auth::id())->update(['role_person_id' =>2]);
+
          $images_restaurant=$request->img;
-     
+
          if($request->hasFile('img')){   
             $i=1;
             foreach($images_restaurant as $image_restaurant) 
@@ -117,6 +128,44 @@ class AddPlace extends Controller
             //  'restaurant'=>$restauranttt,
          ]);     
     }
+
+    public function ShowResturant(Request $req){
+
+      $restaurant_not_active = Restaurant::with('images')->get()->where('is_active',0);
+      return response()->json(['message'=>$restaurant_not_active]);
+
+        return response()->json(['message'=>'hello '.Auth::user()->name .' you the manager for  this restaurant']);
+    }
+
+
+    public function AcceptResturant(Request $req){
+
+       Restaurant::where('id',$req->id)->update(['is_active'=>1]);
+
+        return response()->json(['message'=>'accept successfuly','status'=>1],200);
+  
+      }
+
+      public function RefusResturant(Request $req){
+
+        $r= Restaurant::where('id',$req->id);
+        $res_name=$r->name;
+        File::deleteDirectory(public_path('storage/images/restaurant/'.$res_name));
+        RestaurantImage::where('restaurant_id',$r->id)->truncate();
+        $r->delete();
+         return response()->json(['message'=>'refuse and delete information successfuly','status'=>1],200);
+   
+       }
+
+       public function ShowAllResturants(){
+
+        $restaurant_active = Restaurant::with('images')->get()->where('is_active',1);
+ 
+         return response()->json(['message'=>' successfuly','restaurants'=>$restaurant_active,'status'=>1],200);
+   
+       }
+
+
 //yass
 //amgad 
     public function addHotel(Request $request)
@@ -165,6 +214,7 @@ class AddPlace extends Controller
          
          
          $data = [
+            'user_id'       =>Auth::id(),
             'name'          => $request->name,
             'rate'          => $request->rate,
             'location'      => $request->location,
@@ -173,6 +223,9 @@ class AddPlace extends Controller
             'img_title_deed'=> $image_title_deed_path, 
            ];
          $hotel = Hotel::create($data);
+         User::where('id',Auth::id())->update(['role_person_id'=>2]);
+         HotelRole::create(['user_id'=>Auth::id(),'hotel_id'=>$hotel->id,'role_facilities_id'=>1]);
+         
          $images_hotel=$request->img;
         //  dd($images_hotel)
          
@@ -212,7 +265,7 @@ class AddPlace extends Controller
                 
             }
          }
-        //  $hotellll=Hotel::with('s')->where('id',$hotel->id)->first();
+        //  $hotellll=Hotel::with('images')->where('id',$hotel->id)->first();
          //  dd($hoteltt);
        
          return response()->json([
@@ -266,13 +319,16 @@ class AddPlace extends Controller
 
          
          $data = [
+            'user_id'       =>Auth::id(),
             'name'          => $request->name,
             'location'      => $request->location,
             'Payment'       => config('global.Payment_airplane'),
             'support_email' => $request->support_email,
             'img_title_deed'=> $image_title_deed_path, 
            ];
-         $airplane = airplane::create($data);
+         $airplane = Airplane::create($data);
+         User::where('id',Auth::id())->update(['role_person_id'=>2]);
+         AirplaneRole::create(['user_id'=>Auth::id(),'airplane_id'=>$airplane->id,'role_facilities_id'=>1]);
          
      
         
@@ -289,7 +345,7 @@ class AddPlace extends Controller
     public function addPackage(Request $request)
     {
          $data = [
-             'name_en'             => $request->name_en,
+             'name'             => $request->name,
              'hotel_id'            => $request->hotel_id,
              'airplane_id'         => $request->airplane_id,
              'restaurant_id'       => $request->restaurant_id,

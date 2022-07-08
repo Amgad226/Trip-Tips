@@ -22,6 +22,8 @@ class Airplane extends Authenticatable
         'Payment',
         'support_email',
         'img_title_deed',
+        'user_id',
+
      
     ];
 

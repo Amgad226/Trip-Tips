@@ -14,7 +14,7 @@ class AirplaneClass extends Authenticatable
 
 
 
-    protected $table = 'classes_in_airplane';
+    protected $table = 'airplane_classes';
 
     protected $fillable = [
      

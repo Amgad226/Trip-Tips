@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Airplane\AirplaneRole;
+use App\Models\Hotel\HotelRole;
+use App\Models\Restaurant\RestaurantRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -29,14 +31,29 @@ class User extends Authenticatable
         'wallet_id',
 
     ];
+    
+    public function RestaurantRole(){
+        return $this->hasMany(RestaurantRole ::class);
+    }
+    public function HotelRole(){
+        return $this->hasMany(HotelRole ::class);
+    }
+    public function AirplaneRole(){
+        return $this->hasMany(AirplaneRole ::class);
+    }
+    public function AppRole(){
+        return $this->hasMany(AppRollUser ::class);
+    }
+//-------------------------------------------------------------------------------------------------------
     public function roles()
     {
-    return $this->belongsTo(Role::class,'role_id');
+    return $this->belongsTo(RolePerson::class,'role_id');
 
     }
-    public function role() {
-        return $this->belongsTo(Role::class );
-    }
+    // public function role() {
+    //     return $this->belongsTo(Role::class );
+    // }
+    // --------------------------------------------------------
     public function wallets()
     {
         return $this->belongsTo(Wallet::class,'wallet_id');

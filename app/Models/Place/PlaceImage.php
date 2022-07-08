@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlaceImage extends Model
 {  use HasApiTokens, HasFactory, Notifiable;
-    protected $table = 'img_places';
+    protected $table = 'places_img';
 
     protected $fillable = [
     ];

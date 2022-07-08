@@ -1,6 +1,9 @@
 <?php
 
 namespace Database\Seeders;
+
+use App\Models\AppRollUser;
+use App\Models\RoleApp;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Faker\Factory as Faker;
 // use Illuminate\Database\Eloquent\Factories\Factory;
@@ -27,7 +30,7 @@ $password=Hash::make(123456);
             'password'  => $password,
             'phone'     => '094562182',
             'img'       => '/default_photo/amgad.jpg' ,
-            'role_id'=>4,
+            'role_person_id'=>2,
             'is_registered'=>true,
             'is_verifaied'=>true,
 
@@ -38,7 +41,7 @@ $password=Hash::make(123456);
         'password'  => $password,
         'phone'     => '294564',
         'img'       => '/default_photo/ayham.jpg' ,
-         'role_id'=>3,
+         'role_person_id'=>2,
          'is_registered'=>true,
          'is_verifaied'=>true,
 
@@ -50,7 +53,7 @@ $password=Hash::make(123456);
     'password'  => $password,
     'phone'     => '58546546',
     'img'       => '/default_photo/aseel.jpg' ,
-    'role_id'=>2,
+    'role_person_id'=>2,
     'is_registered'=>true,
     'is_verifaied'=>true,
 
@@ -62,7 +65,7 @@ $yassmin = [
     'password'  => $password,
     'phone'     => '985681',
     'img'       => '/default_photo/yassmin.jpg' ,
-    'role_id'=>1,
+    'role_person_id'=>1,
     'is_registered'=>true,
     'is_verifaied'=>true,
 ];
@@ -73,5 +76,8 @@ $yassmin = [
         User::create($ayham);
         User::create($aseel);
         User::create($yassmin);
+
+
+        AppRollUser::create(['user_id'=>2,'roles_app_id'=>1]);
     }
 }

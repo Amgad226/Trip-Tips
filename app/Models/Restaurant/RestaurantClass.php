@@ -11,7 +11,7 @@ class RestaurantClass extends Model
 {
 
     use HasApiTokens, HasFactory, Notifiable;
-    protected $table = 'classes_in_resturant';
+    protected $table = 'resturant_classes';
 
     protected $fillable = [
    'img','hotel_id'

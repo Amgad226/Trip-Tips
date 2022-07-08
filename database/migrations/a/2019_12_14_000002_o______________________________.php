@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('images_resturants', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('img');
-
-            $table->integer('restaurant_id')->unsigned()->index();
-            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');
+        Schema::create('o______________________________', function (Blueprint $table) {
+    
             $table->timestamps();
-            
         });
     }
 
@@ -31,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('images_resturants');
+        Schema::dropIfExists('o______________________________');
     }
 };

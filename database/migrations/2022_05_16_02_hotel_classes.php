@@ -13,15 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('classes_in_resturant', function (Blueprint $table) {
+        Schema::create('hotel_classes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('class_name');
             $table->integer('money');
 
-            $table->integer('resturant_id')->unsigned()->index();
-            $table->foreign('resturant_id')->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('hotel_id')->unsigned()->index();
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
-            
         });
     }
 
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('class_in_resturant');
+        Schema::dropIfExists('hotel_classes');
     }
 };

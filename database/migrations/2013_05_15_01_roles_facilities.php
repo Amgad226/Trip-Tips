@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('img_places', function (Blueprint $table) {
+        Schema::create('roles_facilities', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('places_id')->unsigned()->index();
-        
-            $table->string('img') ->nullable();
-            
-            $table->foreign('places_id')->references('id')->on('places')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('role_name');//manager-supervisor
             $table->timestamps();
+           
         });
     }
 
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('img_places');
+        Schema::dropIfExists('roles_facilities');
     }
 };

@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('images_airplane', function (Blueprint $table) {
+        Schema::create('resturants_images', function (Blueprint $table) {
             $table->increments('id');
             $table->string('img');
 
-            $table->integer('airplane_id')->unsigned()->index();
-            $table->foreign('airplane_id')->references('id')->on('airplanes')->onDelete('cascade')->onUpdate('cascade');
-             $table->timestamps();
+            $table->integer('restaurant_id')->unsigned()->index();
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamps();
             
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('images_airplane');
+        Schema::dropIfExists('images_resturants');
     }
 };

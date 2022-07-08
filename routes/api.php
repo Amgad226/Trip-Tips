@@ -3,6 +3,7 @@
 // use App\Http\Controllers\Api\AddPlace;
 
 use App\Http\Controllers\Api\AddPlace;
+use App\Http\Controllers\Api\checkuer;
 use App\Http\Controllers\Api\loging\login;
 use App\Http\Controllers\Api\loging\ForgetAndRestPass;
 use App\Http\Controllers\Api\loging\SocialiteLog;
@@ -17,6 +18,16 @@ Route::get('/clear-cache', function() {
 });
 Route::get('/for-middelwarer[Auth:api]-transfare-to-login-route-in-web-she-transfare-to-this-error-messaage', function () {
     return response()->json(['Message' => 'you shoud login to use this route [middelwere->route]'], 400);})->name('not_logging');
+    
+
+Route::post('/checkuer' ,            [checkuer                ::class, 'check'     ])->middleware(['auth:api'])->middleware('checkuser');
+
+
+
+
+
+
+
 
 //loging Routes
 //NOTE add fun groupe middelware to routes have the same middelware 
@@ -37,9 +48,16 @@ Route::post('registerSocialite',  [SocialiteLog::class, 'registerSocialite'  ]);
 Route::post('addPasswordSocialite',[SocialiteLog::class, 'addPasswordSocialite'])->middleware(['auth:api']);
 //_____________________________________________________________________________________________________________________//
 //Adding places in dashbord 
-Route::post ('/addRestaurant',         [AddPlace::class,  'addRestaurant'          ] );
-Route::post ('/addHotel',              [AddPlace::class,  'addHotel'               ] );
-Route::post ('/addAirplane',           [AddPlace::class,  'addAirplane'            ] );
+Route::post ('/addRestaurant',         [AddPlace::class,  'addRestaurant'          ] )->middleware(['auth:api']);
+Route::post ('/ShowResturant',         [AddPlace::class,  'ShowResturant'          ] )->middleware(['auth:api'])->middleware('checkuser')->middleware('manager_restaurant');
+Route::post ('/addHotel',              [AddPlace::class,  'addHotel'               ] )->middleware(['auth:api']);
+Route::post ('/addAirplane',           [AddPlace::class,  'addAirplane'            ] )->middleware(['auth:api']);
+
+
+
+
+
+
 Route::post ('/addPackage',            [AddPlace::class,  'addPackage'             ] );
 
 //add Booking to places in flutter

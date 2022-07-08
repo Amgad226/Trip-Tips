@@ -23,12 +23,13 @@ use Laravel\Sanctum\HasApiTokens;
         'catigory_id',
         'img_title_deed',
         'img',
-        'hotel_id'
+        'user_id',
+        // 'hotel_id',
 
     ];
 
 
-    public function s(){
+    public function images(){
         return $this->hasMany(HotelImages::class);
     }
 

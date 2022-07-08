@@ -11,7 +11,7 @@ class HotelImages extends Model
 {
 
     use HasApiTokens, HasFactory, Notifiable;
-    protected $table = 'images_hotels';
+    protected $table = 'hotels_images';
 
     protected $fillable = [
    'img','hotel_id'

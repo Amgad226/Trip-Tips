@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('images_package', function (Blueprint $table) {
+        Schema::create('roles_app', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('package_id')->unsigned()->index();
-        
-            $table->string('img') ->nullable();
-            
-            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('role_name');//owner-admin
             $table->timestamps();
-
+           
         });
     }
 
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('images_package');
+        Schema::dropIfExists('roles_app');
     }
 };

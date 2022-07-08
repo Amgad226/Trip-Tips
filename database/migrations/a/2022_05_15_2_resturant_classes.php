@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('classes_in_airplane', function (Blueprint $table) {
+        Schema::create('resturant_classes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('class_name');
             $table->integer('money');
 
-            $table->integer('airplane_id')->unsigned()->index();
-            $table->foreign('airplane_id')->references('id')->on('airplanes')->onDelete('cascade')->onUpdate('cascade');
-             $table->timestamps();
+            $table->integer('resturant_id')->unsigned()->index();
+            $table->foreign('resturant_id')->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamps();
             
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('classes_in_airplane');
+        Schema::dropIfExists('class_in_resturant');
     }
 };

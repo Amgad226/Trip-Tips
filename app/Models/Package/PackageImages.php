@@ -11,7 +11,7 @@ class PackageImages extends Model
 {
 
     use HasApiTokens, HasFactory, Notifiable;
-    protected $table = 'images_package';
+    protected $table = 'package_images';
 
     protected $fillable = [
 

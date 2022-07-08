@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('img_title_deed') ;
             $table->boolean('active')->default(0);
             
+            $table->integer('user_id')->unsigned()->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             
             // $table->integer('category_id') ->unsigned()->index();
             // $table->foreign('category_id') ->references('id')->on('catigories')->onDelete('cascade')->onUpdate('cascade');

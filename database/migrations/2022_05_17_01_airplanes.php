@@ -22,7 +22,10 @@ return new class extends Migration
             $table->string('support_email')    ;
             $table->string('img_title_deed')       ;
             $table->boolean('active')->default(0);
-
+       
+            $table->integer('user_id')->unsigned()->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            
             $table->timestamps();
 
 

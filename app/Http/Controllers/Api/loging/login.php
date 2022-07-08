@@ -99,7 +99,7 @@ class login extends Controller
         if(Auth::attempt(['email' =>$request->email, 'password' => $request->password]))
            {
           
-            $user =User::with('role')->where('email',$request->email)->first(); 
+            $user =User::with('RestaurantRole','HotelRole','AirplaneRole','AppRole')->where('email',$request->email)->first(); 
 
         
             $token = $user->createToken('a')->accessToken;
@@ -107,12 +107,15 @@ class login extends Controller
             return response()->json([
                'message'=> 'User successfully login',
                 'token'=>$token,
-                'user' => $user
+                'user' => $user,
+                // 'm'=>print_r($user->RestaurantRole[0]->id)
+                
             ], 200);
         }
 
         else {
-            return response()->json(['message' => 'Wrong email or password'], 400);
+            return response()->json([
+                'message' => 'Wrong email or password'], 400);
         }
     }
     // _________________________________________________________________________________
