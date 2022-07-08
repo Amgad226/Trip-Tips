@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
         // $this->call(FacilitieSeeder::class);
-        // $this->call(RestaurantSeeder::class);
+        $this->call(RestaurantSeeder::class);
         
 
         // \App\Models\User::factory(10)->create();
