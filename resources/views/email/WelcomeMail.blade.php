@@ -9,7 +9,7 @@
        
     <tr>
     <td style="box-sizing:border-box;font-family:'Roboto',BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';padding:25px 0;text-align:center">
-    <span style="box-sizing:border-box;font-family:'Oleo Script',cursive;letter-spacing:3px;color:#fcb700;font-size:40px">Trip Tips</span>
+    <span style="box-sizing:border-box;font-family:'Oleo Script',cursive;letter-spacing:3px;color:#fcb700;font-size:40px">{{config('app.name')}}</span>
     </td>
     </tr>
     

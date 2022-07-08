@@ -31,8 +31,7 @@ use  Image;
 class AddPlace extends Controller
 {
 
-    public function addRestaurant(Request $request)
-    {       
+    public function addRestaurant(Request $request){       
             $validator = Validator::make($request-> all(),[
             'name'          => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/', 'max:20','min:3'],
             // 'name'          => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/', 'max:50','min:3','unique:restaurants'],
@@ -131,31 +130,18 @@ class AddPlace extends Controller
          ]);     
     }
 
-    public function ShowResturant(Request $req){
-
-      $restaurant_not_acceptable = Restaurant::with('images')->get()->where('acceptable',0);
-      return response()->json(['message'=>$restaurant_not_acceptable]);
-
-        return response()->json(['message'=>'hello '.Auth::user()->name .' you the manager for  this restaurant']);
-    }
-
-
     public function AcceptResturant(Request $req){
-        dd(config('app.APP_NAME'));
+        // dd( config('app.name')2);
         $restaurant_to_accept=Restaurant::where('id',$req->id)->first();
         
         if($restaurant_to_accept==null){
         return response()->json(['message'=>'restaurant not exists','status'=>0],400);
         }
         // dd($restaurant_to_accept->acceptable);
-        // if($restaurant_to_accept->acceptable==1){
-        // return response()->json(['message'=>'allready accepted','status'=>0],400);
-        // }
+        if($restaurant_to_accept->acceptable==1){
+        return response()->json(['message'=>'allready accepted','status'=>0],400);
+        }
         $restaurant_to_accept->update(['acceptable'=>1]);
-        // $restaurant_to_accept->acceptable=1;
-        // $restaurant_to_accept->save();
-        
-
         $text='Congratulations your Restaurant '.$restaurant_to_accept->name.' has been accepted in trip tips manage your project by';
         $details=[
             'body'=>$text,
@@ -164,10 +150,10 @@ class AddPlace extends Controller
         // dd();
                //بعتنا عل ايميل الدعم رسالة نجاح تسجيل المطعم بل برنامج عنا 
         Mail::to($restaurant_to_accept->support_email)->send(new AcceptFacilities ($details));   
-        return response()->json(['message'=>'accept successfuly','status'=>1,'acceptable'=>$restaurant_to_accept->acceptable],200);
-      }
+        return response()->json(['message'=>' email sent,and accept successfuly','status'=>1,'acceptable'=>$restaurant_to_accept->acceptable],200);
+    }
 
-      public function RefusResturant(Request $req){
+    public function RefusResturant(Request $req){
 
         $restaurant_to_refuse= Restaurant::where('id',$req->id)->first();
         // dd($r);
@@ -191,18 +177,32 @@ class AddPlace extends Controller
         File::deleteDirectory(public_path('storage/images/restaurant/'.$res_name));
         RestaurantImage::where('restaurant_id',$restaurant_to_refuse->id)->delete();
         $restaurant_to_refuse->delete();
-        return response()->json(['message'=>'refuse and delete information successfuly','status'=>1],200);
+        return response()->json(['message'=>'email sent,and refuse and delete information successfuly','status'=>1],200);
         }
-       }
+    }
 
-       public function ShowAllResturants(){
+    public function ShowAllResturants(){
 
         $restaurant_acceptable = Restaurant::with('images')->get()->where('acceptable',1);
  
          return response()->json(['message'=>' successfuly','restaurants'=>$restaurant_acceptable,'status'=>1],200);
    
-       }
+    }
 
+    public function add_Restaurant_Booking(Request $request){
+        $data = [
+           
+            'restaurant_id'             => $request->restaurant_id,
+            'user_id'             => $request->user_id,
+           ];
+        $BookingRestaurant = RestaurantBooking::create($data);
+    
+        return response()->json([
+            'status' => '1',
+            'message' => 'BookingRestaurant added successfully',
+            'item'=>$BookingRestaurant,
+        ]);     
+    }
 
 //yass
 //amgad 
@@ -399,23 +399,7 @@ class AddPlace extends Controller
          ]);     
     }
 
-
-
-    public function add_Restaurant_Booking(Request $request)
-    {
-         $data = [
-            
-             'restaurant_id'             => $request->restaurant_id,
-             'user_id'             => $request->user_id,
-            ];
-         $BookingRestaurant = RestaurantBooking::create($data);
-     
-         return response()->json([
-             'status' => '1',
-             'message' => 'BookingRestaurant added successfully',
-             'item'=>$BookingRestaurant,
-         ]);     
-    }
+   
 
     public function add_Hotel_Booking(Request $request)
     {
@@ -471,7 +455,7 @@ class AddPlace extends Controller
             // dd($Booking->package->restaurant->id);
 
             $BookingPackage = PackageBooking::create($data);
-    //  dd($BookingPackage);
+         //  dd($BookingPackage);
         //  dd($BookingPackage->package->name_EN); 
          $airplane = new Airplane;
          return response()->json([

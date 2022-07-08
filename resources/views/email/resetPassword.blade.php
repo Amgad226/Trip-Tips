@@ -6,7 +6,7 @@
     <td style="box-sizing:border-box;font-family:'Roboto',BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';padding:25px 0;text-align:center">
     <a href="http://localhost" style="box-sizing:border-box;font-family:'Roboto',BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';color:#3d4852;font-size:19px;font-weight:bold;text-decoration:none;display:inline-block" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http://localhost&amp;source=gmail&amp;ust=1656852817573000&amp;usg=AOvVaw0RM_g7sCgkb1KzT5rkuDeV">
     
-    <span style="box-sizing:border-box;font-family:'Oleo Script',cursive;letter-spacing:3px;color:#fcb700;font-size:40px">Trip Tips</span>
+    <span style="box-sizing:border-box;font-family:'Oleo Script',cursive;letter-spacing:3px;color:#fcb700;font-size:40px">{{config('app.name')}}</span>
     </a>
     </td>
     </tr>

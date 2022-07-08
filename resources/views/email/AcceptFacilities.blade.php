@@ -8,7 +8,7 @@
 <td class="header" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 25px 0; text-align: center;">
 <a href="http://localhost" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #3d4852; font-size: 19px; font-weight: bold; text-decoration: none; display: inline-block;">
 <!-- <img src="http://127.0.0.1:8000/storage/6.png" class="logo" alt="Trip-Tips Logo"> -->
-<span style="box-sizing: border-box; position: relative; letter-spacing: 3px; color: #FCB700; font-size: 40px; font-family: 'Oleo Script';" class="one">{{config('app.APP_NAME')}}a</span>
+<span style="box-sizing: border-box; position: relative; letter-spacing: 3px; color: #FCB700; font-size: 40px; font-family: 'Oleo Script';" class="one">{{config('app.name')}}</span>
 </a>
 </td>
 </tr>
