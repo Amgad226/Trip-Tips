@@ -23,6 +23,7 @@ class Airplane extends Authenticatable
         'support_email',
         'img_title_deed',
         'user_id',
+        'acceptable',
 
      
     ];

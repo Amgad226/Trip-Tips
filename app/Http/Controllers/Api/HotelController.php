@@ -60,11 +60,11 @@ class HotelController extends Controller
             $image=$request->file('img_title_deed') ; 
             $image_resize = Image::make($image->getRealPath());              
             $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
-            $image_resize->save(public_path("/storage/images/hotel/".$Hotel_Name.'/title_deed/'.'resize '.$Hotel_Name.$extension ));
+            $image_resize->save(public_path("/storage/images/hotel/".$Hotel_Name.'/title_deed/'.$Hotel_Name.$extension ));
             //store without resize
             // $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Hotel_Name.$extension); 
    
-            $image_title_deed_path = "/storage/images/hotel/".$Hotel_Name.'/title_deed/'. $uniqid.$Hotel_Name.$extension;        
+            $image_title_deed_path = "/storage/images/hotel/".$Hotel_Name.'/title_deed/'.$Hotel_Name.$extension;        
          
          
          $data = [
@@ -104,7 +104,7 @@ class HotelController extends Controller
                 $image=$image_hotel ; 
                 $image_resize = Image::make($image->getRealPath());              
                 $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
-                $image_resize->save(public_path("/storage/images/hotel/".$Hotel_Name ."/". $i.'resize'."_".$Hotel_Name.$extension ));
+                $image_resize->save(public_path("/storage/images/hotel/".$Hotel_Name ."/". $i."_".$Hotel_Name.$extension ));
 
                 //store without resize
                 // $image_hotel->storeAs($destination_path,  $i."_". $Hotel_Name.$extension);

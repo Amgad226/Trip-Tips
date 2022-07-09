@@ -59,7 +59,7 @@ class RestaurantController extends Controller
             $image=$request->file('img_title_deed') ; 
             $image_resize = Image::make($image->getRealPath());              
             $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
-            $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name.'/title_deed/'.'resize '.$Restuarant_Name.$extension ));
+            $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name.'/title_deed/'.$Restuarant_Name.$extension ));
             //store without resize 
             // $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Restuarant_Name.$extension);  
 
@@ -103,7 +103,7 @@ class RestaurantController extends Controller
                 $image=$image_restaurant ; 
                 $image_resize = Image::make($image->getRealPath());              
                 $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
-                $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name ."/". $i.'resize'."_".$Restuarant_Name.$extension ));
+                $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name ."/". $i."_".$Restuarant_Name.$extension ));
 
                 //store without resize
                 // $image_restaurant->storeAs($destination_path,  $i."_". $Restuarant_Name.$extension);  
