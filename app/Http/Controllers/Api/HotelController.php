@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-
+use App\Mail\AcceptFacilities;
 use App\Models\Hotel\Hotel;
 use App\Models\Hotel\HotelImages;
 use App\Models\Hotel\HotelBooking;
@@ -130,7 +130,67 @@ class HotelController extends Controller
             //  'hotel'=>$hotellll,
          ]);    
     }
-    
+
+    public function AcceptHotel(Request $req){
+        // dd( config('app.name')2);
+        $hotel_to_accept=Hotel::where('id',$req->id)->first();
+        
+        if($hotel_to_accept==null){
+        return response()->json(['message'=>'hotel not exists','status'=>0],400);
+        }
+        // dd($hotel_to_accept->acceptable);
+        if($hotel_to_accept->acceptable==1){
+        return response()->json(['message'=>'allready accepted','status'=>0],400);
+        }
+        $hotel_to_accept->update(['acceptable'=>1]);
+        $text='Congratulations your hotel '.$hotel_to_accept->name.' has been accepted in trip tips manage your project by';
+        $details=[
+            'body'=>$text,
+            'link_to_web'=>'1'
+        ]; 
+        // dd();
+               //بعتنا عل ايميل الدعم رسالة نجاح تسجيل المطعم بل برنامج عنا 
+        Mail::to($hotel_to_accept->support_email)->send(new AcceptFacilities ($details));   
+        return response()->json(['message'=>' email sent,and accept successfuly','status'=>1,'acceptable'=>$hotel_to_accept->acceptable],200);
+    }
+
+    public function RefusHotel(Request $req){
+
+        $hotel_to_refus= Hotel::where('id',$req->id)->first();
+        // dd($r);
+
+        if($hotel_to_refus==null){
+        return response()->json(['message'=>'hotel not exists','status'=>0],400);
+        }
+        if($hotel_to_refus->acceptable==1){
+        return response()->json(['message'=>'this hotel is accepteble','status'=>0],400);
+        }
+        else{
+            
+            $text='Sorry your Hotel '.$hotel_to_refus->name.'  has been Refus by Admins Because your Hotel does not follow the conditions of society TripTips ';
+            $details=[
+                'body'=>$text,
+                'link_to_web'=>0
+            ];
+            //بعتنا عل ايميل تبع اليوزر هاد الرمز 
+        Mail::to($hotel_to_refus->support_email)->send(new AcceptFacilities ($details));   
+        $res_name=$hotel_to_refus->name;
+        File::deleteDirectory(public_path('storage/images/hotel/'.$res_name));
+        HotelImages::where('hotel_id',$hotel_to_refus->id)->delete();
+        $hotel_to_refus->delete();
+        dd($hotel_to_refus->id);
+        return response()->json(['message'=>'email sent,and refuse and delete information successfuly','status'=>1],200);
+        }
+    }
+
+    public function ShowAllHotels(){
+
+        $hotels_acceptable = Hotel::with('images')->where('acceptable',1)->get();
+ 
+         return response()->json(['message'=>' successfuly','hotels'=>$hotels_acceptable,'status'=>1],200);
+   
+    }
+
 
     public function add_Hotel_Booking(Request $request)
     {

@@ -20,11 +20,10 @@ use Laravel\Sanctum\HasApiTokens;
         'location',
         'Payment',
         'support_email',
-        'catigory_id',
+        // 'catigory_id',
         'img_title_deed',
-        'img',
         'user_id',
-        // 'hotel_id',
+        'acceptable',
 
     ];
 
