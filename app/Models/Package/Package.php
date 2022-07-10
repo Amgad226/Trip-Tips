@@ -2,11 +2,18 @@
 
 namespace App\Models\Package;
 
+use App\Models\Airplane\Airplane;
+use App\Models\Hotel\Hotel;
+use App\Models\Hotel\HotelClass;
+use App\Models\Hotel\HotelImages;
+use App\Models\Restaurant\Restaurant;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+// use \Znck\Eloquent\Traits\BelongsToThrough;
+use \Znck\Eloquent\Traits\BelongsToThrough;
 
 class Package extends Authenticatable
 {
@@ -14,11 +21,19 @@ class Package extends Authenticatable
     protected $table = 'packages';
 
     protected $fillable = [
-        'name_en',
+        'name',
         'hotel_id',
         'airplane_id',
         'restaurant_id',
-     
+        'img',
+        'description',
+        'max_reservation',
+        'number_of_reservation',
+        'price',
+        'discount_percentage',
+        'tourist_supervisor_id',
+        
+        'added_by',//
     ];
 
 
@@ -39,5 +54,9 @@ class Package extends Authenticatable
     public function hotel()
     {
         return $this->belongsTo(Hotel::class,'hotel_id' );
+    }
+    public function hotelImg()
+    {
+        return $this->hasManyThrough( HotelImages::class,Hotel::class);
     }
 }

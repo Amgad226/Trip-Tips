@@ -6,6 +6,7 @@ use App\Mail\AcceptFacilities;
 use App\Models\Hotel\Hotel;
 use App\Models\Hotel\HotelImages;
 use App\Models\Hotel\HotelBooking;
+use App\Models\Hotel\HotelClass;
 use App\Models\Hotel\HotelRole;
 
 use App\Models\User;
@@ -83,41 +84,49 @@ class HotelController extends Controller
          $images_hotel=$request->img;
         //  dd($images_hotel)
          
-         if($request->hasFile('img')){   
+         if($request->hasFile('img'))
+           {   
              $i=1;
              foreach($images_hotel as $image_hotel) 
-             {   
-                //  dd();
-                 $extension='.'.$image_hotel->getclientoriginalextension();
-                //  dd();
-                 if(!in_array($extension, config('global.allowed_extention')))
-                 {
-                     // File::deleteDirectory(public_path('storage/a'));
-                     File::deleteDirectory(public_path('storage/images/hotel/'.$request->name));
-                     HotelImages::where('hotel_id',$hotel->id)->truncate();
-                     $hotel->delete();
-
-                     return response()->json(['message' => 'hotel doesnot regeistered because you enter invalide image ectension' ]);   
-                 }
-                $destination_path ='public/images/hotel/'.$Hotel_Name; 
-                //store with resize
-                $image=$image_hotel ; 
-                $image_resize = Image::make($image->getRealPath());              
-                $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
-                $image_resize->save(public_path("/storage/images/hotel/".$Hotel_Name ."/". $i."_".$Hotel_Name.$extension ));
-
-                //store without resize
-                // $image_hotel->storeAs($destination_path,  $i."_". $Hotel_Name.$extension);
+               {     
+                  //  dd();
+                   $extension='.'.$image_hotel->getclientoriginalextension();
+                  //  dd();
+                   if(!in_array($extension, config('global.allowed_extention')))
+                   {
+                       // File::deleteDirectory(public_path('storage/a'));
+                       File::deleteDirectory(public_path('storage/images/hotel/'.$request->name));
+                       HotelImages::where('hotel_id',$hotel->id)->truncate();
+                       $hotel->delete();
+  
+                       return response()->json(['message' => 'hotel doesnot regeistered because you enter invalide image ectension' ]);   
+                   }
+                  $destination_path ='public/images/hotel/'.$Hotel_Name; 
+                  //store with resize
+                  $image=$image_hotel ; 
+                  $image_resize = Image::make($image->getRealPath());              
+                  $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
+                  $image_resize->save(public_path("/storage/images/hotel/".$Hotel_Name ."/". $i."_".$Hotel_Name.$extension ));
+  
+                  //store without resize
+                  // $image_hotel->storeAs($destination_path,  $i."_". $Hotel_Name.$extension);
+                  
+                  
+                  $image_path_to_database = "/storage/images/hotel/".$Hotel_Name ."/". $i."_".$Hotel_Name.$extension;   
+  
+                  $image_data=['img'=>$image_path_to_database,'hotel_id'=>$hotel->id];
+                  HotelImages::create($image_data);
+                  // dd($a);
+                   $i++;
                 
-                
-                $image_path_to_database = "/storage/images/hotel/".$Hotel_Name ."/". $i."_".$Hotel_Name.$extension;   
-
-                $image_data=['img'=>$image_path_to_database,'hotel_id'=>$hotel->id];
-                HotelImages::create($image_data);
-                // dd($a);
-                 $i++;
-                
+                }
             }
+            //اضافة الاسعر الخاصة بالاوتيل 
+         $classes=$request->classes;
+         $names=$request->names;
+         for ($i=0;$i<count($classes);$i++)
+         {
+         HotelClass::create(['hotel_id'=>$hotel->id,'money'=>$classes[$i],'class_name'=>$names[$i]]);
          }
         //  $hotellll=Hotel::with('images')->where('id',$hotel->id)->first();
          //  dd($hoteltt);
@@ -185,12 +194,11 @@ class HotelController extends Controller
 
     public function ShowAllHotels(){
 
-        $hotels_acceptable = Hotel::with('images')->where('acceptable',1)->get();
+        $hotels_acceptable = Hotel::with('images','classes')->where('acceptable',1)->get();
  
          return response()->json(['message'=>' successfuly','hotels'=>$hotels_acceptable,'status'=>1],200);
    
     }
-
 
     public function add_Hotel_Booking(Request $request)
     {

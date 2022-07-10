@@ -18,13 +18,14 @@ class Restaurant extends Authenticatable
         'name',
         'rate',
         'location',
-        'Payment',
         'support_email',
         'catigory_id',
         'img_title_deed',
         'img',
         'user_id',
-        'acceptable'
+        'acceptable',
+        'price_booking',
+        'Payment',
 
     ];
     public function catigorys(){

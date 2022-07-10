@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('roles_person', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('role_name');//user-other
+            $table->string('role_name');//user-admin-owner
             $table->timestamps();
            
         });

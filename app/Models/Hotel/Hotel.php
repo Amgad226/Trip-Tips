@@ -31,6 +31,10 @@ use Laravel\Sanctum\HasApiTokens;
     public function images(){
         return $this->hasMany(HotelImages::class);
     }
+    public function classes(){
+        return $this->hasMany(HotelClass::class);
+    }
+    //------------------------------------------------------
 
     public function catigorys(){
         return $this->belongsTo(Category::class);

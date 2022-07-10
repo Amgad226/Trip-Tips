@@ -5,19 +5,9 @@ use App\Http\Controllers\Controller;
 use App\Mail\AcceptFacilities;
 use App\Models\Airplane\Airplane;
 use App\Models\Airplane\AirplaneBooking;
+use App\Models\Airplane\AirplaneClass;
 use App\Models\Airplane\AirplaneRole;
-use App\Models\Restaurant\RestaurantBooking;
-use App\Models\Restaurant\Restaurant;
-use App\Models\Restaurant\RestaurantImage;
-use App\Models\Restaurant\RestaurantRole;
 
-use App\Models\Hotel\Hotel;
-use App\Models\Hotel\HotelImages;
-use App\Models\Hotel\HotelBooking;
-use App\Models\Hotel\HotelRole;
-
-use App\Models\Package\Package;
-use App\Models\Package\PackageBooking;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,8 +20,8 @@ use  Image;
 
 class AirplaneController extends Controller
 {
- public function addAirplane(Request $request)
-    {
+
+    public function addAirplane(Request $request){
         $validator = Validator::make($request-> all(),[
             'name'          => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/', 'max:20','min:3'],
             'location'      => 'required',
@@ -83,8 +73,14 @@ class AirplaneController extends Controller
          $airplane = Airplane::create($data);
          DB::table('users')->where('id',Auth::id())->update(['have_facilities' =>1]);
          AirplaneRole::create(['user_id'=>Auth::id(),'airplane_id'=>$airplane->id,'role_facilities_id'=>1]);
-         
-     
+         $classes=$request->classes;
+         $names=$request->names;
+         for ($i=0;$i<count($classes);$i++)
+         {
+         AirplaneClass::create(['airplane_id'=>$airplane->id,'money'=>$classes[$i],'class_name'=>$names[$i]]);
+
+         }
+      
         
         //  $airplanett=airplane::where('id',$airplane->id)->first();
          //  dd($airplanett);
@@ -96,9 +92,69 @@ class AirplaneController extends Controller
          ]);      
     }
 
+    public function AcceptAirplane(Request $req){
+        // dd( config('app.name')2);
+        $airplene_to_accept=Airplane::where('id',$req->id)->first();
+        
+        if($airplene_to_accept==null){
+        return response()->json(['message'=>'airplane not exists','status'=>0],400);
+        }
+        // dd($airplene_to_accept->acceptable);
+        if($airplene_to_accept->acceptable==1){
+        return response()->json(['message'=>'allready accepted','status'=>0],400);
+        }
+        $airplene_to_accept->update(['acceptable'=>1]);
+        $text='Congratulations your Airplane '.$airplene_to_accept->name.' has been accepted by .'.Auth::user()->name.'. admin in trip tips manage your project by';
+        $details=[
+            'body'=>$text,
+            'link_to_web'=>'1'
+        ];
+        // dd();
+               //بعتنا عل ايميل الدعم رسالة نجاح تسجيل شركة الطيران بل برنامج عنا 
+        Mail::to($airplene_to_accept->support_email)->send(new AcceptFacilities ($details));   
+        return response()->json(['message'=>' email sent,and accept successfuly','status'=>1,'acceptable'=>$airplene_to_accept->acceptable],200);
+    }
 
-    public function add_Airplane_Booking(Request $request)
-    {
+    public function RefusAirplane(Request $req){
+
+        $airplane_to_refuse= Airplane::where('id',$req->id)->first();
+
+        if($airplane_to_refuse==null){
+        return response()->json(['message'=>'airplane not exists','status'=>0],400);
+        }
+        if($airplane_to_refuse->acceptable==1){
+        return response()->json(['message'=>'this airplane is accepteble','status'=>0],400);
+        }
+        else{
+            
+            $text='Sorry your airplane '.$airplane_to_refuse->name.'  has been Refus by Admins Because your restaurant does not follow the conditions of society TripTips ';
+            $details=[
+                'body'=>$text,
+                'link_to_web'=>0
+            ];
+            //بعتنا عل ايميل تبع اليوزر هاد الرمز 
+        Mail::to($airplane_to_refuse->support_email)->send(new AcceptFacilities ($details));   
+        if($req->id!=1)
+         { 
+            //لانو هي لشركة ضايفها بل سيدر مشان التيست و بغير مجلدات التخزين الطبيعي 
+             $res_name=$airplane_to_refuse->name;
+             File::deleteDirectory(public_path('storage/images/airplane/'.$res_name));
+         }
+        // Airplane::where('airplane_id',$airplane_to_refuse->id)->delete();
+        $airplane_to_refuse->delete();
+        return response()->json(['message'=>'email sent,and refuse and delete information successfuly','status'=>1],200);
+        }
+    }
+
+    public function ShowAllAirplane(){
+
+        $airplane_acceptable = Airplane::with('classes')->where('acceptable',1)->get();
+ 
+         return response()->json(['message'=>' successfuly','airplane'=>$airplane_acceptable,'status'=>1],200);
+   
+    }
+
+    public function add_Airplane_Booking(Request $request){
          $data = [
             
              'airplane_id'             => $request->airplane_id,
@@ -113,6 +169,4 @@ class AirplaneController extends Controller
          ]);     
     }
 
-
-    
 }
