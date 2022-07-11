@@ -12,13 +12,19 @@ class HotelClass extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-
+   
 
     protected $table = 'hotel_classes';
-
     protected $fillable = [
-     
+        'hotel_id',
+     'class_name',
+     'money'
     ];
+    public function hotel(){
+        return $this->belongsTo(Hotel::class,'hotel_id');
+    }
+  
+
 
 
 

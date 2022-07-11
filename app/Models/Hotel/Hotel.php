@@ -20,11 +20,10 @@ use Laravel\Sanctum\HasApiTokens;
         'location',
         'Payment',
         'support_email',
-        'catigory_id',
+        // 'catigory_id',
         'img_title_deed',
-        'img',
         'user_id',
-        // 'hotel_id',
+        'acceptable',
 
     ];
 
@@ -32,6 +31,10 @@ use Laravel\Sanctum\HasApiTokens;
     public function images(){
         return $this->hasMany(HotelImages::class);
     }
+    public function classes(){
+        return $this->hasMany(HotelClass::class);
+    }
+    //------------------------------------------------------
 
     public function catigorys(){
         return $this->belongsTo(Category::class);

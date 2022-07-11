@@ -17,17 +17,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        Storage::disk('local')->makeDirectory('public/images/package    ');
         Storage::disk('local')->makeDirectory('public/images/users');
-        Storage::disk('local')->makeDirectory('public/default_photo/SweetPark');
         Storage::disk('local')->makeDirectory('public/default_photo/SweetPark/title_deed');
         Storage::disk('local')->makeDirectory('public/default_photo/Mac/title_deed');
-        Storage::disk('local')->makeDirectory('public/default_photo/Mac/title_deed');
-        Storage::disk('local')->makeDirectory('public/default_photo/Uncel/title_deed');
-        Storage::disk('local')->makeDirectory('public/default_photo/Uncel/title_deed');
+        Storage::disk('local')->makeDirectory('public/default_photo/meredean/title_deed');
+        Storage::disk('local')->makeDirectory('public/default_photo/hilton/title_deed');
+        
+        
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
-        // $this->call(FacilitieSeeder::class);
         $this->call(RestaurantSeeder::class);
+        // $this->call(FacilitieSeeder::class);
         
 
         // \App\Models\User::factory(10)->create();

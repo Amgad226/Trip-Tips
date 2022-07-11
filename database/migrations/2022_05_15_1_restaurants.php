@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('Payment')       ;
             $table->string('support_email')  ;
             $table->string('img_title_deed') ;
+            $table->integer('price_booking') ;
             $table->boolean('acceptable')->default(0);
             
             $table->integer('user_id')->unsigned()->index();

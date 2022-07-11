@@ -23,10 +23,13 @@ class Airplane extends Authenticatable
         'support_email',
         'img_title_deed',
         'user_id',
+        'acceptable',
 
      
     ];
-
+    public function classes(){
+        return $this->hasMany(AirplaneClass::class);
+    }
     // public function bookingPackage() {
     //     return $this->hasOne(BookingPackage::class );
     // }

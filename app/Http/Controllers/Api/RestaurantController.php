@@ -6,6 +6,7 @@ use App\Mail\AcceptFacilities;
 
 use App\Models\Restaurant\RestaurantBooking;
 use App\Models\Restaurant\Restaurant;
+use App\Models\Restaurant\RestaurantClass;
 use App\Models\Restaurant\RestaurantImage;
 use App\Models\Restaurant\RestaurantRole;
 
@@ -23,15 +24,17 @@ use  Image;
 class RestaurantController extends Controller
 {
 
-    public function addRestaurant(Request $request){       
+    public function addRestaurant(Request $request){   
+
             $validator = Validator::make($request-> all(),[
             'name'          => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/', 'max:20','min:3'],
-            // 'name'          => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/', 'max:50','min:3','unique:restaurants'],
             'rate'          => 'required',
             'location'      => 'required',
             'support_email' => 'required|email',
             'img_title_deed'=> 'required',
-            'img'           => 'required',]);
+            'img'           => 'required',
+            'price_booking' => 'required',
+        ]);
 
             if ($validator->fails())
             {
@@ -59,7 +62,7 @@ class RestaurantController extends Controller
             $image=$request->file('img_title_deed') ; 
             $image_resize = Image::make($image->getRealPath());              
             $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
-            $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name.'/title_deed/'.'resize '.$Restuarant_Name.$extension ));
+            $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name.'/title_deed/'.$Restuarant_Name.$extension ));
             //store without resize 
             // $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Restuarant_Name.$extension);  
 
@@ -71,6 +74,7 @@ class RestaurantController extends Controller
             'name'          => $request->name,
             'rate'          => $request->rate,
             'location'      => $request->location,
+            'price_booking' => $request->price_booking, 
             'Payment'       => config('global.Payment_retaurant'),
             'support_email' => $request->support_email,
             'img_title_deed'=> $image_title_deed_path, 
@@ -80,12 +84,14 @@ class RestaurantController extends Controller
          RestaurantRole::create(['user_id'=>Auth::id(),'restaurant_id'=>$restaurant->id,'role_facilities_id'=>1]);
          DB::table('users')->where('id',Auth::id())->update(['have_facilities' =>1]);
 
-         $images_restaurant=$request->img;
-
-         if($request->hasFile('img')){   
+         
+         if($request->hasFile('img'))
+         {   
+            $images_restaurant=$request->img;
             $i=1;
             foreach($images_restaurant as $image_restaurant) 
             {   
+                // dd($image_restaurant);
                 $extension='.'.$image_restaurant->getclientoriginalextension();
 
                  if(!in_array($extension, config('global.allowed_extention')))
@@ -103,7 +109,7 @@ class RestaurantController extends Controller
                 $image=$image_restaurant ; 
                 $image_resize = Image::make($image->getRealPath());              
                 $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
-                $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name ."/". $i.'resize'."_".$Restuarant_Name.$extension ));
+                $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name ."/". $i."_".$Restuarant_Name.$extension ));
 
                 //store without resize
                 // $image_restaurant->storeAs($destination_path,  $i."_". $Restuarant_Name.$extension);  
@@ -114,9 +120,8 @@ class RestaurantController extends Controller
                  $i++;
                 
             }
-         }
-        //  $restauranttt=Restaurant::with('images')->where('id',$restaurant->id)->first();
-         //  dd($restauranttt);
+        }
+      
        
          return response()->json([
              'status' => '1',

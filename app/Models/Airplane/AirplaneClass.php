@@ -17,9 +17,13 @@ class AirplaneClass extends Authenticatable
     protected $table = 'airplane_classes';
 
     protected $fillable = [
-     
+        'airplane_id',
+     'class_name',
+     'money'
     ];
-
+    public function airplane(){
+        return $this->belongsTo(Airplane::class,'airplane_id');
+    }
 
 
 }
