@@ -17,7 +17,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name') ->nullable() ;
             $table->string('location') ->nullable() ;
-            $table->text('img') ->nullable() ;
+            $table->text('img') ->nullable() ;//images,email,category
             // $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
 
             $table->timestamps();

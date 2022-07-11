@@ -36,8 +36,23 @@ class Package extends Authenticatable
         'added_by',//
     ];
 
-
     
+    // public function PackageAirplane() {
+    //     return $this->hasMany(PackageAirplane::class )->airplane;
+    // }
+
+    public function PackageAirplane() {
+        return $this->hasMany(PackageAirplane::class );
+    }
+
+    public function PackageRestaurant() {
+        return $this->hasMany(PackageRestaurant::class );
+    }
+
+    public function PackageHotel() {
+        return $this->hasMany(PackageHotel::class );
+    }
+
     public function BookingPackage() {
         return $this->hasMany(PackageBooking::class );
     }
@@ -45,16 +60,16 @@ class Package extends Authenticatable
  /*___________________________________________________________________________________________________________________________________*/
     public function airplane()
     {
-        return $this->belongsTo(Airplane::class,'airplane_id' );
+        return $this->hasMany(Airplane::class );
     }
-    public function restaurant()
-    {
-        return $this->belongsTo(Restaurant::class,'restaurant_id' );
-    }
-    public function hotel()
-    {
-        return $this->belongsTo(Hotel::class,'hotel_id' );
-    }
+    // public function restaurant()
+    // {
+    //     return $this->belongsTo(Restaurant::class,'restaurant_id' );
+    // }
+    // public function hotel()
+    // {
+    //     return $this->belongsTo(Hotel::class,'hotel_id' );
+    // }
     public function hotelImg()
     {
         return $this->hasManyThrough( HotelImages::class,Hotel::class);

@@ -52,12 +52,12 @@ class AirplaneController extends Controller
             $uniqid='('.uniqid().')';   
             $destination_path = 'public/images/airplane/'.$Airplane_Name."/title_deed";  
             //store with resize
-            $image=$request->file('img_title_deed') ; 
-            $image_resize = Image::make($image->getRealPath());              
-            $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
-            $image_resize->save(public_path("/storage/images/airplane/".$request->name.'/title_deed/'.$Airplane_Name.$extension ));
+            // $image=$request->file('img_title_deed') ; 
+            // $image_resize = Image::make($image->getRealPath());              
+            // $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
+            // $image_resize->save(public_path("/storage/images/airplane/".$request->name.'/title_deed/'.$Airplane_Name.$extension ));
             //store without resize
-            // $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Airplane_Name.$extension); 
+            $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Airplane_Name.$extension); 
 
             $image_title_deed_path = "/storage/images/airplane/".$request->name.'/title_deed/'.$Airplane_Name.$extension;
 

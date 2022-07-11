@@ -16,28 +16,18 @@ return new class extends Migration
         Schema::create('packages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('price');
+            $table->integer('price')->nullable();
             $table->integer('number_of_reservation')->default(0);
             $table->string('img');
             $table->string('description');
             $table->integer('added_by');
             $table->integer('max_reservation');
             $table->integer('discount_percentage');
-            // $table->integer('class_restaurant');
-            // $table->integer('class_airplane');
-            // $table->integer('class_hotel');
-             
-            $table->integer('hotel_id')             ->unsigned()->index();
-            $table->integer('airplane_id')          ->unsigned()->index();
-            $table->integer('restaurant_id')        ->unsigned()->index();
-            // $table->integer('tourist_supervisor_id')->unsigned()->index();
-                       
-            $table->timestamps();
 
-            $table->foreign('hotel_id')             ->references('id')->on('hotels')              ->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('airplane_id')          ->references('id')->on('airplanes')           ->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('restaurant_id')        ->references('id')->on('restaurants')         ->onDelete('cascade')->onUpdate('cascade');
+            // $table->integer('tourist_supervisor_id')->unsigned()->index();
             // $table->foreign('tourist_supervisor_id')->references('id')->on('tourist_supervisors')->onDelete('cascade')->onUpdate('cascade');
+            
+            $table->timestamps();
             
         });
     }

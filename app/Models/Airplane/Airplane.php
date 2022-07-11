@@ -2,6 +2,7 @@
 
 namespace App\Models\Airplane;
 
+use App\Models\Package\PackageAirplane;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -30,9 +31,10 @@ class Airplane extends Authenticatable
     public function classes(){
         return $this->hasMany(AirplaneClass::class);
     }
-    // public function bookingPackage() {
-    //     return $this->hasOne(BookingPackage::class );
-    // }
+
+    public function PackageAirplane() {
+        return $this->hasMany(PackageAirplane::class );
+    }
    
     public function bookingAirplane()
     {

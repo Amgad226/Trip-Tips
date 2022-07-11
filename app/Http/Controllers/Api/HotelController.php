@@ -128,7 +128,7 @@ class HotelController extends Controller
          {
          HotelClass::create(['hotel_id'=>$hotel->id,'money'=>$classes[$i],'class_name'=>$names[$i]]);
          }
-        //  $hotellll=Hotel::with('images')->where('id',$hotel->id)->first();
+          //  $hotellll=Hotel::with('images')->where('id',$hotel->id)->first();
          //  dd($hoteltt);
        
          return response()->json([
