@@ -12,6 +12,7 @@ class AirplaneBooking extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'airpalne_booking';
+    public $timestamps = false;
 
     protected $fillable = [
         'airplane_id',

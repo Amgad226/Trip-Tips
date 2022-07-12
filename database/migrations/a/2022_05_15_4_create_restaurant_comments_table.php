@@ -24,7 +24,9 @@ return new class extends Migration
             $table->integer('resturant_id')->unsigned()->index();
             $table->foreign('resturant_id')->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');
             
-            $table->timestamps();
+            // $table->timestamps();
+            $table->timestamp('time')->useCurrent = true;
+
         });
     }
 

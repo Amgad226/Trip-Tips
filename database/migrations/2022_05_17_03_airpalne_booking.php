@@ -31,7 +31,9 @@ return new class extends Migration
             $table->foreign('user_id')           ->references('id')->on('users')          ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('airplane_id')       ->references('id')->on('airplanes')     ->onDelete('cascade')->onUpdate('cascade');
 
-            $table->timestamps();
+            // $table->timestamps();
+            $table->timestamp('time')->useCurrent = true;
+
         });
     }
 

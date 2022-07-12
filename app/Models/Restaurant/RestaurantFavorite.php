@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class RestaurantFavorite extends Model
 {
     protected $table = 'restaurant_favorites';
+    public $timestamps = false;
 
     protected $fillable =[
         'date_rest_fav',

@@ -20,7 +20,8 @@ return new class extends Migration
 
             $table->integer('airplane_id')->unsigned()->index();
             $table->foreign('airplane_id')->references('id')->on('airplanes')->onDelete('cascade')->onUpdate('cascade');
-             $table->timestamps();
+            //  $table->timestamps();
+
             
         });
     }

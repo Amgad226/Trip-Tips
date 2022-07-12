@@ -30,7 +30,9 @@ return new class extends Migration
             
             // $table->integer('category_id') ->unsigned()->index();
             // $table->foreign('category_id') ->references('id')->on('catigories')->onDelete('cascade')->onUpdate('cascade');
-            $table->timestamps();
+            // $table->timestamps();
+            $table->timestamp('time')->useCurrent = true;
+
             
         });
     }

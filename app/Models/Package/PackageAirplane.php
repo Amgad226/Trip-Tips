@@ -19,6 +19,7 @@ class   PackageAirplane extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'package_airplanes';
+    public $timestamps = false;
 
     protected $fillable = [
         'package_id',

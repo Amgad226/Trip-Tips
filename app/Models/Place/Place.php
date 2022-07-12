@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Place extends Model
 {  use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'places';
+    public $timestamps = false;
 
     protected $fillable = [
         'name_en',

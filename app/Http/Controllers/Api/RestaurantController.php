@@ -191,18 +191,43 @@ class RestaurantController extends Controller
     }
 
     public function add_Restaurant_Booking(Request $request){
+       
+
+        $validator = Validator::make($request-> all(),[
+            'number_of_people'=> 'required',
+            'restaurant_id'   => 'required',
+            'price'           => 'required',
+            'booking_date'    => 'required|date',
+        ]);
+
+            if ($validator->fails())
+            {
+                // return response()->json(['message'      => $validator->errors()],400);
+                $errors = [];
+                foreach ($validator->errors()->messages() as $key => $value) {
+                    $key = 'message';
+                    $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+                }
+       
+                return response()->json( $errors,400);
+            }
+
         $data = [
-           
-            'restaurant_id'             => $request->restaurant_id,
-            'user_id'             => $request->user_id,
+            'restaurant_id'      => $request->restaurant_id,
+            'user_id'            => Auth::id(),
+            'number_of_people'   =>$request->number_of_people,
+            'price'              =>$request->price,
+            'booking_date'       =>$request->booking_date,
            ];
         $BookingRestaurant = RestaurantBooking::create($data);
     
         return response()->json([
             'status' => '1',
-            'message' => 'BookingRestaurant added successfully',
-            'item'=>$BookingRestaurant,
+            'message' => 'BookingRestaurant added successfully ,go to your profile to get image Qr code ',
+            'info'=>$BookingRestaurant,
         ]);     
     }
 
+    
+    
 }

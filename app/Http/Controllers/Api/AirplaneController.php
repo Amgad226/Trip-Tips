@@ -155,18 +155,41 @@ class AirplaneController extends Controller
     }
 
     public function add_Airplane_Booking(Request $request){
-         $data = [
-            
-             'airplane_id'             => $request->airplane_id,
-             'user_id'             => $request->user_id,
-            ];
-         $BookingAirplane = AirplaneBooking::create($data);
-     
-         return response()->json([
-             'status' => '1',
-             'message' => 'Booking Airplane  added successfully',
-             'item'=>$BookingAirplane,
-         ]);     
+       
+      
+        $validator = Validator::make($request-> all(),[
+            'number_of_people'=> 'required',
+            'restaurant_id'   => 'required',
+            'price'           => 'required',
+            'booking_date'    => 'required|date',
+        ]);
+
+            if ($validator->fails())
+            {
+                // return response()->json(['message'      => $validator->errors()],400);
+                $errors = [];
+                foreach ($validator->errors()->messages() as $key => $value) {
+                    $key = 'message';
+                    $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+                }
+       
+                return response()->json( $errors,400);
+            }
+
+        $data = [
+            'airplane_id'      => $request->airplane_id,
+            'user_id'            => Auth::id(),
+            'number_of_people'   =>$request->number_of_people,
+            'price'              =>$request->price,
+            'booking_date'       =>$request->booking_date,
+           ];
+        $BookingAirplane = AirplaneBooking::create($data);
+    
+        return response()->json([
+            'status' => '1',
+            'message' => 'BookingAirplane added successfully ,go to your profile to get image Qr code ',
+            'info'=>$BookingAirplane,
+        ]);    
     }
 
 }

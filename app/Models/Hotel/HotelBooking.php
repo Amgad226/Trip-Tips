@@ -12,9 +12,15 @@ class HotelBooking extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'hotel_booking';
+    public $timestamps = false;
 
     protected $fillable = [
         'hotel_id',
         'user_id',
+        'number_of_people',
+        'number_of_room',
+        'price',
+        'stert_date',
+        'end_date',
     ];
 }

@@ -12,6 +12,8 @@ class HotelImages extends Model
 
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'hotels_images';
+    public $timestamps = false;
+
 
     protected $fillable = [
    'img','hotel_id'

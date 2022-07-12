@@ -11,6 +11,7 @@ class AirplaneComment extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'airplane_comments';
+    public $timestamps = false;
 
     protected $fillable = [
         'comment',

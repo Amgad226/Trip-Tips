@@ -20,7 +20,9 @@ return new class extends Migration
             $table->text('img') ->nullable() ;//images,email,category
             // $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
 
-            $table->timestamps();
+            // $table->timestamps();
+            $table->timestamp('time')->useCurrent = true;
+
         });
     }
 

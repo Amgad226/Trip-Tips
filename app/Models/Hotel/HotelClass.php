@@ -15,6 +15,8 @@ class HotelClass extends Authenticatable
    
 
     protected $table = 'hotel_classes';
+    public $timestamps = false;
+
     protected $fillable = [
         'hotel_id',
      'class_name',

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RestaurantComment extends Model
 {
+    public $timestamps = false;
 
     protected $table = 'restaurant_comments';
 

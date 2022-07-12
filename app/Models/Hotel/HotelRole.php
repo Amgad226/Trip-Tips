@@ -16,6 +16,7 @@ class HotelRole extends Authenticatable
 
 
     protected $table = 'hotel_role';
+    public $timestamps = false;
 
     protected $fillable = [
         'user_id',

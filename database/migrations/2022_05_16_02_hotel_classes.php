@@ -20,7 +20,7 @@ return new class extends Migration
 
             $table->integer('hotel_id')->unsigned()->index();
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade')->onUpdate('cascade');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

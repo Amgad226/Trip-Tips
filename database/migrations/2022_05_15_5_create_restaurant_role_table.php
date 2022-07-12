@@ -24,7 +24,9 @@ return new class extends Migration
             $table->foreign('user_id')      ->references('id')->on('users')      ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('restaurant_id') ->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');
             
-            $table->timestamps();
+            // $table->timestamps();
+            $table->timestamp('time')->useCurrent = true;
+
         });
     }
 

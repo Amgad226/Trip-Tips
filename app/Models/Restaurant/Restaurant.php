@@ -12,6 +12,7 @@ class Restaurant extends Authenticatable
 {
 
     protected $table = 'restaurants';
+    public $timestamps = false;
 
 
     protected $fillable = [

@@ -13,6 +13,7 @@ class AppReview extends Model
         'comment',
         'user_id',
     ];
+    public $timestamps = false;
 
     public function  users()
     {

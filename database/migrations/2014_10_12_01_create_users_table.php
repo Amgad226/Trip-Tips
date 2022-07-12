@@ -30,7 +30,11 @@ return new class extends Migration
             
             $table->integer('role_person_id')->default(1)->unsigned()->index();
             $table->foreign('role_person_id')->references('id')->on('roles_person')->onDelete('cascade')->onUpdate('cascade');
-            $table->timestamps();
+            
+            // $table->timestamps();
+
+            $table->timestamp('time')->useCurrent = true;
+
 
         });
     }

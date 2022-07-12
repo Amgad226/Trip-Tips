@@ -27,7 +27,9 @@ return new class extends Migration
             // $table->integer('tourist_supervisor_id')->unsigned()->index();
             // $table->foreign('tourist_supervisor_id')->references('id')->on('tourist_supervisors')->onDelete('cascade')->onUpdate('cascade');
             
-            $table->timestamps();
+            // $table->timestamps();
+            $table->timestamp('time')->useCurrent = true;
+
             
         });
     }

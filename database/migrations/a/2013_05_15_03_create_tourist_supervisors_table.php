@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('tourist_supervisors', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->timestamps();
+            // $table->timestamps();
+            $table->timestamp('time')->useCurrent = true;
+
         });
     }
 

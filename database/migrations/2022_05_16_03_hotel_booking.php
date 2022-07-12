@@ -17,14 +17,18 @@ return new class extends Migration
             $table->increments('id');
             $table->integer('hotel_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
+            $table->integer('number_of_people');
+            $table->integer('number_of_room');
+            $table->integer('price');
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
 
-            $table->integer('booking_days')     ->nullable();
-            $table->integer('number_of_people') ->nullable();
-            $table->integer('price')            ->nullable();
             // $table->integer('img_qr')           ->nullable();
             // $table->integer('id_your_chois')    ->nullable();
 
-            $table->timestamps();
+            $table->timestamp('time')->useCurrent = true;
+
+
 
             $table->foreign('user_id' )->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade')->onUpdate('cascade');

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PackageComment extends Model
 {
     protected $table = 'comment_packages';
+    public $timestamps = false;
 
     protected $fillable = [
         'comment',

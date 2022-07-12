@@ -9,5 +9,6 @@ class Wallet extends Model
 {
     use HasFactory;
     protected $table = 'wallets';
+    public $timestamps = false;
     
 }

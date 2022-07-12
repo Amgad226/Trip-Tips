@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class HotelComment extends Model
 {
     protected $table = 'restaurant_comments';
+    public $timestamps = false;
+
 
     protected $fillable = [
         'comment',

@@ -16,6 +16,7 @@ class Airplane extends Authenticatable
 
 
     protected $table = 'airplanes';
+    public $timestamps = false;
 
     protected $fillable = [
         'name',

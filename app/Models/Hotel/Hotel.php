@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
     class Hotel extends Authenticatable
     {
         use HasApiTokens, HasFactory, Notifiable;
+        public $timestamps = false;
 
     protected $table = 'hotels';
 

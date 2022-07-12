@@ -202,18 +202,57 @@ class HotelController extends Controller
 
     public function add_Hotel_Booking(Request $request)
     {
-         $data = [
-            
-             'hotel_id'             => $request->hotel_id,
-             'user_id'             => $request->user_id,
-            ];
-         $BookingHotel = HotelBooking::create($data);
-     
-         return response()->json([
-             'status' => '1',
-             'message' => 'Booking Hotel added successfully',
-             'item'=>$BookingHotel,
-         ]);     
+      //    dd($request->a);
+        $validator = Validator::make($request-> all(),[
+            'number_of_people'=> 'required',
+            'hotel_id'   => 'required',
+            'price'           => 'required',
+            'start_date'    => 'required|date',
+            'end_date'    => 'required|date',
+        ]);
+
+            if ($validator->fails())
+            {
+                // return response()->json(['message'      => $validator->errors()],400);
+                $errors = [];
+                foreach ($validator->errors()->messages() as $key => $value) {
+                    $key = 'message';
+                    $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+                }
+       
+                return response()->json( $errors,400);
+            }
+            $start_time = \Carbon\Carbon::parse($request->input('start_date'));
+            $finish_time = \Carbon\Carbon::parse($request->input('end_date'));
+            $result = $start_time->diffInDays($finish_time, false);
+  
+            $price=$request->price;
+            $room=$request->number_of_room;
+            $price=$price*$room*$result;
+
+        $data = [
+            'hotel_id'        => $request->hotel_id,
+            'user_id'         => Auth::id(),
+            'number_of_people'=>$request->number_of_people,
+            'number_of_room'  =>$request->number_of_room,
+            'price'           =>$price,
+            'start_date'      =>$request->a,
+            'end_date'        =>$request->end_date,
+           ];
+        $BookingHotel = HotelBooking::create($data);
+            $BookingHotel->start_date=$request->start_date;
+            $BookingHotel->save();
+        // return($BookingHotel);
+        return response()->json([
+            'status' => '1',
+            'message' => 'BookingHotel added successfully ,go to your profile to get image Qr code ',
+            'info'=>$BookingHotel,
+        ]);      
+  
+ 
+
+    
+
     }
 
 }

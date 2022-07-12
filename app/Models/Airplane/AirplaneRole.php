@@ -12,6 +12,7 @@ class AirplaneRole extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public $timestamps = false;
 
 
     protected $table = 'airplane_role';

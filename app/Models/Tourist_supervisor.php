@@ -13,6 +13,7 @@ class Tourist_supervisor extends Model
     protected $fillable = [
         'name',
     ];
+    public $timestamps = false;
 
     public function  booking_your_choices()
     {

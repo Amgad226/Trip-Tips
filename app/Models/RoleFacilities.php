@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class RoleFacilities extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     protected $table = 'roles_facilities';
 

@@ -12,6 +12,7 @@ class AirplaneFavorite extends Model
 
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'airplane_favorites';
+    public $timestamps = false;
 
     protected $fillable = [
         'date_airplane_fav',

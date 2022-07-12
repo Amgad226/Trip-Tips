@@ -9,6 +9,7 @@ class WalletPayment extends Model
 {
     protected $table = 'payments_wallets';
 
+    public $timestamps = false;
     protected $fillable = [
         'payment',
         'wallet_id',

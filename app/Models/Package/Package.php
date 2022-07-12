@@ -19,6 +19,7 @@ class Package extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'packages';
+    public $timestamps = false;
 
     protected $fillable = [
         'name',

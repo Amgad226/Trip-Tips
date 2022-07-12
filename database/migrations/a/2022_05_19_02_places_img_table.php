@@ -20,7 +20,9 @@ return new class extends Migration
             $table->string('img') ->nullable();
             
             $table->foreign('places_id')->references('id')->on('places')->onDelete('cascade')->onUpdate('cascade');
-            $table->timestamps();
+            $table->timestamp('time')->useCurrent = true;
+            // $table->timestamps();
+            
         });
     }
 

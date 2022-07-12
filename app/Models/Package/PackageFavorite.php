@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PackageFavorite extends Model
 {
     protected $table = 'package_favorites';
+    public $timestamps = false;
 
     protected $fillable =[
         'date_pack_fav',

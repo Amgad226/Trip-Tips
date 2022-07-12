@@ -18,7 +18,9 @@ return new class extends Migration
             $table->text('img_qr');
             // $table->foreignId('tourist_supervisor_id')->constrained('tourist_supervisors')->cascadeOnDelete();
 
-            $table->timestamps();
+            // $table->timestamps();
+            $table->timestamp('time')->useCurrent = true;
+
         });
     }
 

@@ -12,6 +12,7 @@ class RestaurantImage extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public $timestamps = false;
 
 
     protected $table = 'resturants_images';

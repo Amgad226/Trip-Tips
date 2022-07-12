@@ -61,7 +61,7 @@ Route::post ('/ShowAllResturants',     [RestaurantController::class,  'ShowAllRe
    
 // Route::post ('/ShowResturant',         [RestaurantController::class,  'ShowResturant'    ] )->middleware(['auth:api']);
 
-Route::post ('/add_Restaurant_Booking',[RestaurantController::class,'add_Restaurant_Booking' ] );
+Route::post ('/add_Restaurant_Booking',[RestaurantController::class,'add_Restaurant_Booking' ] )->middleware(['auth:api']);
 //_____________________________________________________________________________________________________________________//
 //Hotel
 Route::post ('/addHotel',              [HotelController::class,  'addHotel'          ] )->middleware(['auth:api']);
@@ -72,7 +72,7 @@ Route::post ('/RefusHotel',            [HotelController::class,  'RefusHotel'   
 
 Route::post ('/ShowAllHotels',         [HotelController::class,  'ShowAllHotels'     ] )->middleware(['auth:api']);
 
-Route::post ('/add_Hotel_Booking',     [HotelController::class,  'add_Hotel_Booking' ] );
+Route::post ('/add_Hotel_Booking',     [HotelController::class,  'add_Hotel_Booking' ] )->middleware(['auth:api']);
 
 //_____________________________________________________________________________________________________________________//
 //Airplane
@@ -88,6 +88,7 @@ Route::post ('/add_Airplane_Booking',  [AirplaneController::class,  'add_Airplan
 //_____________________________________________________________________________________________________________________//
 //Package
 Route::post ('/addPackage',            [PackageController::class,  'addPackage'             ] )->middleware(['auth:api'])->middleware('admin');
+
 Route::post ('/addFaciliticsToPackage',[PackageController::class,  'addFaciliticsToPackage' ] )->middleware(['auth:api'])->middleware('admin');
 
 Route::get  ('/get_Packages',          [PackageController::class,  'get_Packages'    ] );

@@ -20,7 +20,8 @@ return new class extends Migration
         
             $table->integer('number_of_people') ->nullable()    ;
             
-            $table->timestamps();
+            // $table->timestamps();
+            $table->timestamp('time')->useCurrent = true;
             
             // $table->integer('img_qr')           ->nullable()    ;
 

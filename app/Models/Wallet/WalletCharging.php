@@ -9,6 +9,7 @@ class WalletCharging extends Model
 {
 
     protected $table = 'charging_wallets';
+    public $timestamps = false;
 
     protected $fillable = [
         'charging_value',

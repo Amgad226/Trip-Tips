@@ -14,6 +14,7 @@ class BookingYourChoice extends Model
         'tourist_supervisor_id',
 
     ];
+    public $timestamps = false;
 
     public function  tourist_supervisors()
     {

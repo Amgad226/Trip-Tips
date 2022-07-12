@@ -19,7 +19,9 @@ return new class extends Migration
             $table->integer('wallet_id')->unsigned()->index();
             $table->foreign('wallet_id')->references('id')->on('wallets')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->timestamps();
+            // $table->timestamps();
+            $table->timestamp('time')->useCurrent = true;
+
         });
     }
 

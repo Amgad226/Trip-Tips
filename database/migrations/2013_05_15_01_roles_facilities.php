@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('roles_facilities', function (Blueprint $table) {
             $table->increments('id');
             $table->string('role_name');//manager-supervisor
-            $table->timestamps();
+            // $table->timestamps();
            
         });
     }
