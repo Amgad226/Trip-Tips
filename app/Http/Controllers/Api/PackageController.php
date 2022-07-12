@@ -42,7 +42,7 @@ class PackageController extends Controller
             'description'        => 'required',
             'max_reservation'    => 'required|integer',
             'discount_percentage'=> 'required|integer',
-            'img'                => 'required',
+            // 'img'                => 'required',
     
         ]);
         if ($validator->fails())
@@ -180,7 +180,7 @@ class PackageController extends Controller
         foreach($Packages as $Package)
         {
             foreach ($Package->PackageRestaurant as $PackageRestaurant ){
-                $restaurants[]=( Restaurant::where('id', $PackageRestaurant->restaurant_id)->get());
+                $restaurants[]=( Restaurant::with('images')->where('id', $PackageRestaurant->restaurant_id)->get());
             }
         }
         $restaurants = array_unique($restaurants); 
@@ -189,7 +189,7 @@ class PackageController extends Controller
         foreach($Packages  as $Package)
         {
             foreach ($Package->PackageHotel as $PackageHotel ){
-                $hotels[]=( Hotel::where('id', $PackageHotel->hotel_id)->get());
+                $hotels[]=( Hotel::with('images')->where('id', $PackageHotel->hotel_id)->get());
             }
         }
         $hotels = array_unique($hotels); 
