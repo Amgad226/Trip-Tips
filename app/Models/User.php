@@ -30,7 +30,9 @@ class User extends Authenticatable
         'have_facilities',
         'wallet_id',
     ];
-    
+
+
+
     public function RestaurantRole(){
         return $this->hasMany(RestaurantRole ::class);
     }
@@ -40,7 +42,7 @@ class User extends Authenticatable
     public function AirplaneRole(){
         return $this->hasMany(AirplaneRole ::class);
     }
-   
+
 //-------------------------------------------------------------------------------------------------------
     public function roles()
     {
