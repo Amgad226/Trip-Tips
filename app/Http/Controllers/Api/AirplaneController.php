@@ -157,6 +157,13 @@ class AirplaneController extends Controller
    
     }
 
+    public function Show_Not_Active_Airplanes(){
+
+        $airplane_acceptable = Airplane::with('classes')->where('acceptable',0)->get();
+ 
+         return response()->json(['message'=>' successfuly','airplane'=>$airplane_acceptable,'status'=>1],200);
+   
+    }
     public function add_Airplane_Booking(Request $request){
        
       

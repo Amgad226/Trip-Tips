@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('number_of_people');
             $table->integer('price')        ;
             $table->timestamp('booking_date');
-            $table->string('note')   ->nullable();
+            $table->text('note')   ->nullable();
             $table->boolean('by_packge')->nullable();
 
             // $table->integer('id_your_chois')    ->nullable();

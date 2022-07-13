@@ -67,15 +67,18 @@ Route::post ('/Show_Not_Active_Resturants',[RestaurantController::class,  'Show_
 Route::post ('/add_Restaurant_Booking',[RestaurantController::class,'add_Restaurant_Booking' ] )->middleware(['auth:api']);
 //_____________________________________________________________________________________________________________________//
 //Hotel
-Route::post ('/addHotel',              [HotelController::class,  'addHotel'          ] )->middleware(['auth:api']);
+Route::post ('/addHotel',              [HotelController::class,  'addHotel'              ] )->middleware(['auth:api']);
 
-Route::post ('/AcceptHotel',           [HotelController::class,  'AcceptHotel'       ] )->middleware(['auth:api'])->middleware('admin');
+Route::post ('/AcceptHotel',           [HotelController::class,  'AcceptHotel'           ] )->middleware(['auth:api'])->middleware('admin');
 
-Route::post ('/RefusHotel',            [HotelController::class,  'RefusHotel'        ] )->middleware(['auth:api'])->middleware('admin');
+Route::post ('/RefusHotel',            [HotelController::class,  'RefusHotel'            ] )->middleware(['auth:api'])->middleware('admin');
 
-Route::post ('/ShowAllHotels',         [HotelController::class,  'ShowAllHotels'     ] )->middleware(['auth:api']);
+Route::post ('/ShowAllHotels',         [HotelController::class,  'ShowAllHotels'         ] )->middleware(['auth:api']);
 
-Route::post ('/add_Hotel_Booking',     [HotelController::class,  'add_Hotel_Booking' ] )->middleware(['auth:api']);
+Route::post ('/Show_Not_Active_Hotels',[HotelController::class,  'Show_Not_Active_Hotels'] )->middleware(['auth:api'])->middleware('admin');
+
+Route::post ('/add_Hotel_Booking',     [HotelController::class,  'add_Hotel_Booking'     ] )->middleware(['auth:api']);
+// 
 
 //_____________________________________________________________________________________________________________________//
 //Airplane
@@ -86,6 +89,8 @@ Route::post ('/AcceptAirplane',        [AirplaneController::class,  'AcceptAirpl
 Route::post ('/RefusAirplane',         [AirplaneController::class,  'RefusAirplane'          ] )->middleware(['auth:api'])->middleware('admin');
 
 Route::post ('/ShowAllAirplane',       [AirplaneController::class,  'ShowAllAirplane'        ] )->middleware(['auth:api']);
+
+Route::post ('/Show_Not_Active_Airplanes',[AirplaneController::class,  'Show_Not_Active_Airplanes'] )->middleware(['auth:api'])->middleware('admin');
 
 Route::post ('/add_Airplane_Booking',  [AirplaneController::class,  'add_Airplane_Booking'   ] )->middleware(['auth:api']);
 //_____________________________________________________________________________________________________________________//

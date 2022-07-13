@@ -42,6 +42,7 @@ class PackageController extends Controller
             'description'        => 'required',
             'max_reservation'    => 'required|integer',
             'discount_percentage'=> 'required|integer',
+            'date'=>'required',
             // 'img'                => 'required',
     
         ]);
@@ -80,8 +81,9 @@ class PackageController extends Controller
                 'max_reservation'     => $request->max_reservation,
                 'description'         => $request->description,
                 'discount_percentage' => $request->discount_percentage,
-                'added_by'            => Auth::id(),
+                'added_by'            => Auth::user()->name,
                 'img'                 => $image_path,
+                'date'                =>$request->date,
                ];
          $Package = Package::create($data);
      

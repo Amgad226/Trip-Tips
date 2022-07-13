@@ -20,9 +20,10 @@ return new class extends Migration
             $table->integer('number_of_reservation')->default(0);
             $table->string('img');
             $table->string('description');
-            $table->integer('added_by');
+            $table->string('added_by');
             $table->integer('max_reservation');
             $table->integer('discount_percentage');
+            $table->dateTime('date');
 
             // $table->integer('tourist_supervisor_id')->unsigned()->index();
             // $table->foreign('tourist_supervisor_id')->references('id')->on('tourist_supervisors')->onDelete('cascade')->onUpdate('cascade');

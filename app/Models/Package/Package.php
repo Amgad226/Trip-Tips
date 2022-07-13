@@ -33,6 +33,7 @@ class Package extends Authenticatable
         'price',
         'discount_percentage',
         'tourist_supervisor_id',
+        'date',
         
         'added_by',//
     ];

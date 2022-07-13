@@ -21,7 +21,7 @@ return new class extends Migration
 
             $table->string('from');
             $table->string('to');
-            $table->string('note')->nullable();
+            $table->text('note')->nullable();
             $table->integer('number_of_people');
             $table->integer('price');
             $table->timestamp('date');
