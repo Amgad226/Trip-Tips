@@ -22,6 +22,7 @@ use App\Models\Package\Package;
 use App\Models\Package\PackageAirplane;
 use App\Models\Package\PackageBooking;
 use App\Models\Package\PackageHotel;
+use App\Models\Package\PackagePlace;
 use App\Models\Package\PackageRestaurant;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -195,6 +196,23 @@ class PackageController extends Controller
 
                     ]);
                     $airplanes_price= $airplanes_price + $price_airplane;      
+                }
+        }
+        if($request->place_id!=null && $request->place_booking!=null){
+            $place_id= $request->place_id;
+            $a=(count($place_id));
+            $place_booking= $request->place_booking;
+            // dd(count($place_booking),count($place_id));
+            // if(1==2){
+            if(count($place_booking)!=count($place_id))
+                return response()->json(['message'=>'you should enter booking date to all palaces','status'=>0,]);
+
+                for ($i=0 ; $i<$a;$i++)
+                {
+                    // dd($package_id);
+                    PackagePlace::create(['place_id'=>$place_id[$i] ,'package_id'=>$package_id,'place_booking'=>$place_booking[$i]]);
+
+                    $rest=Package::where('id',$place_id)->first();
                 }
         }
        

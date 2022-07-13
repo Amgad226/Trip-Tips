@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Airplane\AirplaneRole;
 use App\Models\Hotel\HotelRole;
+use App\Models\Place\PlaceRole;
 use App\Models\Restaurant\RestaurantRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -39,6 +40,9 @@ class User extends Authenticatable
     }
     public function AirplaneRole(){
         return $this->hasMany(AirplaneRole ::class);
+    }
+    public function PlaceRole(){
+        return $this->hasMany(PlaceRole ::class);
     }
    
 //-------------------------------------------------------------------------------------------------------

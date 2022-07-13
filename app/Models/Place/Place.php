@@ -6,24 +6,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Place extends Model
-{  use HasApiTokens, HasFactory, Notifiable;
+{  use  HasFactory;
     protected $table = 'places';
     public $timestamps = false;
 
     protected $fillable = [
-        'name_en',
-        'name_ar',
+        'name',
         'location',
-        'img',
-        'category_id',
+        'Payment',
+        'support_email',
+        'img_title_deed',
+        'description',
+        'acceptable',
+        'user_id',
     ];
 
-    public function  packages()
+    public function  image()
     {
-        return $this->hasMany(Package::class,'place_id');
+        return $this->hasMany(PlaceImage::class);
     }
 
-    public function categories(){
-        return $this->belongsTo(Category::class);
-    }
+    // public function categories(){
+    //     return $this->belongsTo(Category::class);
+    // }
 }

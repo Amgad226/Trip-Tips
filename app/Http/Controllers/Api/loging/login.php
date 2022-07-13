@@ -103,7 +103,7 @@ class login extends Controller
         if(Auth::attempt(['email' =>$request->email, 'password' => $request->password]))
            {
           
-            $user =User::with('RestaurantRole','HotelRole','AirplaneRole')->where('email',$request->email)->first(); 
+            $user =User::with('RestaurantRole','HotelRole','AirplaneRole','PlaceRole')->where('email',$request->email)->first(); 
 
         
             $token = $user->createToken('a')->accessToken;

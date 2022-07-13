@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\loging\ForgetAndRestPass;
 use App\Http\Controllers\Api\loging\SocialiteLog;
 use App\Http\Controllers\Api\loging\VerifyEmailController;
 use App\Http\Controllers\Api\PackageController;
+use App\Http\Controllers\Api\PlaceController;
 use App\Http\Controllers\Api\RestaurantController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -94,6 +95,19 @@ Route::post ('/Show_Not_Active_Airplanes',[AirplaneController::class,  'Show_Not
 
 Route::post ('/add_Airplane_Booking',  [AirplaneController::class,  'add_Airplane_Booking'   ] )->middleware(['auth:api']);
 //_____________________________________________________________________________________________________________________//
+//Place
+Route::post ('/addPlace',           [PlaceController::class,  'addPlace'            ] )->middleware(['auth:api']);
+
+Route::post ('/AcceptPlace',        [PlaceController::class,  'AcceptPlace'         ] )->middleware(['auth:api'])->middleware('admin');
+
+Route::post ('/RefusPlace',        [PlaceController::class,  'RefusPlace'         ] )->middleware(['auth:api'])->middleware('admin');
+
+Route::post ('/ShowAllPlaces',       [PlaceController::class,  'ShowAllPlaces'        ] )->middleware(['auth:api']);
+
+Route::post ('/Show_Not_Active_Places',[PlaceController::class,  'Show_Not_Active_Places'] )->middleware(['auth:api'])->middleware('admin');
+
+//_____________________________________________________________________________________________________________________//
+
 //Package
 Route::post ('/addPackage',            [PackageController::class,  'addPackage'             ] )->middleware(['auth:api'])->middleware('admin');
 

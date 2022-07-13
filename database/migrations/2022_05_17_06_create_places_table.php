@@ -15,12 +15,19 @@ return new class extends Migration
     {
         Schema::create('places', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name') ->nullable() ;
-            $table->string('location') ->nullable() ;
-            $table->text('img') ->nullable() ;//images,email,category
-            // $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
 
-            // $table->timestamps();
+            $table->string('name') ;
+            $table->string('location');
+            $table->integer('Payment');
+            $table->string('support_email');
+            $table->string('img_title_deed');
+            $table->string('description') ;
+
+            $table->boolean('acceptable')->default(0);
+            
+            $table->integer('user_id')->unsigned()->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+
             $table->timestamp('time')->useCurrent = true;
 
         });

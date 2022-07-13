@@ -14,12 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('places_img', function (Blueprint $table) {
+          
             $table->increments('id');
-            $table->integer('places_id')->unsigned()->index();
-        
-            $table->string('img') ->nullable();
-            
-            $table->foreign('places_id')->references('id')->on('places')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('img');
+
+            $table->integer('place_id')->unsigned()->index();
+            $table->foreign('place_id')->references('id')->on('places')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('time')->useCurrent = true;
             // $table->timestamps();
             

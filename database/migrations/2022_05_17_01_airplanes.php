@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('airplanes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name') ;
-            $table->string('location')         ;
-            $table->integer('Payment')         ;
-            $table->string('support_email')    ;
-            $table->string('img_title_deed')       ;
+            $table->string('location');
+            $table->integer('Payment');
+            $table->string('support_email');
+            $table->string('img_title_deed');
             $table->string('description') ;
 
             $table->boolean('acceptable')->default(0);
