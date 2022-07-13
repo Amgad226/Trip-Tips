@@ -3,6 +3,7 @@
 namespace App\Models\Package;
 
 use App\Models\Airplane\Airplane;
+use App\Models\Airplane\AirplaneClass;
 use App\Models\Hotel\Hotel;
 use App\Models\Hotel\HotelClass;
 use App\Models\Hotel\HotelImages;
@@ -27,11 +28,16 @@ class   PackageAirplane extends Authenticatable
         'class_airplane_id',
         'airplane_booking_date',
         'by_packge',
+        'from',
+        'to',
     ];
 
 
     
-  
+    public function class()
+    {
+        return $this->belongsTo(AirplaneClass::class ,'class_airplane_id');
+    }
     
     public function airplane()
     {
@@ -40,7 +46,7 @@ class   PackageAirplane extends Authenticatable
 
     public function package()
     {
-        return $this->belongsToMany(Package::class,'package_id' );
+        return $this->belongsTo(Package::class,'package_id' );
     }
 
   

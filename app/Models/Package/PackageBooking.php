@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class   PackageBooking extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    
     protected $table = 'package_booking';
     public $timestamps = false;
 

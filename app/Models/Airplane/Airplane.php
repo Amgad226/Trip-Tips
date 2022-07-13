@@ -40,7 +40,7 @@ class Airplane extends Authenticatable
    
     public function bookingAirplane()
     {
-        return $this->hasMany(BookingAirplane::class );
+        return $this->hasMany(AirplaneBooking::class );
     }
 
 }

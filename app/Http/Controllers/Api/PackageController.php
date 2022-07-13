@@ -166,16 +166,28 @@ class PackageController extends Controller
         {
             $airplanes_classes_id= $request->airplane_class_id;
             $airplanes_booking_date= $request->airplane_booking_date;
+            $from= $request->from;
+            $to= $request->to;
             
-            if(count($airplanes_booking_date)!=count($restaurants_id))
+            if(count($airplanes_booking_date)!=count($airplanes_classes_id)&&count($from)!=count($to)&&count($from)!=count($restaurants_id))
                 return response()->json(['message'=>'you should enter booking date to all airplanes']);
 
                 for ($i=0 ; $i<count($airplanes_classes_id);$i++)
                 {
+                    // dd('s');
                     $airplane_class=AirplaneClass::where('id',$airplanes_classes_id[$i])->first();
                     $price_airplane=$airplane_class->money;
                     $airplane_id=$airplane_class->airplane->id;
-                    PackageAirplane::create(['airplane_id'=>$airplane_id ,'class_airplane_id'=>$airplanes_classes_id[$i],'package_id'=>$package_id , 'airplane_booking_date'=>$airplanes_booking_date[$i]]);
+                    PackageAirplane::create(
+                        [
+                        'airplane_id'          =>$airplane_id ,
+                        'class_airplane_id'    =>$airplanes_classes_id[$i],
+                        'package_id'           =>$package_id , 
+                        'airplane_booking_date'=>$airplanes_booking_date[$i],
+                        'from'                  =>$from[$i],
+                        'to'                    =>$to[$i],
+
+                    ]);
                     $airplanes_price= $airplanes_price + $price_airplane;      
                 }
         }
@@ -233,7 +245,7 @@ class PackageController extends Controller
            
             'package_id'      => 'required',
             'number_of_people'=> 'required',
-            'price'           => 'required',
+            // 'price'           => 'required',
         ]);
         if ($validator->fails())
         {
@@ -247,7 +259,7 @@ class PackageController extends Controller
             return response()->json( $errors,400);
         }
         $package_id=$request->package_id;
-        $price=$request->price* $request->number_of_people;
+        // $price=$request->price* $request->number_of_people;
         /*
 
         billing
@@ -259,16 +271,13 @@ class PackageController extends Controller
              'user_id'         => Auth::id(),
              'number_of_people'=> $request->number_of_people,
             ];
-        //  $Package = Package::create(number_of_reservation);
             
         $BookingPackage = PackageBooking::create($data);
         
-        // $Booking = PackageBooking::with('package')->where('id',$package_id)->first();
-        // return($Booking->package->PackageRestaurant);
-        // dd($Booking);
+     
             foreach($BookingPackage->package->PackageRestaurant as $a)
             {
-
+                
                 // echo $a->restaurant_id."\n" ;
                 // echo "\n" ;
                 // echo "restaurant_id ".$a->restaurant_id."\n" ;
@@ -281,7 +290,6 @@ class PackageController extends Controller
                 $number_of_people=$request->number_of_people;
                 $price_booking=$a->restaurant->price_booking;
                 $booking_date=$a->restaurant_booking_date;
-
 
                 $data = [
                     'restaurant_id'      => $resturant_id,
@@ -298,55 +306,81 @@ class PackageController extends Controller
             foreach($BookingPackage->package->PackageHotel as $a)
             {
 
-                echo $a->hotel_id."\n" ;
-                echo "\n" ;
-                echo "hotel_id ".$a->hotel_id."\n" ;
-                echo "user_id ".Auth::id()."\n";
-                echo "number_of_people ".$request->number_of_people."\n" ;
-                echo "price_booking ".$a->class->money."\n" ;
-                echo "number_of_people in class ".$a->class->number_of_people."\n" ;
-                echo "stert date ".$a->hotel_booking_start_date."\n" ;
-                echo "end date ".$a->hotel_booking_end_date."\n" ;
-                echo "user_id ".Auth::id()."\n";
-                if($request->number_of_people<$a->class->number_of_people)
-                {
-                echo "number of room  1 "."\n";
-
-                }
-                echo "number of room  other "."\n";
+                // echo $a->hotel_id."\n" ;
+                // echo "\n" ;
+                // echo "hotel_id ".$a->hotel_id."\n" ;
+                // echo "user_id ".Auth::id()."\n";
+                // echo "number_of_people ".$request->number_of_people."\n" ;
+                // echo "price_booking ".$a->class->money."\n" ;
+                // echo "number_of_people in class ".$a->class->number_of_people."\n" ;
+                // echo "stert date ".$a->hotel_booking_start_date."\n" ;
+                // echo "end date ".$a->hotel_booking_end_date."\n" ;
+                // echo "user_id ".Auth::id()."\n";
 
                 $hotel_id=$a->hotel_id;
                 $number_of_people=$request->number_of_people;
-                $price_booking=$a->class->money;
-                $booking_date=$a->hotel_booking_date;
-
+                $people_in_class=$a->class->number_of_people;
+                $price=$a->class->money;
+                $start_date=$a->hotel_booking_start_date;
+                $end_date=$a->hotel_booking_end_date;
+                $room=ceil($number_of_people/$people_in_class);
+                // echo 'room '.($room) ."\n";
+         
                 $data = [
-                    'hotel_id'      => $hotel_id,
-                    'user_id'            => Auth::id(),
-                    'number_of_people'   =>$number_of_people,
-                    'price'              =>$price_booking,
-                    'booking_date'       =>$booking_date,
-                    'note'               =>null,
-                    'by_packge'          =>1,
-                   ]; 
-                    // HotelBooking::create($data);
+                    'hotel_id'        => $hotel_id,
+                    'user_id'         => Auth::id(),
+                    'number_of_people'=>$number_of_people,
+                    'number_of_room'  =>$room,
+                    'price'           =>$price,
+                    'start_date'      =>$start_date,
+                    'end_date'        =>$end_date,
+                    'note'            =>null,
+                    'by_packge'       =>1,
+                   ];
+                    HotelBooking::create($data);
 
             }
-return;
-      
-        
-            // dd()
-            // $Book_in_restaurant::cerate()
-            // dd($Booking->package->airplane->name_en);
-            // dd($Booking->package->restaurant->id);
 
-         //  dd($BookingPackage);
-        //  dd($BookingPackage->package->name_EN); 
-         $airplane = new Airplane;
+            foreach($BookingPackage->package->PackageAirplane as $a)
+            {
+                // echo $a->airplane_id."\n" ;
+                // echo "\n" ;
+                // echo "airplane_id ".$a->airplane_id."\n" ;
+                // echo "user_id ".Auth::id()."\n";
+                // echo "price  ".$a->class->money."\n" ;
+                // echo "number_of_people ".$request->number_of_people."\n" ;
+                // echo "airplane_booking_date	 ".$a->airplane_booking_date."\n" ;
+                // echo "from ".$a->to."\n" ;
+                // echo "user_id ".Auth::id()."\n";
+            
+                $airplane_id     =$a->airplane_id;
+                $from            =$a->from;
+                $to              =$a->to;
+                $date            =$a->airplane_booking_date;
+                $price_booking   =$a->class->money;
+                $number_of_people=$request->number_of_people;
+            
+                $data = [
+                    'airplane_id'     => $airplane_id,
+                    'user_id'         => Auth::id(),
+                    'from'            => $from,
+                    'to'              => $to,
+                    'number_of_people'=>$number_of_people,
+                    'price'           => $price_booking,
+                    'date'            =>$date,
+                    'by_packge'       =>1,
+                    'note'            =>null,
+                   ];
+                    AirplaneBooking::create($data);  
+            }
+
+            $Booking = PackageBooking::where('id',$package_id)->first();
+
          return response()->json([
              'status' => '1',
              'message' => 'Booking Package  added successfully',
-             'item'=>$BookingPackage,
+             'booking_info'=>$BookingPackage,
+            //  'booking_info'=>$Booking, //without info 
          ]);     
     }
 }

@@ -20,6 +20,8 @@ return new class extends Migration
 
             $table->integer('package_id')->unsigned()->index();
             $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('from');
+            $table->string('to');
             
 
                        

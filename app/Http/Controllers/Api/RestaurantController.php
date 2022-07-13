@@ -48,9 +48,12 @@ class RestaurantController extends Controller
        
                 return response()->json( $errors,400);
             }
-            // dd($request->img);
-            if ($request->img[0]==null){
-                return response()->json(['message' => 'ayham hammami 7maar  ' ]);   
+            // dd();
+            if(!$request->hasFile('img'))
+            {     return response()->json(['message' => 'The img  field is required' ]);   
+            }
+            if($request->img[0]==null)
+            {     return response()->json(['message' => 'The img222  field is required' ]);   
             }
 
             $extension='.'.$request->img_title_deed->getclientoriginalextension();
@@ -65,12 +68,12 @@ class RestaurantController extends Controller
             $uniqid='('.uniqid().')';   
             $destination_path = 'public/images/restaurant/'.$Restuarant_Name."/title_deed";   
             //store with resize
-            // $image=$request->file('img_title_deed') ; 
-            // $image_resize = Image::make($image->getRealPath());              
-            // $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
-            // $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name.'/title_deed/'.$Restuarant_Name.$extension ));
+            $image=$request->file('img_title_deed') ; 
+            $image_resize = Image::make($image->getRealPath());              
+            $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
+            $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name.'/title_deed/'.$Restuarant_Name.$extension ));
             //store without resize 
-            $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Restuarant_Name.$extension);  
+            // $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Restuarant_Name.$extension);  
 
             $image_title_deed_path = "/storage/images/restaurant/".$Restuarant_Name.'/title_deed/'. $Restuarant_Name.$extension;        
          
@@ -93,10 +96,10 @@ class RestaurantController extends Controller
          DB::table('users')->where('id',Auth::id())->update(['have_facilities' =>1]);
 
          
-         if($request->hasFile('img'))
-         {   
+          
             $images_restaurant=$request->img;
             $i=1;
+            // return($request->img);
             foreach($images_restaurant as $image_restaurant) 
             {   
                 // dd($image_restaurant);
@@ -115,7 +118,8 @@ class RestaurantController extends Controller
 
                 //store with resize
                 $image=$image_restaurant ; 
-                $image_resize = Image::make($image->getRealPath());              
+                $image_resize = Image::make($image->getRealPath());      
+                // dd($image_resize);        
                 $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
                 $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name ."/". $i."_".$Restuarant_Name.$extension ));
 
@@ -127,7 +131,7 @@ class RestaurantController extends Controller
                 RestaurantImage::create($image_data);
                  $i++;
                 
-            }
+            
         }
       
        
