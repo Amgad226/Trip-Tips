@@ -17,7 +17,15 @@ class AirplaneBooking extends Authenticatable
     protected $fillable = [
         'airplane_id',
         'user_id',
-        'password',
+        'from',
+        'to',
+        'date',
+        'number_of_people',
+        'price',
+        'booking_date',
+        'note',
+        'by_packge',
+
     ];
 
 
@@ -26,8 +34,5 @@ class AirplaneBooking extends Authenticatable
     }
     
  /*___________________________________________________________________________________________________________________________________*/
-    public function offer()
-    {
-        return $this->hasone(Offer::class );
-    }
+  
 }        

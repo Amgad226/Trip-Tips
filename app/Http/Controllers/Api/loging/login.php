@@ -121,6 +121,24 @@ class login extends Controller
                 'message' => 'Wrong email or password'], 400);
         }
     }
+
+    public function token(Request $request){ 
+        if(Auth::attempt(['email' =>$request->email, 'password' => $request->password]))
+           {
+          
+            $user =User::where('email',$request->email)->first(); 
+
+        
+            $token = $user->createToken('a')->accessToken;
+
+            return( response($token));
+        }
+
+        else {
+            return response()->json([
+                'message' => 'Wrong email or password'], 400);
+        }
+    }
     // _________________________________________________________________________________
     public function logout(Request $request) 
     {       

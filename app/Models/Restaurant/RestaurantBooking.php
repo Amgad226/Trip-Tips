@@ -21,5 +21,8 @@ class RestaurantBooking extends Authenticatable
         'number_of_people',
         'price',
         'booking_date',
+        'note',
+        'by_packge',
+
     ];
 }

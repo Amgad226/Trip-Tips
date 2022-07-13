@@ -27,6 +27,8 @@ class AirplaneController extends Controller
             'location'      => 'required',
             'support_email' => 'required|email',
             'img_title_deed'=> 'required',
+            'description'   => 'required',
+
             ]);
 
             if ($validator->fails())
@@ -52,12 +54,12 @@ class AirplaneController extends Controller
             $uniqid='('.uniqid().')';   
             $destination_path = 'public/images/airplane/'.$Airplane_Name."/title_deed";  
             //store with resize
-            // $image=$request->file('img_title_deed') ; 
-            // $image_resize = Image::make($image->getRealPath());              
-            // $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
-            // $image_resize->save(public_path("/storage/images/airplane/".$request->name.'/title_deed/'.$Airplane_Name.$extension ));
+            $image=$request->file('img_title_deed') ; 
+            $image_resize = Image::make($image->getRealPath());              
+            $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
+            $image_resize->save(public_path("/storage/images/airplane/".$request->name.'/title_deed/'.$Airplane_Name.$extension ));
             //store without resize
-            $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Airplane_Name.$extension); 
+            // $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Airplane_Name.$extension); 
 
             $image_title_deed_path = "/storage/images/airplane/".$request->name.'/title_deed/'.$Airplane_Name.$extension;
 
@@ -69,6 +71,7 @@ class AirplaneController extends Controller
             'Payment'       => config('global.Payment_airplane'),
             'support_email' => $request->support_email,
             'img_title_deed'=> $image_title_deed_path, 
+            'description'   =>$request->description,
            ];
          $airplane = Airplane::create($data);
          DB::table('users')->where('id',Auth::id())->update(['have_facilities' =>1]);
@@ -110,7 +113,7 @@ class AirplaneController extends Controller
             'link_to_web'=>'1'
         ];
         // dd();
-               //بعتنا عل ايميل الدعم رسالة نجاح تسجيل شركة الطيران بل برنامج عنا 
+               //بعتنا ع+ل ايميل الدعم رسالة نجاح تسجيل شركة الطيران بل برنامج عنا 
         Mail::to($airplene_to_accept->support_email)->send(new AcceptFacilities ($details));   
         return response()->json(['message'=>' email sent,and accept successfuly','status'=>1,'acceptable'=>$airplene_to_accept->acceptable],200);
     }
@@ -158,10 +161,14 @@ class AirplaneController extends Controller
        
       
         $validator = Validator::make($request-> all(),[
+            'airplane_id'     => 'required',
+            'from'            => 'required',
+            'to'              => 'required',
+            'date'            => 'required',
             'number_of_people'=> 'required',
-            'restaurant_id'   => 'required',
             'price'           => 'required',
-            'booking_date'    => 'required|date',
+            // 'booking_date'    => 'required|date',
+            // 'note'            => 'required',
         ]);
 
             if ($validator->fails())
@@ -175,13 +182,21 @@ class AirplaneController extends Controller
        
                 return response()->json( $errors,400);
             }
-
+           $people=$request->number_of_people;
+           $price=$request->price;
+           $price=$price*$people;
+        // dd(Auth::id());
         $data = [
-            'airplane_id'      => $request->airplane_id,
-            'user_id'            => Auth::id(),
-            'number_of_people'   =>$request->number_of_people,
-            'price'              =>$request->price,
-            'booking_date'       =>$request->booking_date,
+            'airplane_id'     => $request->airplane_id,
+            'user_id'         => Auth::id(),
+            'from'            => $request->from,
+            'to'              => $request->to,
+            'number_of_people'=>$request->number_of_people,
+            'price'           =>$price,
+            'date'            =>$request->date,
+            'note'            =>$request->note,
+            'by_packge'       =>0,
+
            ];
         $BookingAirplane = AirplaneBooking::create($data);
     

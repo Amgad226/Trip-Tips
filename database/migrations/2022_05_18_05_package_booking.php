@@ -15,12 +15,11 @@ return new class extends Migration
     {
         Schema::create('package_booking', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('package_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
-        
-            $table->integer('number_of_people') ->nullable()    ;
             
-            // $table->timestamps();
+
+            $table->integer('package_id')->unsigned()->index();
+            $table->integer('number_of_people') ->nullable();
             $table->timestamp('time')->useCurrent = true;
             
             // $table->integer('img_qr')           ->nullable()    ;

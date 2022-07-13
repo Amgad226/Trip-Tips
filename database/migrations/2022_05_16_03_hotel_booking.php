@@ -22,6 +22,8 @@ return new class extends Migration
             $table->integer('price');
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
+            $table->string('note')   ->nullable();
+            $table->boolean('by_packge')->nullable();
 
             // $table->integer('img_qr')           ->nullable();
             // $table->integer('id_your_chois')    ->nullable();

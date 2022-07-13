@@ -18,14 +18,15 @@ return new class extends Migration
             $table->integer('airplane_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
 
-            $table->integer('booking_days')     ->nullable()    ;
-            $table->string('from')              ->nullable()    ;
-            $table->string('to')                ->nullable()    ;
-            $table->time('date')                ->nullable()    ;
-            $table->integer('img_qr')           ->nullable()    ;
-            $table->integer('number_of_people') ->nullable()    ;
-            $table->integer('price')            ->nullable()    ;
+            $table->string('from')              ;
+            $table->string('to')                ;
+            $table->string('note')   ->nullable();
+            $table->integer('number_of_people') ;
+            $table->integer('price')            ;
+            $table->timestamp('date');
+            $table->boolean('by_packge')->nullable();
             
+            // $table->integer('img_qr')           ;
             // $table->integer('id_your_chois')    ->nullable()    ;
 
             $table->foreign('user_id')           ->references('id')->on('users')          ->onDelete('cascade')->onUpdate('cascade');

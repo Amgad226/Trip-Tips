@@ -23,6 +23,7 @@ class RestaurantSeeder extends Seeder
      */
     public function run()
     {
+      $description="sdf hsdfd sfhdsf dkfadn fjkasn kashd lsadhkdsfhb skdfn jkdsfnlsadnfs dnfsdn fldsnflkasndlk asnkjsdnvsjkd nfld flkadj fl;asdjfl asdhf kjsdfh kdahfkadjfh ksjdfnka sdf rejgfhjgfefb ejfe e fkjewh fewk";
         $user_id=2;
        $data=[
         'name'=>'SweetPark',
@@ -33,6 +34,7 @@ class RestaurantSeeder extends Seeder
         'support_email'=>'ayham@gmail.com',
         'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg',
         'price_booking'=>12,
+        'description'=>$description,
        ];
        User::where('id',$user_id)->update(['have_facilities'=>1]);
       $res= Restaurant::create($data);
@@ -58,6 +60,8 @@ class RestaurantSeeder extends Seeder
         'support_email'=>'Mac@gmail.com',
         'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg',
         'price_booking'=>12,
+        'description'=>$description,
+
 
        ];
        User::where('id',$user_id)->update(['have_facilities'=>1]);
@@ -82,6 +86,8 @@ class RestaurantSeeder extends Seeder
         'support_email'=>'uncel@gmail.com',
         'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg',
         'price_booking'=>12,
+        'description'=>$description,
+
 
        ];
        User::where('id',$user_id)->update(['have_facilities'=>1]);
@@ -103,7 +109,9 @@ class RestaurantSeeder extends Seeder
         'location'=>'UAE',
         'Payment'=>config('global.Payment_hotel'),
         'support_email'=>'hilton@gmail.com',
-        'img_title_deed'=>'/default_photo/hilton/title_deed/12.jpg'
+        'img_title_deed'=>'/default_photo/hilton/title_deed/12.jpg',
+        'description'=>$description,
+
        ];
       $hotel= Hotel::create($data);
 
@@ -115,8 +123,8 @@ class RestaurantSeeder extends Seeder
       HotelImages::create($image_data2);    
       HotelImages::create($image_data3);    
       HotelImages::create($image_data4); 
-      $class1=['hotel_id'=>$hotel->id,'money'=>1500,'class_name'=>'first'] ;
-      $class2=['hotel_id'=>$hotel->id,'money'=>1200,'class_name'=>'second'] ;
+      $class1=['hotel_id'=>$hotel->id,'money'=>1500,'class_name'=>'first' ,'number_of_people'=>5] ;
+      $class2=['hotel_id'=>$hotel->id,'money'=>1200,'class_name'=>'second','number_of_people'=>3] ;
       HotelClass::create($class1);
       HotelClass::create($class2);
 
@@ -130,7 +138,9 @@ class RestaurantSeeder extends Seeder
         'location'=>'UAE',
         'Payment'=>config('global.Payment_hotel'),
         'support_email'=>'meredean@gmail.com',
-        'img_title_deed'=>'/default_photo/meredean/title_deed/12.jpg'
+        'img_title_deed'=>'/default_photo/meredean/title_deed/12.jpg',
+        'description'=>$description,
+
        ];
       $hotel= Hotel::create($data);
 
@@ -142,11 +152,12 @@ class RestaurantSeeder extends Seeder
       HotelImages::create($image_data2);    
       HotelImages::create($image_data3);    
       HotelImages::create($image_data4); 
-      $class1=['hotel_id'=>$hotel->id,'money'=>8999,'class_name'=>'Gold'] ;
-      $class2=['hotel_id'=>$hotel->id,'money'=>7999,'class_name'=>'Selver'] ;
-      $class2=['hotel_id'=>$hotel->id,'money'=>6999,'class_name'=>'Pronz'] ;
+      $class1=['hotel_id'=>$hotel->id,'money'=>8999,'class_name'=>'Gold'  ,'number_of_people'=>5] ;
+      $class2=['hotel_id'=>$hotel->id,'money'=>7999,'class_name'=>'Selver','number_of_people'=>3] ;
+      $class3=['hotel_id'=>$hotel->id,'money'=>6999,'class_name'=>'Pronz' ,'number_of_people'=>2] ;
       HotelClass::create($class1);
       HotelClass::create($class2);
+      HotelClass::create($class3);
 
 
 
@@ -160,7 +171,9 @@ class RestaurantSeeder extends Seeder
         'location'=>'syria',
         'Payment'=>config('global.Payment_airplane'),
         'support_email'=>'salamo_3lekom@gmail.com',
-        'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg'
+        'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg',
+        'description'=>$description,
+
        ];
       $airplane= Airplane::create($data);
       $class1=['airplane_id'=>$airplane->id,'money'=>200,'class_name'=>'first class'] ;
@@ -178,7 +191,9 @@ class RestaurantSeeder extends Seeder
         'location'=>'syria',
         'Payment'=>config('global.Payment_airplane'),
         'support_email'=>'salamo_3lekom@gmail.com',
-        'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg'
+        'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg',
+        'description'=>$description,
+
        ];
       $airplane= Airplane::create($data);
       $class1=['airplane_id'=>$airplane->id,'money'=>300,'class_name'=>'poor'] ;

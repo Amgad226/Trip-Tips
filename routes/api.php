@@ -37,6 +37,7 @@ Route::post('/checkuer' ,            [checkuer                ::class, 'check'  
 //Loging Routes
 Route::post('/register' ,          [login                ::class, 'register'          ] );
 Route::post('/login' ,             [login                ::class, 'login'             ] );
+Route::post('/token' ,             [login                ::class, 'token'             ] );
 Route::post('/logout' ,            [login                ::class, 'logout'            ] )->middleware(['auth:api']);
     
 Route::post('/forgot' ,            [ForgetAndRestPass    ::class, 'forgot'            ] );
@@ -84,7 +85,7 @@ Route::post ('/RefusAirplane',         [AirplaneController::class,  'RefusAirpla
 
 Route::post ('/ShowAllAirplane',       [AirplaneController::class,  'ShowAllAirplane'        ] )->middleware(['auth:api']);
 
-Route::post ('/add_Airplane_Booking',  [AirplaneController::class,  'add_Airplane_Booking'   ] );
+Route::post ('/add_Airplane_Booking',  [AirplaneController::class,  'add_Airplane_Booking'   ] )->middleware(['auth:api']);
 //_____________________________________________________________________________________________________________________//
 //Package
 Route::post ('/addPackage',            [PackageController::class,  'addPackage'             ] )->middleware(['auth:api'])->middleware('admin');
@@ -93,4 +94,4 @@ Route::post ('/addFaciliticsToPackage',[PackageController::class,  'addFacilitic
 
 Route::get  ('/get_Packages',          [PackageController::class,  'get_Packages'    ] );
 
-Route::post ('/add_Package_Booking',   [PackageController::class,  'add_Package_Booking'    ] );
+Route::post ('/add_Package_Booking',   [PackageController::class,  'add_Package_Booking'    ] )->middleware(['auth:api']);

@@ -26,6 +26,8 @@ return new class extends Migration
             
             $table->foreign('class_airplane_id')->references('id')->on('airplane_classes')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('airplane_id')->references('id')->on('airplanes')->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamp("airplane_booking_date");
+
             // $table->timestamps();
             
         });

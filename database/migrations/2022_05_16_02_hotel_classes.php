@@ -17,6 +17,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('class_name');
             $table->integer('money');
+            $table->integer('number_of_people');
 
             $table->integer('hotel_id')->unsigned()->index();
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade')->onUpdate('cascade');

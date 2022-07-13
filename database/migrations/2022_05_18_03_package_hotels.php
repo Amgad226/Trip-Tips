@@ -15,18 +15,22 @@ return new class extends Migration
     {
         Schema::create('package_hotels', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('hotel_id')->unsigned()->index();
-            $table->integer('class_hotel_id')->unsigned()->index();
-
             $table->integer('package_id')->unsigned()->index();
-            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('class_hotel_id')->unsigned()->index();
+            $table->integer('hotel_id')->unsigned()->index();
             
+            $table->dateTime('hotel_booking_start_date');
+            $table->dateTime('hotel_booking_end_date');
+            // $table->timestamp('end_date');
 
-
+            // $table->timestamp('start_date');
+            // $table->timestamp('end_date')  ;
+            
+            $table->foreign('package_id')    ->references('id')->on('packages')     ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('class_hotel_id')->references('id')->on('hotel_classes')->onDelete('cascade')->onUpdate('cascade');
-            
             $table->foreign('hotel_id')      ->references('id')->on('hotels')       ->onDelete('cascade')->onUpdate('cascade');
             
+            // $table->timestamp("hotel_booking_date");
             // $table->timestamps();
         });
     }

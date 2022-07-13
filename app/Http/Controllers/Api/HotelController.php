@@ -33,7 +33,10 @@ class HotelController extends Controller
             'location'      => 'required',
             'support_email' => 'required|email',
             'img_title_deed'=> 'required',
-            'img'           => 'required',]);
+            'img'           => 'required',
+            'description'           => 'required',
+        
+        ]);
 
             if ($validator->fails())
             {
@@ -76,6 +79,7 @@ class HotelController extends Controller
             'Payment'       => config('global.Payment_hotel'),
             'support_email' => $request->support_email,
             'img_title_deed'=> $image_title_deed_path, 
+            'description'=>$request->description,
            ];
          $hotel = Hotel::create($data);
          DB::table('users')->where('id',Auth::id())->update(['have_facilities' =>1]);
@@ -238,6 +242,10 @@ class HotelController extends Controller
             'price'           =>$price,
             'start_date'      =>$request->a,
             'end_date'        =>$request->end_date,
+            'note'            =>$request->note,
+            'by_packge'       =>0,
+
+
            ];
         $BookingHotel = HotelBooking::create($data);
             $BookingHotel->start_date=$request->start_date;

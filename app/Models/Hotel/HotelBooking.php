@@ -22,5 +22,9 @@ class HotelBooking extends Authenticatable
         'price',
         'stert_date',
         'end_date',
+        'note',
+        'by_packge',
+
+
     ];
 }

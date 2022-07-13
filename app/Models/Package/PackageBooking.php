@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class PackageBooking extends Authenticatable
+class   PackageBooking extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'package_booking';
@@ -17,6 +17,9 @@ class PackageBooking extends Authenticatable
     protected $fillable = [
         'package_id',
         'user_id',
+        'number_of_people',
+        
+
     ];
 
 

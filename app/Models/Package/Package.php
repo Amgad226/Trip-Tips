@@ -37,11 +37,6 @@ class Package extends Authenticatable
         'added_by',//
     ];
 
-    
-    // public function PackageAirplane() {
-    //     return $this->hasMany(PackageAirplane::class )->airplane;
-    // }
-
     public function PackageAirplane() {
         return $this->hasMany(PackageAirplane::class );
     }

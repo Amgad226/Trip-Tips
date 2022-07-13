@@ -19,8 +19,12 @@ return new class extends Migration
             $table->integer('restaurant_id')->unsigned()->index();   
             $table->integer('package_id')->unsigned()->index();
 
-            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('restaurant_id')->references('id')->on('restaurants')         ->onDelete('cascade')->onUpdate('cascade');
+            // $table->timestamps('end_date')->nullable();
+            $table->timestamp('restaurant_booking_date');
+
+            $table->foreign('package_id')   ->references('id')->on('packages')  ->onDelete('cascade') ->onUpdate('cascade');
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');
+
             
             // $table->timestamps();
         });

@@ -26,6 +26,7 @@ class Airplane extends Authenticatable
         'img_title_deed',
         'user_id',
         'acceptable',
+        'description',
 
      
     ];

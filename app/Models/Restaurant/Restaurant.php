@@ -27,6 +27,7 @@ class Restaurant extends Authenticatable
         'acceptable',
         'price_booking',
         'Payment',
+        'description',
 
     ];
     public function catigorys(){

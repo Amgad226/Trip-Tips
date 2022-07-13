@@ -25,6 +25,8 @@ class PackageHotel extends Authenticatable
         'package_id',
         'hotel_id',
         'class_hotel_id',
+        'hotel_booking_end_date',
+        'hotel_booking_start_date',
        
     ];
 
@@ -39,6 +41,10 @@ class PackageHotel extends Authenticatable
         return $this->belongsTo(Hotel::class,'hotel_id' );
     }
 
+    public function class()
+    {
+        return $this->belongsTo(HotelClass::class,'class_hotel_id' );
+    }
     public function package()
     {
         return $this->belongsTo(Package::class,'package_id' );

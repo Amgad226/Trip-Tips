@@ -34,6 +34,7 @@ class RestaurantController extends Controller
             'img_title_deed'=> 'required',
             'img'           => 'required',
             'price_booking' => 'required',
+            'description'   => 'required',
         ]);
 
             if ($validator->fails())
@@ -59,12 +60,12 @@ class RestaurantController extends Controller
             $uniqid='('.uniqid().')';   
             $destination_path = 'public/images/restaurant/'.$Restuarant_Name."/title_deed";   
             //store with resize
-            $image=$request->file('img_title_deed') ; 
-            $image_resize = Image::make($image->getRealPath());              
-            $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
-            $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name.'/title_deed/'.$Restuarant_Name.$extension ));
+            // $image=$request->file('img_title_deed') ; 
+            // $image_resize = Image::make($image->getRealPath());              
+            // $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
+            // $image_resize->save(public_path("/storage/images/restaurant/".$Restuarant_Name.'/title_deed/'.$Restuarant_Name.$extension ));
             //store without resize 
-            // $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Restuarant_Name.$extension);  
+            $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$Restuarant_Name.$extension);  
 
             $image_title_deed_path = "/storage/images/restaurant/".$Restuarant_Name.'/title_deed/'. $Restuarant_Name.$extension;        
          
@@ -78,6 +79,8 @@ class RestaurantController extends Controller
             'Payment'       => config('global.Payment_retaurant'),
             'support_email' => $request->support_email,
             'img_title_deed'=> $image_title_deed_path, 
+            'description'   =>$request->description,
+
            ];
            
          $restaurant = Restaurant::create($data);
@@ -218,6 +221,10 @@ class RestaurantController extends Controller
             'number_of_people'   =>$request->number_of_people,
             'price'              =>$request->price,
             'booking_date'       =>$request->booking_date,
+            'note'               =>$request->note,
+            'by_packge'          =>0,
+
+
            ];
         $BookingRestaurant = RestaurantBooking::create($data);
     

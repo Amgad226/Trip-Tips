@@ -20,7 +20,9 @@ class HotelClass extends Authenticatable
     protected $fillable = [
         'hotel_id',
      'class_name',
-     'money'
+     'money',
+     'number_of_people',
+     
     ];
     public function hotel(){
         return $this->belongsTo(Hotel::class,'hotel_id');
