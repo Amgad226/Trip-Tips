@@ -18,7 +18,7 @@ class checkuser
     public function handle(Request $request, Closure $next)
     {
         if (Auth::user()->role_person_id==1)
-        return response()->json(['message'=>'you are user','status'=>0],400);
+        return response()->json(['message'=>'you are user','status'=>0],200);
         return $next($request);
     }
 }

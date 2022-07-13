@@ -11,7 +11,8 @@ class checkuer extends Controller
 {
     public function check(Request $request)
     {
-        echo "hi admin/owner";
+        // echo "hi admin/owner";
+        return response()->json(['message'=>'hi admin/owner'],200);
     }
     
 }

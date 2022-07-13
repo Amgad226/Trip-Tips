@@ -201,6 +201,14 @@ class RestaurantController extends Controller
          return response()->json(['message'=>' successfuly','restaurants'=>$restaurant_acceptable,'status'=>1],200);
    
     }
+    
+    public function Show_Not_Active_Resturants(){
+
+        $restaurant_acceptable = Restaurant::with('images')->where('acceptable',0)->get();
+ 
+         return response()->json(['message'=>' successfuly','restaurants'=>$restaurant_acceptable,'status'=>1],200);
+   
+    }
 
     public function add_Restaurant_Booking(Request $request){
        

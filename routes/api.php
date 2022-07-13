@@ -21,7 +21,7 @@ Route::get('/clear-cache', function() {
     return 'DONE'; //Return anything
 });
 Route::get('/for-middelwarer[Auth:api]-transfare-to-login-route-in-web-she-transfare-to-this-error-messaage', function () {
-    return response()->json(['Message' => 'you shoud login to use this route [middelwere->route]'], 400);})->name('not_logging');
+    return response()->json(['Message' => 'you shoud login to use this route [middelwere->route]','status'=>'0'], 400);})->name('not_logging');
     
 
 Route::post('/checkuer' ,            [checkuer                ::class, 'check'     ])->middleware(['auth:api'])->middleware('checkuser');
@@ -52,14 +52,16 @@ Route::post('registerSocialite',   [SocialiteLog::class, 'registerSocialite'    
 Route::post('addPasswordSocialite',[SocialiteLog::class, 'addPasswordSocialite'       ] )->middleware(['auth:api']);
 //_____________________________________________________________________________________________________________________//
 //Restaurant
-Route::post ('/addRestaurant',         [RestaurantController::class,  'addRestaurant'    ] )->middleware(['auth:api']);
+Route::post ('/addRestaurant',                 [RestaurantController::class,  'addRestaurant'    ] )->middleware(['auth:api']);
    
-Route::post ('/AcceptResturant',       [RestaurantController::class,  'AcceptResturant'  ] )->middleware(['auth:api'])->middleware('admin');
+Route::post ('/AcceptResturant',               [RestaurantController::class,  'AcceptResturant'  ] )->middleware(['auth:api'])->middleware('admin');
    
-Route::post ('/RefusResturant',        [RestaurantController::class,  'RefusResturant'   ] )->middleware(['auth:api'])->middleware('admin');
+Route::post ('/RefusResturant',                [RestaurantController::class,  'RefusResturant'   ] )->middleware(['auth:api'])->middleware('admin');
    
-Route::post ('/ShowAllResturants',     [RestaurantController::class,  'ShowAllResturants'] )->middleware(['auth:api']);
-   
+Route::post ('/ShowAllResturants',             [RestaurantController::class,  'ShowAllResturants'] )->middleware(['auth:api']);
+
+Route::post ('/Show_Not_Active_Resturants',[RestaurantController::class,  'Show_Not_Active_Resturants'] )->middleware(['auth:api'])->middleware('admin');
+
 // Route::post ('/ShowResturant',         [RestaurantController::class,  'ShowResturant'    ] )->middleware(['auth:api']);
 
 Route::post ('/add_Restaurant_Booking',[RestaurantController::class,'add_Restaurant_Booking' ] )->middleware(['auth:api']);

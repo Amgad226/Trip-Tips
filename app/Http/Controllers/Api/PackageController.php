@@ -206,7 +206,7 @@ class PackageController extends Controller
         foreach($Packages as $Package)
         {
             foreach ($Package->PackageAirplane as $PackageAirplane ){
-                $airplanes[]=( Airplane::where('id', $PackageAirplane->airplane_id)->get());
+                $airplanes[]=( Airplane::with('classes')->where('id', $PackageAirplane->airplane_id)->get());
                 
             }
            
@@ -226,7 +226,7 @@ class PackageController extends Controller
         foreach($Packages  as $Package)
         {
             foreach ($Package->PackageHotel as $PackageHotel ){
-                $hotels[]=( Hotel::with('images')->where('id', $PackageHotel->hotel_id)->get());
+                $hotels[]=( Hotel::with('images','classes')->where('id', $PackageHotel->hotel_id)->get());
             }
         }
         $hotels = array_unique($hotels); 
@@ -273,7 +273,7 @@ class PackageController extends Controller
             ];
             
         $BookingPackage = PackageBooking::create($data);
-        
+        // $BookingPackage->package-
      
             foreach($BookingPackage->package->PackageRestaurant as $a)
             {
@@ -340,7 +340,6 @@ class PackageController extends Controller
                     HotelBooking::create($data);
 
             }
-
             foreach($BookingPackage->package->PackageAirplane as $a)
             {
                 // echo $a->airplane_id."\n" ;
