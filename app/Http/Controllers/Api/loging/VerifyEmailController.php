@@ -35,7 +35,7 @@ class VerifyEmailController extends Controller
         //    Illuminate\Auth\Notifications\VerifyEmail
         request()->user()->sendEmailVerificationNotification();
 
-        return response()->json(['message'=> 'Email has been sent!'],200);
+        return response()->json(['status'=>1,'message'=> 'Email has been sent!'],200);
     }
 
 
@@ -45,11 +45,13 @@ class VerifyEmailController extends Controller
         // dd($user);
         if($user->is_verifaied==0){
         return response()->json([
+          'status'=>1,
             'message'=> 'email was not verified!',
             'is_verifaied' => $user->is_verifaied,
          ],200);
         }
         return response()->json([
+          'status'=>1,
             'message'=> 'email is verified!',
             'is_verifaied' => $user->is_verifaied,
          ],200);

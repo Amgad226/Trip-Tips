@@ -47,13 +47,14 @@ class HotelController extends Controller
                     $errors[$key] = is_array($value) ? implode(',', $value) : $value;
                 }
        
-                return response()->json( $errors,400);
+                return response()->json( ['message'=>$errors['message'],'status'=>0],400);
             }
             $extension='.'.$request->img_title_deed->getclientoriginalextension();
 
             if(!in_array($extension, config('global.allowed_extention')))
             {
-                return response()->json(['message' => 'invalide image ectension' ]);   
+             
+             return response()->json(['message' => 'invalide image ectension' ,'status' => 0],400);   
             }
             $Hotel_Name= $request->name;  
             Storage::disk('local')->makeDirectory('public/images/hotel/'.$Hotel_Name);
@@ -103,7 +104,7 @@ class HotelController extends Controller
                        HotelImages::where('hotel_id',$hotel->id)->truncate();
                        $hotel->delete();
   
-                       return response()->json(['message' => 'hotel doesnot regeistered because you enter invalide image ectension' ]);   
+                       return response()->json(['message' => 'hotel doesnot regeistered because you enter invalide image ectension','status' => 0 ],4);   
                    }
                   $destination_path ='public/images/hotel/'.$Hotel_Name; 
                   //store with resize
@@ -128,15 +129,16 @@ class HotelController extends Controller
             //اضافة الاسعر الخاصة بالاوتيل 
          $classes=$request->classes;
          $names=$request->names;
+         $number_of_people=$request->number_of_people;
          for ($i=0;$i<count($classes);$i++)
          {
-         HotelClass::create(['hotel_id'=>$hotel->id,'money'=>$classes[$i],'class_name'=>$names[$i]]);
+         HotelClass::create(['hotel_id'=>$hotel->id,'money'=>$classes[$i],'class_name'=>$names[$i],'number_of_people'=>$number_of_people[$i] ,]);
          }
           //  $hotellll=Hotel::with('images')->where('id',$hotel->id)->first();
          //  dd($hoteltt);
        
          return response()->json([
-             'status' => '1',
+             'status' => 1,
              'message' => 'hotel added in our datebase successfully ,we will send the anwer to your suppurt email within a maximum time of ' .config('global.max_day_for_repeating').' days',
 
             //  'message' => 'hotel added successfully',
@@ -191,7 +193,7 @@ class HotelController extends Controller
         File::deleteDirectory(public_path('storage/images/hotel/'.$res_name));
         HotelImages::where('hotel_id',$hotel_to_refus->id)->delete();
         $hotel_to_refus->delete();
-        dd($hotel_to_refus->id);
+        // dd($hotel_to_refus->id);
         return response()->json(['message'=>'email sent,and refuse and delete information successfuly','status'=>1],200);
         }
     }
@@ -204,57 +206,71 @@ class HotelController extends Controller
    
     }
 
+    public function Show_Not_Active_Hotels(){
+
+        $hotels_acceptable = Hotel::with('images','classes')->where('acceptable',0)->get();
+ 
+         return response()->json(['message'=>' successfuly','hotels'=>$hotels_acceptable,'status'=>1],200);
+   
+    }
+
     public function add_Hotel_Booking(Request $request)
     {
       //    dd($request->a);
         $validator = Validator::make($request-> all(),[
             'number_of_people'=> 'required',
             'hotel_id'   => 'required',
+            'hotel_class_id'   => 'required',
             'price'           => 'required',
             'start_date'    => 'required|date',
             'end_date'    => 'required|date',
+
         ]);
 
             if ($validator->fails())
             {
-                // return response()->json(['message'      => $validator->errors()],400);
+                // return response()->json(['message'      => $validator->errors(),'status'=>0],400);
                 $errors = [];
                 foreach ($validator->errors()->messages() as $key => $value) {
                     $key = 'message';
                     $errors[$key] = is_array($value) ? implode(',', $value) : $value;
                 }
-       
-                return response()->json( $errors,400);
+            
+                return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
             }
-            $start_time = \Carbon\Carbon::parse($request->input('start_date'));
-            $finish_time = \Carbon\Carbon::parse($request->input('end_date'));
-            $result = $start_time->diffInDays($finish_time, false);
-  
-            $price=$request->price;
-            $room=$request->number_of_room;
-            $price=$price*$room*$result;
+            // $start_time = \Carbon\Carbon::parse($request->input('start_date'));
+            // $finish_time = \Carbon\Carbon::parse($request->input('end_date'));
+            // $result = $start_time->diffInDays($finish_time, false);
+            // echo '  عدد ايام الحجز         . ' .  $result ."\n";
+            // $price=$request->price;
+            // echo '  السعر يلي اخدو من الريكويست           . '.  $price ."\n";
+            // $room=$request->number_of_room;
+            // echo '  عدد الغرف               .'  .$room ."\n";
+            // $price=$price*$room*$result;
+            // echo '  عدد ايام الحجز * عدد الغرف *السعر            .'. $price;
+            // return;
 
         $data = [
             'hotel_id'        => $request->hotel_id,
+            'hotel_class_id'  => $request->hotel_class_id,
             'user_id'         => Auth::id(),
             'number_of_people'=>$request->number_of_people,
             'number_of_room'  =>$request->number_of_room,
-            'price'           =>$price,
+            'price'           =>$request->price,
             'start_date'      =>$request->a,
             'end_date'        =>$request->end_date,
             'note'            =>$request->note,
             'by_packge'       =>0,
-
-
            ];
         $BookingHotel = HotelBooking::create($data);
             $BookingHotel->start_date=$request->start_date;
             $BookingHotel->save();
         // return($BookingHotel);
         return response()->json([
-            'status' => '1',
+            'status' => 1,
             'message' => 'BookingHotel added successfully ,go to your profile to get image Qr code ',
-            'info'=>$BookingHotel,
+            // 'info'=>$BookingHotel,
         ]);      
   
  

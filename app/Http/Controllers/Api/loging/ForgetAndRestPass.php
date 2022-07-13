@@ -21,7 +21,8 @@ class ForgetAndRestPass extends Controller
         if($user==null)
         return response()->json([
         'message'=>'user not exist',
-        'status'=>0],400  );
+        'status'=>0
+        ],400);
 
         //انشأنا رمز عشوائي من 10 حروف 
         $token = Str::random(10);
@@ -48,7 +49,7 @@ class ForgetAndRestPass extends Controller
             {
                 //يفضل نستخدم تراي وكاتش  وقت نستعمل ال 
                 //DB:table 
-                return response()->json(['message'=>$e->getMessage()],400);
+                return response()->json(['message'=>$e->getMessage(),'status'=>0],400);
             } }
 //_____________________________________________________________________________________/
   public function  reset(Request $request){

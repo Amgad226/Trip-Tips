@@ -19,7 +19,8 @@ return new class extends Migration
             
 
             $table->integer('package_id')->unsigned()->index();
-            $table->integer('number_of_people') ->nullable();
+            $table->integer('number_of_people') ;
+            $table->integer('price') ;
             $table->timestamp('time')->useCurrent = true;
             
             // $table->integer('img_qr')           ->nullable()    ;

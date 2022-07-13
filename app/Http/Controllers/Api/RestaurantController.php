@@ -46,7 +46,7 @@ class RestaurantController extends Controller
                     $errors[$key] = is_array($value) ? implode(',', $value) : $value;
                 }
        
-                return response()->json( $errors,400);
+                return response()->json( ['message'=>$errors['message'],'status'=>0],400);
             }
             // dd();
             if(!$request->hasFile('img'))
@@ -95,16 +95,18 @@ class RestaurantController extends Controller
          RestaurantRole::create(['user_id'=>Auth::id(),'restaurant_id'=>$restaurant->id,'role_facilities_id'=>1]);
          DB::table('users')->where('id',Auth::id())->update(['have_facilities' =>1]);
 
-         
-          
-            $images_restaurant=$request->img;
-            $i=1;
-            // return($request->img);
-            foreach($images_restaurant as $image_restaurant) 
-            {   
+        //  $data = [];
+
+         $images_restaurant=$request->img;
+         $i=1;
+         // return($request->img);
+         foreach($images_restaurant as $image_restaurant) 
+         {   
+                // dd(json_decode($image_restaurant));
                 // dd($image_restaurant);
                 $extension='.'.$image_restaurant->getclientoriginalextension();
-
+// $a='fkdjhfksdh.dd';
+// dd($a->getclientoriginalextension());
                  if(!in_array($extension, config('global.allowed_extention')))
                  {
                     // File::deleteDirectory(public_path('storage/a'));
@@ -216,7 +218,7 @@ class RestaurantController extends Controller
         $validator = Validator::make($request-> all(),[
             'number_of_people'=> 'required',
             'restaurant_id'   => 'required',
-            'price'           => 'required',
+            // 'price'           => 'required',
             'booking_date'    => 'required|date',
         ]);
 
@@ -229,8 +231,9 @@ class RestaurantController extends Controller
                     $errors[$key] = is_array($value) ? implode(',', $value) : $value;
                 }
        
-                return response()->json( $errors,400);
+                return response()->json( ['message'=>$errors['message'],'status'=>0],400);
             }
+
 
         $data = [
             'restaurant_id'      => $request->restaurant_id,

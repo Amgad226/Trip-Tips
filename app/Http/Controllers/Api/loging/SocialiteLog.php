@@ -17,9 +17,10 @@ function registerSocialite(Request $request){
             $token= $user->createToken('agadsdguas')->accessToken;
 
             return response()->json([
+                'status'=>1,
                 'message' => 'User successfully registered',
                 'token' => $token,
-                'user' => $user
+                'user' => $user,
             ], 200);
  
         }
@@ -60,9 +61,10 @@ function registerSocialite(Request $request){
                 $token= $UserToDataBase->createToken('agadsdguas')->accessToken;
             
                  return response()->json([
+                'status'=>1,
                 'message' => 'User successfully registered',                
                 'token' => $token,
-                'user' => $user
+                'user' => $user,
             ], 200);
         }
 }   
@@ -70,6 +72,20 @@ function registerSocialite(Request $request){
             
         function addPasswordSocialite(Request $request){
 
+            $validator = Validator::make($request-> all(),[
+                'password'   => ['required', 'string', 'min:4'],
+                'c_password' => 'required|same:password',
+            ]);
+            if ($validator->fails())
+            {
+                $errors = [];
+                foreach ($validator->errors()->messages() as $key => $value) {
+                    $key = 'message';
+                    $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+                }
+    
+                return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+            }
             // $password= Hash::make($request->password); // with enconding password
             $password= Hash::make($request->password);
             $userId = Auth::id();
@@ -78,6 +94,6 @@ function registerSocialite(Request $request){
 
             User::where('id',$userId)->update(['password' =>$password ,'is_registered'=>true]);
         
-             return response()->json([ 'message' => 'Password successfully adding'], 200);
+             return response()->json([ 'status'=>1,'message' => 'Password successfully adding'], 200);
         }
         }

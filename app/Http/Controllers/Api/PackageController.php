@@ -54,7 +54,7 @@ class PackageController extends Controller
                 $errors[$key] = is_array($value) ? implode(',', $value) : $value;
             }
 
-            return response()->json( $errors,400);
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
         }
            
         if($request->hasFile('img'))
@@ -88,6 +88,7 @@ class PackageController extends Controller
          return response()->json([
              'status' => '1',
              'message' => 'Package added successfully',
+             'package_id'=>$Package->id,
             //  'item'=>$Package,
          ]);     
     }
@@ -110,7 +111,7 @@ class PackageController extends Controller
                 $errors[$key] = is_array($value) ? implode(',', $value) : $value;
             }
 
-            return response()->json( $errors,400);
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
         }
         $package_id=$request->package_id;
 
@@ -119,8 +120,9 @@ class PackageController extends Controller
             $restaurants_id= $request->restaurant_id;
             $restaurant_booking_date= $request->restaurant_booking_date;
             // dd(count($restaurant_booking_date),count($restaurants_id));
+            // if(1==2){
             if(count($restaurant_booking_date)!=count($restaurants_id))
-                return response()->json(['message'=>'you should enter booking date to all restaurants']);
+                return response()->json(['message'=>'you should enter booking date to all restaurants','status'=>0,]);
 
                 for ($i=0 ; $i<count($restaurants_id);$i++)
                 {
@@ -131,6 +133,8 @@ class PackageController extends Controller
                     $rest=Restaurant::where('id',$restaurant_id)->first();
                     $restaurants_price= $restaurants_price + $rest->price_booking;      
                 }
+                // return $restaurants_price;
+        // }
         }
         $hotels_price=0;
         if($request->hotel_class_id!=null&& $request->hotel_booking_start_date!=null&& $request->hotel_booking_end_date!=null)
@@ -141,7 +145,7 @@ class PackageController extends Controller
             $hotel_booking_end_date= $request->hotel_booking_end_date;
 
             if(count($hotel_booking_start_date)!=count($restaurants_id)&&count($hotel_booking_start_date)!=count($hotel_booking_end_date))
-                return response()->json(['message'=>'you should enter booking date to all restaurants']);
+                return response()->json(['status'=>0,'message'=>'you should enter booking date to all restaurants']);
 
             for ($i=0 ; $i<count($hotels_classes_id);$i++)
             {
@@ -158,7 +162,7 @@ class PackageController extends Controller
 
                 $hotels_price= $hotels_price + $price_hotel;      
             }
-          
+     //    return   $hotels_price;
         }
        
         $airplanes_price=0;
@@ -170,7 +174,7 @@ class PackageController extends Controller
             $to= $request->to;
             
             if(count($airplanes_booking_date)!=count($airplanes_classes_id)&&count($from)!=count($to)&&count($from)!=count($restaurants_id))
-                return response()->json(['message'=>'you should enter booking date to all airplanes']);
+                return response()->json(['status'=>0,'message'=>'you should enter booking date to all airplanes']);
 
                 for ($i=0 ; $i<count($airplanes_classes_id);$i++)
                 {
@@ -193,9 +197,16 @@ class PackageController extends Controller
         }
        
         $Package = Package::where('id',$package_id)->first();
-        $price=($restaurants_price+$hotels_price+$airplanes_price)/$Package->discount_percentage;
-        $Package->update(['price'=>$price]);
-        return response()->json(['message'=>'added successfully']);
+        $full_price=$restaurants_price + $hotels_price + $airplanes_price;
+        echo "full_price ".$full_price."\n";
+        $Discount_price = ($Package->discount_percentage / 100) * $full_price;
+        echo "Discount_price  ".$Discount_price."\n";
+        $price_after_discount = $full_price-$Discount_price;
+        echo "price_after_discount  ".$price_after_discount."\n";
+
+        // return;
+        $Package->update(['price'=>$price_after_discount]);
+        return response()->json(['status'=>1,'message'=>'added successfully']);
                
     }
    
@@ -232,6 +243,7 @@ class PackageController extends Controller
         $hotels = array_unique($hotels); 
      
         return  response()->json([
+            'status'=>1,
         'package'=>$Packages,
         'airplane in package'=>$airplanes,
         'restaurant in package'=>$restaurants,
@@ -242,8 +254,10 @@ class PackageController extends Controller
     public function add_Package_Booking(Request $request)
     {
         $validator = Validator::make($request-> all(),[
-           
-            'package_id'      => 'required',
+
+            // 'users'    => ['required', 'exists:users,id,admin_id,1']
+
+            'package_id'      =>  ['required', 'exists:packages,id'],//,admin_id,1
             'number_of_people'=> 'required',
             // 'price'           => 'required',
         ]);
@@ -256,7 +270,7 @@ class PackageController extends Controller
                 $errors[$key] = is_array($value) ? implode(',', $value) : $value;
             }
 
-            return response()->json( $errors,400);
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
         }
         $package_id=$request->package_id;
         // $price=$request->price* $request->number_of_people;
@@ -266,15 +280,31 @@ class PackageController extends Controller
         
         */
 
-         $data = [
-             'package_id'      => $package_id,
-             'user_id'         => Auth::id(),
-             'number_of_people'=> $request->number_of_people,
-            ];
+        
             
-        $BookingPackage = PackageBooking::create($data);
-        // $BookingPackage->package-
-     
+            //    return  $BookingPackage->package;
+            $package=Package::where('id',$package_id)->first();
+      
+            $max_reservation= $package->max_reservation;
+            $number_of_reservation= $package->number_of_reservation;
+
+            $number_of_reservation+=$request->number_of_people;
+            if($number_of_reservation>$max_reservation)
+            {
+                return response()->json(['message'=>'booking of this package is over ','status'=>0],200);
+            }
+            //  $number_of_reservation->save();
+            $data = [
+                'package_id'      => $package_id,
+                'user_id'         => Auth::id(),
+                'number_of_people'=> $request->number_of_people,
+                'price'           =>$package->price*$request->number_of_people
+               ];
+      $BookingPackage = PackageBooking::create($data);
+      Package::where('id',$package_id)->update(['number_of_reservation'=>$number_of_reservation]);
+        //  return;
+             $Price_All=0;
+    
             foreach($BookingPackage->package->PackageRestaurant as $a)
             {
                 
@@ -300,9 +330,11 @@ class PackageController extends Controller
                     'note'               =>null,
                     'by_packge'          =>1,
                    ]; 
+                   $Price_All+=$price_booking;
                     RestaurantBooking::create($data);
 
             }
+            // return $price;
             foreach($BookingPackage->package->PackageHotel as $a)
             {
 
@@ -337,6 +369,8 @@ class PackageController extends Controller
                     'note'            =>null,
                     'by_packge'       =>1,
                    ];
+                   $Price_All+=$price;
+
                     HotelBooking::create($data);
 
             }
@@ -370,16 +404,17 @@ class PackageController extends Controller
                     'by_packge'       =>1,
                     'note'            =>null,
                    ];
+                   $Price_All+=$price_booking;
+
                     AirplaneBooking::create($data);  
             }
-
+        echo $Price_All ."\n";
             $Booking = PackageBooking::where('id',$package_id)->first();
 
          return response()->json([
-             'status' => '1',
-             'message' => 'Booking Package  added successfully',
-             'booking_info'=>$BookingPackage,
-            //  'booking_info'=>$Booking, //without info 
+            'status'=>1,
+            'message' => 'Booking Package  added successfully',
+            'booking_info'=>$BookingPackage,
          ]);     
     }
 }

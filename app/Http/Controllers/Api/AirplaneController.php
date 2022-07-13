@@ -40,14 +40,14 @@ class AirplaneController extends Controller
                     $errors[$key] = is_array($value) ? implode(',', $value) : $value;
                 }
        
-                return response()->json( $errors,400);
+                return response()->json( ['message'=>$errors['message'],'status'=>0],400);
             }
             $extension='.'.$request->img_title_deed->getclientoriginalextension();
             
             
             if(!in_array($extension, config('global.allowed_extention')))
             {
-                return response()->json(['message' => 'invalide image ectension' ]);   
+                return response()->json(['status'=>0,'message' => 'invalide image ectension' ]);   
             }
             $Airplane_Name= $request->name;  
             Storage::disk('local')->makeDirectory('public/images/airplane/'.$Airplane_Name."/title_deed");
@@ -161,12 +161,13 @@ class AirplaneController extends Controller
        
       
         $validator = Validator::make($request-> all(),[
-            'airplane_id'     => 'required',
-            'from'            => 'required',
-            'to'              => 'required',
-            'date'            => 'required',
-            'number_of_people'=> 'required',
-            'price'           => 'required',
+            'airplane_id'      => 'required',
+            'airplane_class_id'=> 'required',
+            'from'             => 'required',
+            'to'               => 'required',
+            'date'             => 'required',
+            'number_of_people' => 'required',
+            'price'            => 'required',
             // 'booking_date'    => 'required|date',
             // 'note'            => 'required',
         ]);
@@ -180,22 +181,23 @@ class AirplaneController extends Controller
                     $errors[$key] = is_array($value) ? implode(',', $value) : $value;
                 }
        
-                return response()->json( $errors,400);
+                return response()->json( ['message'=>$errors['message'],'status'=>0],400);
             }
            $people=$request->number_of_people;
            $price=$request->price;
            $price=$price*$people;
         // dd(Auth::id());
         $data = [
-            'airplane_id'     => $request->airplane_id,
-            'user_id'         => Auth::id(),
-            'from'            => $request->from,
-            'to'              => $request->to,
-            'number_of_people'=>$request->number_of_people,
-            'price'           =>$price,
-            'date'            =>$request->date,
-            'note'            =>$request->note,
-            'by_packge'       =>0,
+            'airplane_id'      => $request->airplane_id,
+            'airplane_class_id'=> $request->airplane_class_id,
+            'user_id'          => Auth::id(),
+            'from'             => $request->from,
+            'to'               => $request->to,
+            'number_of_people' =>$request->number_of_people,
+            'price'            =>$price,
+            'date'             =>$request->date,
+            'note'             =>$request->note,
+            'by_packge'        =>0,
 
            ];
         $BookingAirplane = AirplaneBooking::create($data);

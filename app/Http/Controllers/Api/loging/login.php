@@ -37,7 +37,7 @@ class login extends Controller
                 $errors[$key] = is_array($value) ? implode(',', $value) : $value;
             }
 
-            return response()->json( $errors,400);
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
         }
         // dd($request->img->getclientoriginalextension());
 
@@ -49,7 +49,7 @@ class login extends Controller
             
         if(!in_array($extension, config('global.allowed_extention')))
         {
-            return response()->json(['message' => 'invalide image ectension' ]);   
+            return response()->json(['message' => 'invalide image ectension' ,'status'=>0]);   
         }
             $uniqid='('.uniqid().')';          //كل كرة بيعطيني رقم فريد     انا عم استخدمو مشان اسم كل صورة يكون غير التاني حتى لو اسم الصورة والمستخدم  نفسو
 
@@ -94,7 +94,8 @@ class login extends Controller
         return response()->json([
         'message' => 'User successfully registered',
         'token' => $token,
-        'user' => $user
+        'user' => $user,
+        'status'=>1,
         ], 200);
     }
     // _________________________________________________________________________________
@@ -108,9 +109,10 @@ class login extends Controller
             $token = $user->createToken('a')->accessToken;
 
             return response()->json([
+               'status'=>1,
                'message'=> 'User successfully login',
-                'token'=>$token,
-                'user' => $user,
+               'token'=>$token,
+               'user' => $user,
                 // 'm'=>print_r($user->RestaurantRole[0]->id)
                 
             ], 200);
@@ -118,7 +120,7 @@ class login extends Controller
 
         else {
             return response()->json([
-                'message' => 'Wrong email or password'], 400);
+                'message' => 'Wrong email or password','status'=>0], 400);
         }
     }
 
@@ -152,6 +154,6 @@ class login extends Controller
     //    { return 'amgasd';}
 
       $request->user()->token()->revoke();
-      return response()->json(['message' => 'User successfully logged out'],200);
+      return response()->json(['message' => 'User successfully logged out','status'=>1],200);
     }
 }

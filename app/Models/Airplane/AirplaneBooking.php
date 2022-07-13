@@ -25,6 +25,7 @@ class AirplaneBooking extends Authenticatable
         'booking_date',
         'note',
         'by_packge',
+        'airplane_class_id',
     ];
 
 

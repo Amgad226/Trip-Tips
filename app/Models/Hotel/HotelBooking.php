@@ -24,6 +24,7 @@ class HotelBooking extends Authenticatable
         'end_date',
         'note',
         'by_packge',
+        'hotel_class_id',
 
 
     ];

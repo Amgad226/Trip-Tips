@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('hotel_booking', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('hotel_id')->unsigned()->index();
-            $table->integer('user_id')->unsigned()->index();
+  
             $table->integer('number_of_people');
             $table->integer('number_of_room');
             $table->integer('price');
@@ -30,10 +29,13 @@ return new class extends Migration
 
             $table->timestamp('time')->useCurrent = true;
 
+            $table->integer('hotel_id')      ->unsigned()->index();
+            $table->integer('hotel_class_id')->unsigned()->index();
+            $table->integer('user_id')       ->unsigned()->index();
 
-
-            $table->foreign('user_id' )->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id' )      ->references('id')->on('users')       ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('hotel_id')      ->references('id')->on('hotels')      ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('hotel_class_id')->references('id')->on('hotel_classes')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
