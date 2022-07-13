@@ -48,6 +48,11 @@ class RestaurantController extends Controller
        
                 return response()->json( $errors,400);
             }
+            // dd($request->img);
+            if ($request->img[0]==null){
+                return response()->json(['message' => 'ayham hammami 7maar  ' ]);   
+            }
+
             $extension='.'.$request->img_title_deed->getclientoriginalextension();
 
             if(!in_array($extension, config('global.allowed_extention')))
