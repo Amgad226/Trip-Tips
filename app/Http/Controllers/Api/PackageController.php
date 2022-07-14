@@ -290,7 +290,7 @@ class PackageController extends Controller
     }
    
     public function get_Packages(){
-        $Packages = Package::with('PackageAirplane','PackageRestaurant','PackageHotel')->get();
+        $Packages = Package::with('PackageAirplane','PackageRestaurant','PackageHotel','PackagePlace')->get();
         // return($Packages);
         $airplanes=[];
         foreach($Packages as $Package)
@@ -321,12 +321,27 @@ class PackageController extends Controller
         }
         $hotels = array_unique($hotels); 
      
+
+
+        $places=[];
+        foreach($Packages as $Package)
+        {
+            foreach ($Package->PackagePlace as $PackagePlace ){
+                // dd()
+                $places[]=( Place::where('id', $PackagePlace->place_id)->get());
+                
+            }
+           
+        }
+        $places = array_unique($places); 
+   
         return  response()->json([
             'status'=>1,
         'package'=>$Packages,
         'airplane in package'=>$airplanes,
         'restaurant in package'=>$restaurants,
         'hotels in package'=>$hotels,
+        'places in package'=>$places,
         ]);
     }
       

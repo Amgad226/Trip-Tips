@@ -6,6 +6,7 @@ use App\Models\Airplane\Airplane;
 use App\Models\Hotel\Hotel;
 use App\Models\Hotel\HotelClass;
 use App\Models\Hotel\HotelImages;
+use App\Models\Place\Place;
 use App\Models\Restaurant\Restaurant;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -50,6 +51,9 @@ class Package extends Authenticatable
 
     public function PackageHotel() {
         return $this->hasMany(PackageHotel::class );
+    }
+    public function PackagePlace() {
+        return $this->hasMany(PackagePlace::class );
     }
 
     public function BookingPackage() {
