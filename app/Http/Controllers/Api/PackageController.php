@@ -291,8 +291,12 @@ class PackageController extends Controller
    
     public function get_Packages(){
         $Packages = Package::with('PackageAirplane','PackageRestaurant','PackageHotel','PackagePlace')->get();
-        // return($Packages);
+
         $airplanes=[];
+        $restaurants=[];
+        $hotels=[];
+        $places=[];
+
         foreach($Packages as $Package)
         {
             foreach ($Package->PackageAirplane as $PackageAirplane ){
@@ -300,43 +304,35 @@ class PackageController extends Controller
                 
             }
            
-        }
-        $airplanes = array_unique($airplanes); 
+        
+         $airplanes = array_unique($airplanes); 
    
-        $restaurants=array();
-        foreach($Packages as $Package)
-        {
+       
             foreach ($Package->PackageRestaurant as $PackageRestaurant ){
                 $restaurants[]=( Restaurant::with('images')->where('id', $PackageRestaurant->restaurant_id)->get());
             }
-        }
-        $restaurants = array_unique($restaurants); 
 
-        $hotels=array();
-        foreach($Packages  as $Package)
-        {
+        
+         $restaurants = array_unique($restaurants); 
+
+      
             foreach ($Package->PackageHotel as $PackageHotel ){
                 $hotels[]=( Hotel::with('images','classes')->where('id', $PackageHotel->hotel_id)->get());
             }
-        }
-        $hotels = array_unique($hotels); 
-     
+        
+         $hotels = array_unique($hotels); 
 
+          //  return $restaurants;
 
-        $places=[];
-        foreach($Packages as $Package)
-        {
+       
             foreach ($Package->PackagePlace as $PackagePlace ){
-                // dd()
                 $places[]=( Place::where('id', $PackagePlace->place_id)->get());
-                
             }
-           
+          $places = array_unique($places); 
         }
-        $places = array_unique($places); 
-   
+      
         return  response()->json([
-            'status'=>1,
+        'status'=>1,
         'package'=>$Packages,
         'airplane in package'=>$airplanes,
         'restaurant in package'=>$restaurants,
