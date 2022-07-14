@@ -3,7 +3,7 @@
 // use App\Http\Controllers\Api\AddPlace;
 
 use App\Http\Controllers\Api\AddPlace;
-use App\Http\Controllers\Api\AirplaneController;
+use App\Http\Controllers\booking_Info_Qr_Controller;
 use App\Http\Controllers\Api\checkuer;
 use App\Http\Controllers\Api\HotelController;
 use App\Http\Controllers\Api\loging\login;
@@ -31,7 +31,7 @@ Route::post('/checkuer' ,            [checkuer                ::class, 'check'  
 
 
 
-
+Route::get('/qr/{id}/{bookingid}',[booking_Info_Qr_Controller::class,'show']);
 
 //NOTE add fun groupe middelware to routes have the same middelware 
 //_____________________________________________________________________________________________________________________//

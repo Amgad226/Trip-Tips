@@ -25,7 +25,7 @@ return new class extends Migration
             $table->boolean('by_packge')->nullable();
 
             // $table->integer('id_your_chois')    ->nullable();
-            // $table->integer('img_qr')           ->nullable();
+            $table->integer('img_qr')           ->nullable();
             
 
             // $table->timestamps();

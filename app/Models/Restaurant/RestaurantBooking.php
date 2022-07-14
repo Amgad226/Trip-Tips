@@ -25,4 +25,7 @@ class RestaurantBooking extends Authenticatable
         'by_packge',
 
     ];
+    public function restuarant(){
+        return $this->belongsTo(Restaurant::class,'restaurant_id');
+    }
 }

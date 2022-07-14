@@ -28,4 +28,11 @@ class HotelBooking extends Authenticatable
 
 
     ];
+    public function hotel(){
+        return $this->belongsTo(Hotel::class,'hotel_id');
+    }
+
+    public function hotelClass(){
+        return $this->belongsTo(HotelClass::class,'hotel_class_id');
+    }
 }
