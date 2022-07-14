@@ -97,14 +97,15 @@ class HotelController extends Controller
                   //  dd();
                    $extension='.'.$image_hotel->getclientoriginalextension();
                   //  dd();
-                   if(!in_array($extension, config('global.allowed_extention')))
+                   if(!in_array($extension, config('global.allowed_extention')))// vendor\symfony\http-foundation\Response.php 446
                    {
+                    // dd();
                        // File::deleteDirectory(public_path('storage/a'));
                        File::deleteDirectory(public_path('storage/images/hotel/'.$request->name));
-                       HotelImages::where('hotel_id',$hotel->id)->truncate();
+                       HotelImages::where('hotel_id',$hotel->id)->delete();
                        $hotel->delete();
   
-                       return response()->json(['message' => 'hotel doesnot regeistered because you enter invalide image ectension','status' => 0 ],4);   
+                       return response()->json(['message' => 'hotel doesnot regeistered because you enter invalide image ectension','status' => 0 ],400);   
                    }
                   $destination_path ='public/images/hotel/'.$Hotel_Name; 
                   //store with resize
@@ -226,6 +227,7 @@ class HotelController extends Controller
             'end_date'    => 'required|date',
 
         ]);
+    //   return  $request->hotel_class_id->hotel;
 
             if ($validator->fails())
             {

@@ -20,6 +20,8 @@ class   PackageBooking extends Authenticatable
         'user_id',
         'number_of_people',
         'price',
+        'start_date',
+        'end_date',
         
 
     ];

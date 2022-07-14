@@ -2,6 +2,7 @@
 
        return [ 
         'allowed_extention' => ['.jpg','.png','.jpeg','.PNG','.JPG','.JPEG'],
+        // 'allowed_extention' => ['.png','.jpeg','.PNG','.JPG','.JPEG'],
         'Payment_retaurant' => 1000,
         'Payment_hotel' => 1000,
         'Payment_airplane' => 1000,

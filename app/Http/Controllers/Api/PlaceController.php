@@ -28,7 +28,6 @@ class PlaceController extends Controller
             'name'          => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/', 'max:20','min:3'],
             'location'      => 'required',
             'support_email' => 'required|email',
-            'img_title_deed'=> 'required',
             'description'   => 'required',
             'img'           => 'required',
         ]);
@@ -52,26 +51,8 @@ class PlaceController extends Controller
             {     return response()->json(['message' => 'The img222  field is required' ]);   
             }
 
-            $extension='.'.$request->img_title_deed->getclientoriginalextension();
-
-            if(!in_array($extension, config('global.allowed_extention')))
-            {
-                return response()->json(['message' => 'invalide image ectension' ]);   
-            }
             $place_Name= $request->name;  
             Storage::disk('local')->makeDirectory('public/images/place/'.$place_Name);
-            Storage::disk('local')->makeDirectory('public/images/place/'.$place_Name."/title_deed");
-            $uniqid='('.uniqid().')';   
-            $destination_path = 'public/images/place/'.$place_Name."/title_deed";   
-            //store with resize
-            $image=$request->file('img_title_deed') ; 
-            $image_resize = Image::make($image->getRealPath());              
-            $image_resize->resize(500, 500, function ($constraint) {$constraint->aspectRatio(); });
-            $image_resize->save(public_path("/storage/images/place/".$place_Name.'/title_deed/'.$place_Name.$extension ));
-            //store without resize 
-            // $request->file('img_title_deed')->storeAs($destination_path,   $uniqid.$place_Name.$extension);  
-
-            $image_title_deed_path = "/storage/images/place/".$place_Name.'/title_deed/'. $place_Name.$extension;        
          
          
          $data = [
@@ -80,7 +61,6 @@ class PlaceController extends Controller
             'location'      => $request->location,
             'Payment'       => config('global.Payment_place'),
             'support_email' => $request->support_email,
-            'img_title_deed'=> $image_title_deed_path, 
             'description'   =>$request->description,
 
            ];
@@ -105,7 +85,7 @@ class PlaceController extends Controller
                  {
                     // File::deleteDirectory(public_path('storage/a'));
                     File::deleteDirectory(public_path('storage/images/place/'.$request->name));
-                    PlaceImage::where('place_id',$place->id)->truncate();
+                    PlaceImage::where('place_id',$place->id)->delete();
                     $place->delete();
 
                      return response()->json(['message' => 'place doesnot regeistered because you enter invalide image ectension' ]);   

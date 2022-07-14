@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('location');
             $table->integer('Payment');
             $table->string('support_email');
-            $table->string('img_title_deed');
+            // $table->string('img_title_deed');
             $table->string('description') ;
 
             $table->boolean('acceptable')->default(0);

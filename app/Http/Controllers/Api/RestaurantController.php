@@ -111,7 +111,7 @@ class RestaurantController extends Controller
                  {
                     // File::deleteDirectory(public_path('storage/a'));
                     File::deleteDirectory(public_path('storage/images/restaurant/'.$request->name));
-                    RestaurantImage::where('restaurant_id',$restaurant->id)->truncate();
+                    RestaurantImage::where('restaurant_id',$restaurant->id)->delete();
                     $restaurant->delete();
 
                      return response()->json(['message' => 'restaurant doesnot regeistered because you enter invalide image ectension' ]);   

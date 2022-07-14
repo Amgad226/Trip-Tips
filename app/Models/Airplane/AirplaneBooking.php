@@ -16,6 +16,7 @@ class AirplaneBooking extends Authenticatable
 
     protected $fillable = [
         'airplane_id',
+        'airplane_class_id',
         'user_id',
         'from',
         'to',

@@ -24,7 +24,9 @@ use App\Models\Package\PackageBooking;
 use App\Models\Package\PackageHotel;
 use App\Models\Package\PackagePlace;
 use App\Models\Package\PackageRestaurant;
+use App\Models\Place\Place;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,6 +35,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use  Image;
+use Prophecy\Doubler\Generator\Node\ReturnTypeNode;
 
 class PackageController extends Controller
 {
@@ -43,7 +46,8 @@ class PackageController extends Controller
             'description'        => 'required',
             'max_reservation'    => 'required|integer',
             'discount_percentage'=> 'required|integer',
-            'date'=>'required',
+            'start_date'               =>'required',
+            'number_of_day'            =>'required',
             // 'img'                => 'required',
     
         ]);
@@ -76,6 +80,13 @@ class PackageController extends Controller
          {
             $image_path='/default_photo/user_default.png' ;
          }
+            $start_end = Carbon::createFromFormat('Y-m-d H:i:s', $request->start_date);
+            $daysToAdd = $request->number_of_day;
+            $end_date = Carbon::createFromFormat('Y-m-d H:i:s', $request->start_date)->addDays($daysToAdd);
+            
+            // echo $start_end;
+            // echo "\n".$end_date;
+            // return;
             $data = [
                 'name'                => $request->name,
                 'price'               => $request->price,
@@ -84,7 +95,9 @@ class PackageController extends Controller
                 'discount_percentage' => $request->discount_percentage,
                 'added_by'            => Auth::user()->name,
                 'img'                 => $image_path,
-                'date'                =>$request->date,
+                'start_date'          =>$start_end,
+                'end_date'            =>$end_date,
+                'number_of_day'       =>$request->number_of_day,
                ];
          $Package = Package::create($data);
      
@@ -100,7 +113,7 @@ class PackageController extends Controller
     {
         $validator = Validator::make($request-> all(),[
            
-            'package_id'         => 'required',
+            'package_id'      =>  ['required', 'exists:packages,id'],
             // 'restaurant_id'      => 'required',
             // 'hotel_class_id'     => 'required',
             // 'airplane_class_id'  => 'required',
@@ -117,7 +130,8 @@ class PackageController extends Controller
             return response()->json( ['message'=>$errors['message'],'status'=>0],400);
         }
         $package_id=$request->package_id;
-
+        // $package=Package::where('id',$package_id);
+      
         $restaurants_price=0;
         if($request->restaurant_id!=null && $request->restaurant_booking_date!=null){
             $restaurants_id= $request->restaurant_id;
@@ -126,10 +140,19 @@ class PackageController extends Controller
             // if(1==2){
             if(count($restaurant_booking_date)!=count($restaurants_id))
                 return response()->json(['message'=>'you should enter booking date to all restaurants','status'=>0,]);
-
+                
                 for ($i=0 ; $i<count($restaurants_id);$i++)
                 {
+                    // print_r($restaurants_id);
                     // dd($restaurant_booking_date[$i]);
+                    if ( !Restaurant::where('id',$restaurants_id[$i])->first() ) 
+                    {
+                        PackagePlace::where('package_id',$package_id)->delete();
+                        PackageAirplane::where('package_id',$package_id)->delete();
+                        PackageHotel::where('package_id',$package_id)->delete();
+                        PackageRestaurant::where('package_id',$package_id)->delete();
+                        return response()->json(['status'=>0 , 'message'=>'restaurant dose not exist, we cancel adding all fasilitis to this package ,try again .']);
+                    }
                     PackageRestaurant::create(['restaurant_id'=>$restaurants_id[$i] ,'package_id'=>$package_id,'restaurant_booking_date'=>$restaurant_booking_date[$i]]);
                     // dd();
                     $restaurant_id = $restaurants_id[$i];
@@ -137,8 +160,9 @@ class PackageController extends Controller
                     $restaurants_price= $restaurants_price + $rest->price_booking;      
                 }
                 // return $restaurants_price;
-        // }
+       
         }
+
         $hotels_price=0;
         if($request->hotel_class_id!=null&& $request->hotel_booking_start_date!=null&& $request->hotel_booking_end_date!=null)
         {
@@ -147,11 +171,20 @@ class PackageController extends Controller
             $hotel_booking_start_date= $request->hotel_booking_start_date;
             $hotel_booking_end_date= $request->hotel_booking_end_date;
 
-            if(count($hotel_booking_start_date)!=count($restaurants_id)&&count($hotel_booking_start_date)!=count($hotel_booking_end_date))
+            if(count($hotel_booking_start_date)!=count($hotels_classes_id)&&count($hotel_booking_start_date)!=count($hotel_booking_end_date))
                 return response()->json(['status'=>0,'message'=>'you should enter booking date to all restaurants']);
 
             for ($i=0 ; $i<count($hotels_classes_id);$i++)
             {
+                if (!HotelClass::where('id',$hotels_classes_id[$i])->first() ) 
+                {
+
+                    PackagePlace::where('package_id',$package_id)->delete();
+                    PackageAirplane::where('package_id',$package_id)->delete();
+                    PackageHotel::where('package_id',$package_id)->delete();
+                    PackageRestaurant::where('package_id',$package_id)->delete();
+                    return response()->json(['status'=>0 , 'message'=>'Hotel dose not exist, we cancel adding all fasilitis to this package ,try again .']);
+                }
                 $hotel_class=HotelClass::where('id',$hotels_classes_id[$i])->first();
                 $price_hotel=$hotel_class->money;
                 $hotel_id=$hotel_class->hotel->id;
@@ -161,13 +194,14 @@ class PackageController extends Controller
                 'package_id'=>$package_id , 
                 'hotel_booking_end_date'=>$hotel_booking_end_date[$i],
                 'hotel_booking_start_date'=>$hotel_booking_start_date[$i]
-            ]);
+             ]);
 
                 $hotels_price= $hotels_price + $price_hotel;      
             }
-     //    return   $hotels_price;
-        }
-       
+            //    return   $hotels_price;
+        }   
+        // dd();  
+     
         $airplanes_price=0;
         if($request->airplane_class_id!=null&& $request->airplane_booking_date!=null)
         {
@@ -182,6 +216,17 @@ class PackageController extends Controller
                 for ($i=0 ; $i<count($airplanes_classes_id);$i++)
                 {
                     // dd('s');
+                    
+                    
+                    if (!AirplaneClass::where('id',$airplanes_classes_id[$i])->first() ) 
+                    {
+
+                        PackagePlace::where('package_id',$package_id)->delete();
+                        PackageAirplane::where('package_id',$package_id)->delete();
+                        PackageHotel::where('package_id',$package_id)->delete();
+                        PackageRestaurant::where('package_id',$package_id)->delete();
+                        return response()->json(['status'=>0 , 'message'=>'this airplane dose not exist, we cancel adding all fasilitis to this package ,try again .']);
+                    }
                     $airplane_class=AirplaneClass::where('id',$airplanes_classes_id[$i])->first();
                     $price_airplane=$airplane_class->money;
                     $airplane_id=$airplane_class->airplane->id;
@@ -198,21 +243,35 @@ class PackageController extends Controller
                     $airplanes_price= $airplanes_price + $price_airplane;      
                 }
         }
+   
         if($request->place_id!=null && $request->place_booking!=null){
+            // dd();
             $place_id= $request->place_id;
             $a=(count($place_id));
+
             $place_booking= $request->place_booking;
             // dd(count($place_booking),count($place_id));
             // if(1==2){
             if(count($place_booking)!=count($place_id))
+            
                 return response()->json(['message'=>'you should enter booking date to all palaces','status'=>0,]);
 
                 for ($i=0 ; $i<$a;$i++)
                 {
-                    // dd($package_id);
-                    PackagePlace::create(['place_id'=>$place_id[$i] ,'package_id'=>$package_id,'place_booking'=>$place_booking[$i]]);
+                    if (!Place::where('id',$place_id[$i])->first() ) 
+                    {
 
-                    $rest=Package::where('id',$place_id)->first();
+                        PackagePlace::where('package_id',$package_id)->delete();
+                        PackageAirplane::where('package_id',$package_id)->delete();
+                        PackageHotel::where('package_id',$package_id)->delete();
+                        PackageRestaurant::where('package_id',$package_id)->delete();
+                        return response()->json(['status'=>0 , 'message'=>'this place dose not exist, we cancel adding all fasilitis to this package ,try again .']);
+                    }
+                    PackagePlace::create(['place_id'=>$place_id[$i] ,'package_id'=>$package_id,'place_booking'=>$place_booking[$i]]);
+                    // echo $place_id[$i] . "\n" . $place_booking[$i]."\n".$package_id;
+                    // dd($package_id);
+
+          
                 }
         }
        
@@ -303,8 +362,11 @@ class PackageController extends Controller
         
             
             //    return  $BookingPackage->package;
-            $package=Package::where('id',$package_id)->first();
-      
+            $package=Package::with('PackageAirplane')->where('id',$package_id)->first();
+            // return $package; 
+            $start_date=$package->start_date;
+            $end_date=$package->end_date;
+
             $max_reservation= $package->max_reservation;
             $number_of_reservation= $package->number_of_reservation;
 
@@ -318,45 +380,52 @@ class PackageController extends Controller
                 'package_id'      => $package_id,
                 'user_id'         => Auth::id(),
                 'number_of_people'=> $request->number_of_people,
-                'price'           =>$package->price*$request->number_of_people
+                'price'           =>$package->price*$request->number_of_people,
+                'start_date'        =>$start_date,
+                'end_date'          =>$end_date,
                ];
-      $BookingPackage = PackageBooking::create($data);
-      Package::where('id',$package_id)->update(['number_of_reservation'=>$number_of_reservation]);
+           $BookingPackage = PackageBooking::create($data);
+           Package::where('id',$package_id)->update(['number_of_reservation'=>$number_of_reservation]);
         //  return;
              $Price_All=0;
     
-            foreach($BookingPackage->package->PackageRestaurant as $a)
-            {
-                
-                // echo $a->restaurant_id."\n" ;
-                // echo "\n" ;
-                // echo "restaurant_id ".$a->restaurant_id."\n" ;
-                // echo "user_id ".Auth::id()."\n";
-                // echo "number_of_people ".$request->number_of_people."\n" ;
-                // echo "price_booking ".$a->restaurant->price_booking."\n" ;
-                // echo "booking_date ".$a->restaurant_booking_date."\n" ;
-                // echo "user_id ".Auth::id()."\n";
-                $resturant_id=$a->restaurant_id;
-                $number_of_people=$request->number_of_people;
-                $price_booking=$a->restaurant->price_booking;
-                $booking_date=$a->restaurant_booking_date;
+             if($BookingPackage->package->PackageRestaurant){
+                   foreach($BookingPackage->package->PackageRestaurant as $a)
+                   {
+                       // return $a;
+                       // echo $a->restaurant_id."\n" ;
+                       // echo "\n" ;
+                       // echo "restaurant_id ".$a->restaurant_id."\n" ;
+                       // echo "user_id ".Auth::id()."\n";
+                       // echo "number_of_people ".$request->number_of_people."\n" ;
+                       // echo "price_booking ".$a->restaurant->price_booking."\n" ;
+                       // echo "booking_date ".$a->restaurant_booking_date."\n" ;
+                       // echo "user_id ".Auth::id()."\n";
+                       $resturant_id=$a->restaurant_id;
+                       $number_of_people=$request->number_of_people;
+                       $price_booking=$a->restaurant->price_booking;
+                       $booking_date=$a->restaurant_booking_date;
 
-                $data = [
-                    'restaurant_id'      => $resturant_id,
-                    'user_id'            => Auth::id(),
-                    'number_of_people'   =>$number_of_people,
-                    'price'              =>$price_booking,
-                    'booking_date'       =>$booking_date,
-                    'note'               =>null,
-                    'by_packge'          =>1,
-                   ]; 
-                   $Price_All+=$price_booking;
-                    RestaurantBooking::create($data);
+                       $data = [
+                           'restaurant_id'      => $resturant_id,
+                           'user_id'            => Auth::id(),
+                           'number_of_people'   =>$number_of_people,
+                           'price'              =>$price_booking,
+                           'booking_date'       =>$booking_date,
+                           'note'               =>null,
+                           'by_packge'          =>1,
+                          ]; 
+                          $Price_All+=$price_booking;
+                           RestaurantBooking::create($data);
+                      
+                   }
+        }
+        // return $BookingPackage->package->PackageHotel;
+        if($BookingPackage->package->PackageHotel){
 
-            }
-            // return $price;
             foreach($BookingPackage->package->PackageHotel as $a)
             {
+                // return $a;
 
                 // echo $a->hotel_id."\n" ;
                 // echo "\n" ;
@@ -370,6 +439,7 @@ class PackageController extends Controller
                 // echo "user_id ".Auth::id()."\n";
 
                 $hotel_id=$a->hotel_id;
+                $hotel_class_id=$a->class_hotel_id;
                 $number_of_people=$request->number_of_people;
                 $people_in_class=$a->class->number_of_people;
                 $price=$a->class->money;
@@ -380,6 +450,7 @@ class PackageController extends Controller
          
                 $data = [
                     'hotel_id'        => $hotel_id,
+                    'hotel_class_id'  =>$hotel_class_id,
                     'user_id'         => Auth::id(),
                     'number_of_people'=>$number_of_people,
                     'number_of_room'  =>$room,
@@ -391,11 +462,18 @@ class PackageController extends Controller
                    ];
                    $Price_All+=$price;
 
-                    HotelBooking::create($data);
-
+                 $a=   HotelBooking::create($data);
+             // echo $a;
             }
+        }
+        // dd();
+
+        if($BookingPackage->package->PackageAirplane){
+        
             foreach($BookingPackage->package->PackageAirplane as $a)
             {
+                // return $a;
+
                 // echo $a->airplane_id."\n" ;
                 // echo "\n" ;
                 // echo "airplane_id ".$a->airplane_id."\n" ;
@@ -415,6 +493,7 @@ class PackageController extends Controller
             
                 $data = [
                     'airplane_id'     => $airplane_id,
+                    'airplane_class_id'=>$a->class_airplane_id,
                     'user_id'         => Auth::id(),
                     'from'            => $from,
                     'to'              => $to,
@@ -427,14 +506,16 @@ class PackageController extends Controller
                    $Price_All+=$price_booking;
 
                     AirplaneBooking::create($data);  
+                    // echo '111daskjdashd';
             }
-        echo $Price_All ."\n";
-            $Booking = PackageBooking::where('id',$package_id)->first();
+        }
+        // echo $Price_All ."\n";
+            $Booking = PackageBooking::where('package_id',$package_id)->first();
 
          return response()->json([
             'status'=>1,
             'message' => 'Booking Package  added successfully',
-            'booking_info'=>$BookingPackage,
+            'booking_info'=>$Booking,
          ]);     
     }
 }
