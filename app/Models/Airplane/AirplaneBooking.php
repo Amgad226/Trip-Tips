@@ -27,6 +27,7 @@ class AirplaneBooking extends Authenticatable
         'note',
         'by_packge',
         'airplane_class_id',
+        'unique',
     ];
 
 

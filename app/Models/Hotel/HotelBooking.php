@@ -25,6 +25,7 @@ class HotelBooking extends Authenticatable
         'note',
         'by_packge',
         'hotel_class_id',
+        'unique',
 
 
     ];

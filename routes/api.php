@@ -109,6 +109,7 @@ Route::prefix('user')->controller(UserController::class)->group(function(){
         Route::post('/PromotionToAdmin','PromotionToAdmin');
         Route::post('/DemotionToUser','DemotionToUser')->withoutMiddleware('admin')->middleware('owner');
         Route::post('/Block','Block');
+        Route::post('/unBlock','unBlock');
         Route::post('/Delete','Delete');
       });
 });
@@ -122,4 +123,6 @@ Route::get('/clear-cache', function() {
 
 Route::post('/checkuer' ,   [checkuer ::class, 'check'      ])->middleware(['auth:api'])->middleware('checkuser');
 Route::post('/nameByToken' ,[checkuer ::class, 'nameByToken'])->middleware(['auth:api']);
-Route::get('/qr/{id}/{bookingid}',[booking_Info_Qr_Controller::class,'show']);
+// Route::get('/qr/{id}/{bookingid}',[booking_Info_Qr_Controller::class,'show']);
+Route::get('/booking-info/{id}/{token}/{bookingid}/{unique}',[booking_Info_Qr_Controller::class,'show']);
+// Route::get('/booking-info/{id}/{bookingid}',[booking_Info_Qr_Controller::class,'show']);

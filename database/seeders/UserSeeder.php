@@ -110,12 +110,32 @@ $omar = [
         //encoding password before adding to databse
 
         //adding to database
-        User::create($amgad);
-        User::create($ayham);
-        User::create($aseel);
-        User::create($yassmin);
-        User::create($user);
-        User::create($omar);
+      $a = User::create($amgad);
+      $name=$a->roles->role_name;
+      $a->role_peson_name=$name;
+      $a->save();
+
+      $a=      User::create($ayham);
+      $name=$a->roles->role_name;
+      $a->role_peson_name=$name;
+      $a->save();
+
+       $a= User::create($aseel);
+       $name=$a->roles->role_name;
+       $a->role_peson_name=$name;
+       $a->save();
+      $a=  User::create($yassmin);
+      $name=$a->roles->role_name;
+      $a->role_peson_name=$name;
+      $a->save();
+      $a=  User::create($user);
+      $name=$a->roles->role_name;
+      $a->role_peson_name=$name;
+      $a->save();
+       $a= User::create($omar);
+       $name=$a->roles->role_name;
+       $a->role_peson_name=$name;
+       $a->save();
 
 
     }

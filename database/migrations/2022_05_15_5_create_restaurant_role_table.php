@@ -18,8 +18,12 @@ return new class extends Migration
            
             $table->integer('user_id')     ->unsigned()->index();
             $table->integer('restaurant_id')->unsigned()->index();
-            $table->integer('role_facilities_id')     ->unsigned()->index();
+            $table->integer('role_facilities_id')->unsigned()->index();
             
+
+            $table->string('restaurant_name')->nullable();
+            $table->string('role_facilities_name')->nullable();
+
             $table->foreign('role_facilities_id')      ->references('id')->on('roles_facilities')      ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')      ->references('id')->on('users')      ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('restaurant_id') ->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');

@@ -26,6 +26,7 @@ return new class extends Migration
             $table->boolean('is_registered')->default(false);
             $table->boolean('is_active')->default(true);
             $table->integer('have_facilities')->default(0);
+            $table->string('role_peson_name')->nullable();
             
             
             $table->integer('role_person_id')->default(1)->unsigned()->index();

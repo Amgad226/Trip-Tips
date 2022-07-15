@@ -4,9 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Airplane\Airplane;
 use App\Models\Airplane\AirplaneClass;
+use App\Models\Airplane\AirplaneRole;
 use App\Models\Hotel\Hotel;
 use App\Models\Hotel\HotelClass;
 use App\Models\Hotel\HotelImages;
+use App\Models\Hotel\HotelRole;
 use App\Models\Restaurant\Restaurant;
 use App\Models\Restaurant\RestaurantImage;
 use App\Models\Restaurant\RestaurantRole;
@@ -47,7 +49,14 @@ class RestaurantSeeder extends Seeder
       RestaurantImage::create($image_data2);    
       RestaurantImage::create($image_data3);    
       RestaurantImage::create($image_data4);    
-      RestaurantRole::create(['user_id'=>$user_id , 'restaurant_id'=>$restaurant_id,'role_facilities_id'=>1]);
+      $restaurant_role=RestaurantRole::create(['user_id'=>$user_id , 'restaurant_id'=>$restaurant_id,'role_facilities_id'=>1]);
+
+      $Restaurant_name=$restaurant_role->restaurant->name;
+      $facilities_name=$restaurant_role->facilitie->role_name;
+
+      $restaurant_role->restaurant_name=$Restaurant_name;
+      $restaurant_role->role_facilities_name=$facilities_name;
+      $restaurant_role->save();
 
 
       $user_id=1;
@@ -73,8 +82,14 @@ class RestaurantSeeder extends Seeder
       RestaurantImage::create($image_data1);    
       RestaurantImage::create($image_data2);    
       RestaurantImage::create($image_data3);    
-      RestaurantRole::create(['user_id'=>$user_id , 'restaurant_id'=>$restaurant_id,'role_facilities_id'=>1]);
+      $restaurant_role=RestaurantRole::create(['user_id'=>$user_id , 'restaurant_id'=>$restaurant_id,'role_facilities_id'=>1]);
 
+      $Restaurant_name=$restaurant_role->restaurant->name;
+      $facilities_name=$restaurant_role->facilitie->role_name;
+
+      $restaurant_role->restaurant_name=$Restaurant_name;
+      $restaurant_role->role_facilities_name=$facilities_name;
+      $restaurant_role->save();
 
       $user_id=1;
       $data=[
@@ -97,9 +112,15 @@ class RestaurantSeeder extends Seeder
       $image_data2=['img'=>'/default_photo/Uncel/uncel.jpg' ,'restaurant_id'=>$restaurant_id];
       RestaurantImage::create($image_data1);    
       RestaurantImage::create($image_data2);    
-      RestaurantRole::create(['user_id'=>$user_id , 'restaurant_id'=>$restaurant_id,'role_facilities_id'=>1]);
+      $restaurant_role=RestaurantRole::create(['user_id'=>$user_id , 'restaurant_id'=>$restaurant_id,'role_facilities_id'=>1]);
 
-      
+      $Restaurant_name=$restaurant_role->restaurant->name;
+      $facilities_name=$restaurant_role->facilitie->role_name;
+
+      $restaurant_role->restaurant_name=$Restaurant_name;
+      $restaurant_role->role_facilities_name=$facilities_name;
+      $restaurant_role->save();
+
 
       $user_id=3;
       $data=[
@@ -128,6 +149,14 @@ class RestaurantSeeder extends Seeder
       HotelClass::create($class1);
       HotelClass::create($class2);
 
+      $hotel_role=HotelRole::create(['user_id'=>$user_id , 'hotel_id'=>$hotel->id,'role_facilities_id'=>1]);
+
+      $Hotel_name=$hotel_role->hotel->name;
+      $facilities_name=$hotel_role->facilitie->role_name;
+
+      $hotel_role->hotel_name=$Hotel_name;
+      $hotel_role->role_facilities_name=$facilities_name;
+      $hotel_role->save();
 
 
       $user_id=1;
@@ -159,6 +188,14 @@ class RestaurantSeeder extends Seeder
       HotelClass::create($class2);
       HotelClass::create($class3);
 
+      $hotel_role=HotelRole::create(['user_id'=>$user_id , 'hotel_id'=>$hotel->id,'role_facilities_id'=>1]);
+
+      $Hotel_name=$hotel_role->hotel->name;
+      $facilities_name=$hotel_role->facilitie->role_name;
+
+      $hotel_role->hotel_name=$Hotel_name;
+      $hotel_role->role_facilities_name=$facilities_name;
+      $hotel_role->save();
 
 
 
@@ -183,6 +220,14 @@ class RestaurantSeeder extends Seeder
       AirplaneClass::create($class2);
       AirplaneClass::create($class3);
 
+      $airplane_role=AirplaneRole::create(['user_id'=>$user_id , 'airplane_id'=>$airplane->id,'role_facilities_id'=>1]);
+
+      $Airplane_name=$airplane_role->airplane->name;
+      $facilities_name=$airplane_role->facilitie->role_name;
+
+      $airplane_role->airplane_name=$Airplane_name;
+      $airplane_role->role_facilities_name=$facilities_name;
+      $airplane_role->save();
       
       $user_id=3;
       $data=[
@@ -203,5 +248,14 @@ class RestaurantSeeder extends Seeder
       AirplaneClass::create($class2);
       AirplaneClass::create($class3);
 
+      $airplane_role=AirplaneRole::create(['user_id'=>$user_id , 'airplane_id'=>$airplane->id,'role_facilities_id'=>1]);
+
+      $Airplane_name=$airplane_role->airplane->name;
+      $facilities_name=$airplane_role->facilitie->role_name;
+
+      $airplane_role->airplane_name=$Airplane_name;
+      $airplane_role->role_facilities_name=$facilities_name;
+      $airplane_role->save();
+      
 }
 }

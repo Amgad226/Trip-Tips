@@ -25,6 +25,10 @@ class PackageHotel extends Authenticatable
         'package_id',
         'hotel_id',
         'class_hotel_id',
+
+        'hotel_name',
+        'hotel_class_name',
+
         'hotel_booking_end_date',
         'hotel_booking_start_date',
        

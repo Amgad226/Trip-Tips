@@ -18,7 +18,12 @@ return new class extends Migration
             $table->integer('package_id')->unsigned()->index();
             $table->integer('class_hotel_id')->unsigned()->index();
             $table->integer('hotel_id')->unsigned()->index();
+
+            $table->string('hotel_name')->nullable();   
+            $table->string('hotel_class_name')->nullable();   
             
+
+
             $table->dateTime('hotel_booking_start_date');
             $table->dateTime('hotel_booking_end_date');
             // $table->timestamp('end_date');

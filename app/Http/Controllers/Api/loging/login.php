@@ -21,7 +21,6 @@ class login extends Controller
         $validator = Validator::make($request-> all(),[
             'name'       => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/', 'max:50','min:3'],
           
-            // 'email'      =>   'required|email|unique:users,message',
             'email'      => 'required|email|unique:users',
             'password'   => ['required', 'string', 'min:4'],
             'c_password' => 'required|same:password',
@@ -80,11 +79,13 @@ class login extends Controller
         //adding to database
         $a=User::create($input);
         User::where('id',$a->id)->update(['is_registered' => 1]);
-
+        
         //عرفنا متحول وجبناه من جديد لليوزر مشان نحطو بل ريسبونس كامل
         // اما لو بدنا نبعتلو يلي فوق المعلومات يلي ما بدخلها بأيدو اليوزر ما رح تطلع متل الرول ايدي وال از فيريفاي
-        $user =User::with('RestaurantRole','HotelRole','AirplaneRole')->where('email',$a->email)->first(); 
-        
+        $user =User::with('RestaurantRole','HotelRole','AirplaneRole','roles')->where('email',$a->email)->first(); 
+        // dd($user);
+        $a->role_peson_name=$user->roles->role_name;
+        $a->save();
         //welcome email and verifay Eamil to user
             // Mail::to($user->email)->send(new welcomeMail($input));
             // $user->sendEmailVerificationNotification();

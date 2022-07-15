@@ -18,6 +18,10 @@ return new class extends Migration
             $table->integer('airplane_id')->unsigned()->index();
             $table->integer('class_airplane_id')->unsigned()->index();
 
+
+            $table->string('airplane_name')->nullable();   
+            $table->string('airplane_class_name')->nullable();   
+            
             $table->integer('package_id')->unsigned()->index();
             $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade')->onUpdate('cascade');
             $table->string('from');

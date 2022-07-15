@@ -22,6 +22,8 @@ class   PackageBooking extends Authenticatable
         'price',
         'start_date',
         'end_date',
+        'unique',
+
         
 
     ];

@@ -2,6 +2,7 @@
 
 namespace App\Models\Airplane;
 
+use App\Models\RoleFacilities;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -21,6 +22,9 @@ class AirplaneRole extends Authenticatable
         'user_id',
         'airplane_id',
         'role_facilities_id',
+        'airplane_name',
+        'role_facilities_name',
+        
      
         
     ];
@@ -30,6 +34,9 @@ class AirplaneRole extends Authenticatable
 
     public function user(){
         return $this->belongsTo(User ::class,'user_id');
+    }
+    public function facilitie(){
+        return $this->belongsTo(RoleFacilities::class,'role_facilities_id');
     }
 
 }

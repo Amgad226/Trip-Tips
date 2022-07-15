@@ -29,11 +29,13 @@
         <div>8</div>
         <div>9</div>
         
-        
-    </div><code><span class="variable">Booking</span><span>.</span><span class="method">Info</span><span><br>
+      </div>
+      <?php $a = request()->type ?>
 
-<code><span class="variable">name</span><span class="function"> :{{$user->name}}</span><span class="operator">=</span><span>{</span>
-     
+      @if($a=='res')
+        <code><span class="variable">Restaurant Booking</span><span>.</span><span class="method">Info</span><span><br>
+
+        <code><span class="variable">name</span><span class="function"> :{{$user->name}}</span><span class="operator">=</span><span>{</span>
         <div class="indent"> <span class="property">booking date</span><span class="operator">:</span><span class="string">{{$booking->booking_date}}</span><span>,</span></div>
         <div class="indent"> <span class="property">number_of_people</span><span class="operator">:</span><span class="string">{{$booking->number_of_people}}</span><span>,</span></div>
         <div class="indent"> <span class="property">restaurant name</span><span class="operator">:</span><span>{{$booking->restuarant->name}}'</span></div>
@@ -42,11 +44,31 @@
           <div class="indent"> <span class="property">restaurant name</span><span class="operator">:</span><span class="string">{{$booking->restuarant->name}}'</span><span>,</span></div>
         @endif
           <div class="indent"><span class="property">note</span><span class="operator">:</span><span class="string">{{$booking->note}}</span></div><span>}</span>
-        </div><span></span></code>
-      <!-- </span><span class="string">'mouseover'</span><span>,</span><span class="function">() =></span><span>{</span> -->
-        <!-- <div class="indent"><span class="variable">this</span><span>.</span><span class="property">flipCard</span><span>=</span><span class="boolean">true</span><span>;</span></div><span>});</span></code> -->
+        </div><span></span>
+      </code>
+      @endif
+
+
+      {{-- --------------------------------------------------------------------------------------------------------- --}}
+      @if($a=='hot')
+      <code><span class="variable">Restaurant Booking</span><span>.</span><span class="method">Info</span><span><br>
+
+      <code><span class="variable">name</span><span class="function"> :{{$user->name}}</span><span class="operator">=</span><span>{</span>
+      <div class="indent"> <span class="property">booking date</span><span class="operator">:</span><span class="string">{{$booking->booking_date}}</span><span>,</span></div>
+      <div class="indent"> <span class="property">number_of_people</span><span class="operator">:</span><span class="string">{{$booking->number_of_people}}</span><span>,</span></div>
+      <div class="indent"> <span class="property">restaurant name</span><span class="operator">:</span><span>{{$booking->restuarant->name}}'</span></div>
+      <!-- <div class="indent"> <span class="property">restaurant name</span><span class="operator">:</span><span>{{$booking->restuarant->name}}</span> -->
+      @if($booking->class)
+        <div class="indent"> <span class="property">restaurant name</span><span class="operator">:</span><span class="string">{{$booking->restuarant->name}}'</span><span>,</span></div>
+      @endif
+        <div class="indent"><span class="property">note</span><span class="operator">:</span><span class="string">{{$booking->note}}</span></div><span>}</span>
+      </div><span></span>
+    </code>
+    @endif
+ 
     </div>
   </div>
+
   <style>
     *, *:before, *:after {
   box-sizing: border-box;

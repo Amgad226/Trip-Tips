@@ -30,7 +30,8 @@ class User extends Authenticatable
         'role_person_id',
         'have_facilities',
         'wallet_id',
-        'time'
+        'time',
+        'role_peson_name'
     ];
     
     public function RestaurantRole(){
@@ -45,13 +46,14 @@ class User extends Authenticatable
     public function PlaceRole(){
         return $this->hasMany(PlaceRole ::class);
     }
-   
-//-------------------------------------------------------------------------------------------------------
     public function roles()
     {
-    return $this->belongsTo(RolePerson::class,'role_id');
+    return $this->belongsTo(RolePerson::class,'role_person_id');
 
     }
+   
+//-------------------------------------------------------------------------------------------------------
+    
     // public function role() {
     //     return $this->belongsTo(Role::class );
     // }

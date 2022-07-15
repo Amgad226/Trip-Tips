@@ -23,6 +23,8 @@ return new class extends Migration
             $table->integer('price') ;
             $table->dateTime('start_date');
             $table->dateTime('end_date');
+            $table->text('unique')   ;
+
             $table->timestamp('time')->useCurrent = true;
             
             // $table->integer('img_qr')           ->nullable()    ;

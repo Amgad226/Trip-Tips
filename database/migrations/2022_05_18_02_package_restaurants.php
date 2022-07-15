@@ -17,6 +17,7 @@ return new class extends Migration
             $table->increments('id');
          
             $table->integer('restaurant_id')->unsigned()->index();   
+            $table->string('restaurant_name')->nullable();   
             $table->integer('package_id')->unsigned()->index();
 
             // $table->timestamps('end_date')->nullable();

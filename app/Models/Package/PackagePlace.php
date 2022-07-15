@@ -20,6 +20,7 @@ class PackagePlace extends Authenticatable
         'package_id',
         'place_id',
         'place_booking',
+        'place_name',
 
     ];
 

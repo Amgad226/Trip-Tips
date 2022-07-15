@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return  phpinfo() ;
 });
 
 // Route::get('/for-middelwarer-transfare-to-login-route-in-web', function () {

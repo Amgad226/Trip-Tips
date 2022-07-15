@@ -2,6 +2,7 @@
 
 namespace App\Models\Restaurant;
 
+use App\Models\RoleFacilities;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,6 +22,8 @@ class RestaurantRole extends Authenticatable
     protected $fillable = [
         'user_id',
         'restaurant_id',
+        'restaurant_name',
+        'role_facilities_name',
         'role_facilities_id',
      
         
@@ -31,6 +34,10 @@ class RestaurantRole extends Authenticatable
 
     public function user(){
         return $this->belongsTo(User ::class,'user_id');
+    }
+
+    public function facilitie(){
+        return $this->belongsTo(RoleFacilities::class,'role_facilities_id');
     }
 
 }

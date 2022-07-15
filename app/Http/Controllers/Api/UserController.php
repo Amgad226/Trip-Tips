@@ -110,7 +110,9 @@ class UserController extends Controller
         }
        
         $user->update(['role_person_id'=>2]);
-     
+        $name=$user->roles->role_name;
+        $user->role_peson_name=$name;
+        $user->save();
          return response()->json([
              'status' => 1,
              'message' => 'done',
@@ -151,7 +153,10 @@ class UserController extends Controller
 
        
         $user->update(['role_person_id'=>1]);
-     
+        $name=$user->roles->role_name;
+        $user->role_peson_name=$name;
+        $user->save();
+
          return response()->json([
              'status' => 1,
              'message' => 'done',
@@ -254,8 +259,9 @@ class UserController extends Controller
            ]);  
         }
         if(Auth::user()->role_person_id==3){
-            if ($user->is_active!=1)
+            if ($user->is_active==1)
             {
+                // dd();
                 if($user->role_person_id<3)
                 {
                      $user->is_active=0;
@@ -299,23 +305,76 @@ class UserController extends Controller
     
     }    
 
+    public function unBlock(Request $req){   
+
+       
+        $validator = Validator::make($req-> all(),['user_id'=>['required', 'exists:users,id'],]);
+        if ($validator->fails())
+        {
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+        }
+        $user=User::where('id',$req->user_id)->first();
+
+        if(Auth::id()==$req->user_id){  
+            return response()->json([
+            'status' => 0,
+            'message' => 'you dont have permission to block your self ',
+           ]);  
+        }
+        if(Auth::user()->role_person_id==3){
+            if ($user->is_active==0)
+            {
+                if($user->role_person_id<3)
+                {
+                     $user->is_active=1;
+                     $user->save();        
+                     return response()->json([
+                         'status' => 1,
+                         'message' => 'done',
+                         'users'=> $user, 
+                     ]);  
+              } 
+            }
+        }
+
+        if ($user->is_active==1)
+        {
+             return response()->json([
+            'status' => 0,
+            'message' => 'allready unblocked ',
+           ]); 
+
+        }
+        
+
+        if($user->role_person_id<2)
+        {
+            $user->is_active=1;
+            $user->save();
+            return response()->json([
+                'status' => 1,
+                'message' => 'done',
+                'users'=> $user, 
+            ]); 
+        }
+     
+       else{
+        return response()->json([
+            'status' => 0,
+            'message' => 'you dont have permission ',
+           ]);  
+      
+        }
+    
+    }    
 
 
 
-    public function qr(Request $re){
-
-        $id=7;//request->id
-        $id_item=1;//request->name
-        $a=User::where('id',$id)->first();
-        $item=Item::where('id',$id_item)->first();
-   
-           $image = QrCode::format('png')
-                    ->generate('http://127.0.0.1:8000/ss/'.$a->id.'.'.$a->unque.'.'.$item->id.'.'.$item->unquee);
-         $output_file = '/img/qr-code/img-' . time() . '.png';
-         Storage::disk('local')->put($output_file, $image);
-         return  response()->json(
-             ['msg'=>'QR CODE stored successfully']
-           );
-   }
-   
+    
 }

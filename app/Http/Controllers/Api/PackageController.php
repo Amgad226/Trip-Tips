@@ -137,6 +137,7 @@ class PackageController extends Controller
                 {
                     // print_r($restaurants_id);
                     // dd($restaurant_booking_date[$i]);
+                    $restaurant=Restaurant::where('id',$restaurants_id[$i])->first() ;
                     if ( !Restaurant::where('id',$restaurants_id[$i])->first() ) 
                     {
                         PackagePlace::where('package_id',$package_id)->delete();
@@ -145,7 +146,13 @@ class PackageController extends Controller
                         PackageRestaurant::where('package_id',$package_id)->delete();
                         return response()->json(['status'=>0 , 'message'=>'restaurant dose not exist, we cancel adding all fasilitis to this package ,try again .']);
                     }
-                    PackageRestaurant::create(['restaurant_id'=>$restaurants_id[$i] ,'package_id'=>$package_id,'restaurant_booking_date'=>$restaurant_booking_date[$i]]);
+                    // dd($restaurant->name);
+                    PackageRestaurant::create([
+                    'restaurant_id'=>$restaurants_id[$i],
+                    'restaurant_name'=> $restaurant->name,
+                    'package_id'=>$package_id,
+                    'restaurant_booking_date'=>$restaurant_booking_date[$i],
+                ]);
                     // dd();
                     $restaurant_id = $restaurants_id[$i];
                     $rest=Restaurant::where('id',$restaurant_id)->first();
@@ -168,6 +175,7 @@ class PackageController extends Controller
 
             for ($i=0 ; $i<count($hotels_classes_id);$i++)
             {
+                $hotelClass=HotelClass::where('id',$hotels_classes_id[$i])->first();
                 if (!HotelClass::where('id',$hotels_classes_id[$i])->first() ) 
                 {
 
@@ -182,7 +190,9 @@ class PackageController extends Controller
                 $hotel_id=$hotel_class->hotel->id;
                 PackageHotel::create([
                 'hotel_id'=>$hotel_id ,
+                'hotel_name'=>$hotelClass->hotel->name ,
                 'class_hotel_id'=>$hotels_classes_id[$i],
+                'hotel_class_name'=>$hotelClass->class_name,
                 'package_id'=>$package_id , 
                 'hotel_booking_end_date'=>$hotel_booking_end_date[$i],
                 'hotel_booking_start_date'=>$hotel_booking_start_date[$i]
@@ -209,7 +219,7 @@ class PackageController extends Controller
                 {
                     // dd('s');
                     
-                    
+                    $airplaneClass=AirplaneClass::where('id',$airplanes_classes_id[$i])->first() ;
                     if (!AirplaneClass::where('id',$airplanes_classes_id[$i])->first() ) 
                     {
 
@@ -225,7 +235,9 @@ class PackageController extends Controller
                     PackageAirplane::create(
                         [
                         'airplane_id'          =>$airplane_id ,
+                        'airplane_name'          =>$airplaneClass->airplane->name,
                         'class_airplane_id'    =>$airplanes_classes_id[$i],
+                        'airplane_class_name'    =>$airplaneClass->class_name,
                         'package_id'           =>$package_id , 
                         'airplane_booking_date'=>$airplanes_booking_date[$i],
                         'from'                  =>$from[$i],
@@ -250,7 +262,8 @@ class PackageController extends Controller
 
                 for ($i=0 ; $i<$a;$i++)
                 {
-                    if (!Place::where('id',$place_id[$i])->first() ) 
+                    $place=Place::where('id',$place_id[$i])->first();
+                    if (!$place ) 
                     {
 
                         PackagePlace::where('package_id',$package_id)->delete();
@@ -259,7 +272,7 @@ class PackageController extends Controller
                         PackageRestaurant::where('package_id',$package_id)->delete();
                         return response()->json(['status'=>0 , 'message'=>'this place dose not exist, we cancel adding all fasilitis to this package ,try again .']);
                     }
-                    PackagePlace::create(['place_id'=>$place_id[$i] ,'package_id'=>$package_id,'place_booking'=>$place_booking[$i]]);
+                    PackagePlace::create(['place_id'=>$place_id[$i] ,'place_name'=>$place->name,'package_id'=>$package_id,'place_booking'=>$place_booking[$i]]);
                     // echo $place_id[$i] . "\n" . $place_booking[$i]."\n".$package_id;
                     // dd($package_id);
 

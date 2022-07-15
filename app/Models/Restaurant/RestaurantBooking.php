@@ -23,6 +23,7 @@ class RestaurantBooking extends Authenticatable
         'booking_date',
         'note',
         'by_packge',
+        'unique',
 
     ];
     public function restuarant(){

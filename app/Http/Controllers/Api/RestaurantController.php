@@ -9,8 +9,10 @@ use App\Models\Restaurant\Restaurant;
 use App\Models\Restaurant\RestaurantClass;
 use App\Models\Restaurant\RestaurantImage;
 use App\Models\Restaurant\RestaurantRole;
+use Illuminate\Support\Str;
 
 use App\Models\User;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -93,7 +95,16 @@ class RestaurantController extends Controller
            ];
            
          $restaurant = Restaurant::create($data);
-         RestaurantRole::create(['user_id'=>Auth::id(),'restaurant_id'=>$restaurant->id,'role_facilities_id'=>1]);
+
+         $restaurant_role=RestaurantRole::create(['user_id'=>Auth::id(),'restaurant_id'=>$restaurant->id,'role_facilities_id'=>1]);
+ 
+         $Restaurant_name=$request->name;
+         $facilities_name=$restaurant_role->facilitie->role_name;
+        // 
+         $restaurant_role->restaurant_name=$Restaurant_name;
+         $restaurant_role->role_facilities_name=$facilities_name;
+         $restaurant_role->save();
+
          DB::table('users')->where('id',Auth::id())->update(['have_facilities' =>1]);
 
         //  $data = [];
@@ -215,7 +226,7 @@ class RestaurantController extends Controller
     public function add_Restaurant_Booking(Request $request){
         //  Random() ;
 
-         return rand(5, 15);
+        //  return rand(5, 15);
         $validator = Validator::make($request-> all(),[
             'number_of_people'=> 'required',
             'restaurant_id'   => 'required',
@@ -243,12 +254,19 @@ class RestaurantController extends Controller
                 'booking_date'       =>$request->booking_date,
                 'note'               =>$request->note,
                 'by_packge'          =>0,
+                'unique'             =>Str::random(16)
             
             
         ];
         $BookingRestaurant = RestaurantBooking::create($data);
         // dd();
-    
+        
+        $token = Str::random(4);
+        $image = QrCode::format('png')
+        ->generate('http://127.0.0.1:8000/api/booking-info/'.$BookingRestaurant->user_id.'/'.$token.'/'.$BookingRestaurant->id.'/'.$BookingRestaurant->unique.'?type=res');
+        $a="$BookingRestaurant->user_id.'.'.$token.'/'.$BookingRestaurant->id.'.'.$BookingRestaurant->unique.'?type=res'";
+        $output_file = '/images/qr-code/img-' . time() . '.png';
+        Storage::disk('local')->put($output_file, $image);
         return response()->json([
             'status' => '1',
             'message' => 'BookingRestaurant added successfully ,go to your profile to get image Qr code ',

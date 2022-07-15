@@ -17,6 +17,7 @@ return new class extends Migration
             $table->increments('id');
             $table->integer('package_id')->unsigned()->index();
             $table->integer('place_id')->unsigned()->index();
+            $table->string('place_name');
 
             $table->dateTime('place_booking');
    

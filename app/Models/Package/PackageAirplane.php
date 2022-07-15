@@ -25,6 +25,8 @@ class   PackageAirplane extends Authenticatable
     protected $fillable = [
         'package_id',
         'airplane_id',
+        'airplane_name',
+        'airplane_class_name',
         'class_airplane_id',
         'airplane_booking_date',
         'by_packge',

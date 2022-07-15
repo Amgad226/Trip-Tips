@@ -11,7 +11,7 @@ class SocialiteLog extends Controller
 {
 function registerSocialite(Request $request){
     
-    $user =User::with('role')->where('email',$request->email)->first();
+    $user =User::with('roles')->where('email',$request->email)->first();
         if($user!=null && $user->is_registered==1)
         {
             $token= $user->createToken('agadsdguas')->accessToken;
@@ -47,17 +47,23 @@ function registerSocialite(Request $request){
                    $image_path='/default_photo/user_default.png' ;
                 }   
                 $input = [
-                    'name'      =>$request->name,
-                    'email'     => $request->email,
-                    'img'       => $image_path,    
-                    'is_verifaied'=>true,
+                    'name'         =>$request->name,
+                    'email'        =>$request->email,
+                    'img'          =>$image_path,    
+                    'is_verifaied' =>true,
                     'is_registered'=>0,
+                    'time'=>date('Y-m-d'),
+
                 ];
                 // dd();
                 $UserToDataBase = User::create($input);
                 $id=$UserToDataBase->id;
                 $user =User::with('RestaurantRole','HotelRole','AirplaneRole')->where('email',$request->email)->first(); 
-            
+                $a=$user->roles->role_name;
+                // dd($a);
+                $user->role_peson_name=$a;
+                $user->save();
+
                 $token= $UserToDataBase->createToken('agadsdguas')->accessToken;
             
                  return response()->json([

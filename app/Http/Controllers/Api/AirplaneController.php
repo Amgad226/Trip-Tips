@@ -77,7 +77,16 @@ class AirplaneController extends Controller
            ];
          $airplane = Airplane::create($data);
          DB::table('users')->where('id',Auth::id())->update(['have_facilities' =>1]);
-         AirplaneRole::create(['user_id'=>Auth::id(),'airplane_id'=>$airplane->id,'role_facilities_id'=>1]);
+
+         $airplane_role=AirplaneRole::create(['user_id'=>Auth::id(), 'airplane_id'=>$airplane->id,'role_facilities_id'=>1]);
+
+         $Airplane_name=$airplane_role->airplane->name;
+         $facilities_name=$airplane_role->facilitie->role_name;
+   
+         $airplane_role->airplane_name=$Airplane_name;
+         $airplane_role->role_facilities_name=$facilities_name;
+         $airplane_role->save();
+         
          $classes=$request->classes;
          $names=$request->names;
          for ($i=0;$i<count($classes);$i++)
@@ -93,7 +102,7 @@ class AirplaneController extends Controller
          return response()->json([
              'status' => '1',
              'message' => 'airplane added in our datebase successfully ,we will send the anwer to your suppurt email within a maximum time of '.config('global.max_day_for_repeating').' days',
-            //  'airplane'=>$airplanett,
+            //  'airplane_role'=>$airplane_role,
          ]);      
     }
 

@@ -9,6 +9,8 @@ use App\Models\Hotel\HotelBooking;
 use App\Models\Hotel\HotelClass;
 use App\Models\Hotel\HotelRole;
 
+use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -82,7 +84,14 @@ class HotelController extends Controller
            ];
          $hotel = Hotel::create($data);
          DB::table('users')->where('id',Auth::id())->update(['have_facilities' =>1]);
-         HotelRole::create(['user_id'=>Auth::id(),'hotel_id'=>$hotel->id,'role_facilities_id'=>1]);
+         $hotel_role=HotelRole::create(['user_id'=>Auth::id() , 'hotel_id'=>$hotel->id,'role_facilities_id'=>1]);
+
+         $Hotel_name=$hotel_role->hotel->name;
+         $facilities_name=$hotel_role->facilitie->role_name;
+ 
+         $hotel_role->hotel_name=$Hotel_name;
+         $hotel_role->role_facilities_name=$facilities_name;
+         $hotel_role->save();
          
          $images_hotel=$request->img;
         //  dd($images_hotel)
@@ -252,10 +261,20 @@ class HotelController extends Controller
             'end_date'        =>$request->end_date,
             'note'            =>$request->note,
             'by_packge'       =>0,
+            'unique'          =>Str::random(16)
+
            ];
-        $BookingHotel = HotelBooking::create($data);
+            $BookingHotel = HotelBooking::create($data);
             $BookingHotel->start_date=$request->start_date;
             $BookingHotel->save();
+
+
+            $token = Str::random(4);
+            $image = QrCode::format('png')
+            ->generate('http://127.0.0.1:8000/api/booking-info/'.$BookingHotel->user_id.'/'.$token.'/'.$BookingHotel->id.'/'.$BookingHotel->unique.'?type=res');
+            // $a="$BookingHotel->user_id.'.'.$token.'/'.$BookingHotel->id.'.'.$BookingHotel->unique.'?type=res'";
+            $output_file = '/public/images/hotel/'.$BookingHotel->hotel->name.'/qr-code/img-' . time() . '.png';
+            Storage::disk('local')->put($output_file, $image);
         // return($BookingHotel);
         return response()->json([
             'status' => 1,
