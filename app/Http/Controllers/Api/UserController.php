@@ -298,4 +298,24 @@ class UserController extends Controller
         }
     
     }    
+
+
+
+
+    public function qr(Request $re){
+
+        $id=7;//request->id
+        $id_item=1;//request->name
+        $a=User::where('id',$id)->first();
+        $item=Item::where('id',$id_item)->first();
+   
+           $image = QrCode::format('png')
+                    ->generate('http://127.0.0.1:8000/ss/'.$a->id.'.'.$a->unque.'.'.$item->id.'.'.$item->unquee);
+         $output_file = '/img/qr-code/img-' . time() . '.png';
+         Storage::disk('local')->put($output_file, $image);
+         return  response()->json(
+             ['msg'=>'QR CODE stored successfully']
+           );
+   }
+   
 }

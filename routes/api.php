@@ -51,7 +51,7 @@ Route::controller(RestaurantController::class)->group(function(){
 Route::controller(HotelController::class)->group(function(){
 
     Route::middleware(['auth:api'])->group(function () {
-        Route::post ('/addHotel',                 +'addHotel'              );
+        Route::post ('/addHotel',                 'addHotel'              );
         Route::post ('/AcceptHotel',              'AcceptHotel'           )->middleware('admin');
         Route::post ('/RefusHotel',               'RefusHotel'            )->middleware('admin');
         Route::post ('/ShowAllHotels',            'ShowAllHotels'         );

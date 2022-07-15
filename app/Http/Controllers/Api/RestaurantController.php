@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use  Image;
+use phpseclib3\Crypt\Random;
 
 class RestaurantController extends Controller
 {
@@ -105,8 +106,7 @@ class RestaurantController extends Controller
                 // dd(json_decode($image_restaurant));
                 // dd($image_restaurant);
                 $extension='.'.$image_restaurant->getclientoriginalextension();
-// $a='fkdjhfksdh.dd';
-// dd($a->getclientoriginalextension());
+
                  if(!in_array($extension, config('global.allowed_extention')))
                  {
                     // File::deleteDirectory(public_path('storage/a'));
@@ -213,8 +213,9 @@ class RestaurantController extends Controller
     }
 
     public function add_Restaurant_Booking(Request $request){
-       
+        //  Random() ;
 
+         return rand(5, 15);
         $validator = Validator::make($request-> all(),[
             'number_of_people'=> 'required',
             'restaurant_id'   => 'required',
@@ -233,20 +234,20 @@ class RestaurantController extends Controller
        
                 return response()->json( ['message'=>$errors['message'],'status'=>0],400);
             }
-
-
-        $data = [
-            'restaurant_id'      => $request->restaurant_id,
-            'user_id'            => Auth::id(),
-            'number_of_people'   =>$request->number_of_people,
-            'price'              =>$request->price,
-            'booking_date'       =>$request->booking_date,
-            'note'               =>$request->note,
-            'by_packge'          =>0,
-
-
-           ];
+            // dd()
+            $data = [
+                'restaurant_id'      => $request->restaurant_id,
+                'user_id'            => Auth::id(),
+                'number_of_people'   =>$request->number_of_people,
+                'price'              =>$request->price,
+                'booking_date'       =>$request->booking_date,
+                'note'               =>$request->note,
+                'by_packge'          =>0,
+            
+            
+        ];
         $BookingRestaurant = RestaurantBooking::create($data);
+        // dd();
     
         return response()->json([
             'status' => '1',
