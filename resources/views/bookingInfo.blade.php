@@ -1,5 +1,11 @@
+{{-- <div class="parent">
+  <img  class="image1" src="{{'/default_photo/logo.png'}}" alt="Girl in a jacket" width="50" height="60">
+
+</div> --}}
+<div class="bottom-left"> <img  class="image1" src="{{'/default_photo/logo.png'}}" alt="Girl in a jacket" width="250" height="300"></div>
 
 <div class="card">
+
     <div class="card-back">
       <div class="line-numbers">
         <div>1</div>
@@ -13,13 +19,15 @@
         <div>9</div>
         <div>10</div>
         
-    </div>   
+        
+      </div>   
     <img src="{{$user->img}}" alt="Girl in a jacket" width="500" height="600">
     
     </div>
     <div class="card-front">
         <div class="line-numbers">
             <div>1</div>
+
             <div>2</div>
         <div>3</div>
         <div>4</div>
@@ -30,9 +38,10 @@
         <div>9</div>
         
       </div>
-      <?php $a = request()->type ?>
+      <?php $type = request()->type ?>
+      {{-- <div class="bottom-left"> <img  class="image1" src="{{'/default_photo/logo.png'}}" alt="Girl in a jacket" width="250" height="300"></div> --}}
 
-      @if($a=='res')
+      @if($type=='res')
         <code><span class="variable">Restaurant Booking</span><span>.</span><span class="method">Info</span><span><br>
 
         <code><span class="variable">name</span><span class="function"> :{{$user->name}}</span><span class="operator">=</span><span>{</span>
@@ -50,20 +59,54 @@
 
 
       {{-- --------------------------------------------------------------------------------------------------------- --}}
-      @if($a=='hot')
-      <code><span class="variable">Restaurant Booking</span><span>.</span><span class="method">Info</span><span><br>
+      @if($type=='hot')
+      <code><span class="variable">Hotel Booking</span><span>.</span><span class="method">Info</span><span><br>
 
       <code><span class="variable">name</span><span class="function"> :{{$user->name}}</span><span class="operator">=</span><span>{</span>
-      <div class="indent"> <span class="property">booking date</span><span class="operator">:</span><span class="string">{{$booking->booking_date}}</span><span>,</span></div>
+        {{-- <div class="indent"> <span class="property">hotel name</span><span class="operator">:</span><span>{{$booking->hotel->name}}'</span></div> --}}
+        <div class="indent"> <span class="property">hotel class name</span><span class="operator">:</span><span class="string">{{$booking->hotel->name}}'</span><span>,</span></div>
+      <div class="indent"> <span class="property">booking start_date</span><span class="operator">:</span><span class="string">{{$booking->hotelClass->class_name}}</span><span>,</span></div>
+      <div class="indent"> <span class="property">booking start_date</span><span class="operator">:</span><span class="string">{{$booking->start_date}}</span><span>,</span></div>
+      <div class="indent"> <span class="property">booking end_date</span><span class="operator">:</span><span class="string">{{$booking->end_date}}</span><span>,</span></div>
       <div class="indent"> <span class="property">number_of_people</span><span class="operator">:</span><span class="string">{{$booking->number_of_people}}</span><span>,</span></div>
-      <div class="indent"> <span class="property">restaurant name</span><span class="operator">:</span><span>{{$booking->restuarant->name}}'</span></div>
-      <!-- <div class="indent"> <span class="property">restaurant name</span><span class="operator">:</span><span>{{$booking->restuarant->name}}</span> -->
-      @if($booking->class)
-        <div class="indent"> <span class="property">restaurant name</span><span class="operator">:</span><span class="string">{{$booking->restuarant->name}}'</span><span>,</span></div>
+      <div class="indent"> <span class="property">number_of_room</span><span class="operator">:</span><span class="string">{{$booking->number_of_room}}</span><span>,</span></div>
+      @if($booking->hotelClass->class_name)
       @endif
         <div class="indent"><span class="property">note</span><span class="operator">:</span><span class="string">{{$booking->note}}</span></div><span>}</span>
       </div><span></span>
     </code>
+    @endif
+  {{-- --------------------------------------------------------------------------------------------------------- --}}
+  @if($type=='air')
+  <code><span class="variable">Airplane Booking</span><span>.</span><span class="method">Info</span><span><br>
+
+    <code><span class="variable">name</span><span class="function"> :{{$user->name}}</span><span class="operator">=</span><span>{</span>
+    <div class="indent"> <span class="property">airplane name</span><span class="operator">:</span><span class="string">{{$booking->airplane->name}}</span><span>,</span></div>
+    <div class="indent"> <span class="property">airplane class name</span><span class="operator">:</span><span class="string">{{$booking->airplaneClass->class_name}}'</span><span>,</span></div>
+    <div class="indent"> <span class="property">booking date</span><span class="operator">:</span><span class="string">{{$booking->date}}</span><span>,</span></div>
+    <div class="indent"> <span class="property">number_of_people</span><span class="operator">:</span><span class="string">{{$booking->number_of_people}}</span><span>,</span></div>
+    <div class="indent"> <span class="property">from</span><span class="operator">:</span><span class="string">{{$booking->from}}</span><span>,</span></div>
+    <div class="indent"> <span class="property">to</span><span class="operator">:</span><span class="string">{{$booking->to}}</span><span>,</span></div>
+    @if($booking->airplaneClass->class_name)
+    @endif
+      <div class="indent"><span class="property">note</span><span class="operator">:</span><span class="string">{{$booking->note}}</span></div><span>}</span>
+    </div><span></span>
+  </code>
+  @endif
+
+  {{-- --------------------------------------------------------------------------------------------------------- --}}
+  @if($type=='pack')
+  <code><span class="variable">Airplane Booking</span><span>.</span><span class="method">Info</span><span><br>
+
+    <code><span class="variable">name</span><span class="function"> :{{$user->name}}</span><span class="operator">=</span><span>{</span>
+    <div class="indent"> <span class="property">Package name</span><span class="operator">:</span><span class="string">{{$booking->package->name}}</span><span>,</span></div>
+    <div class="indent"> <span class="property">price</span><span class="operator">:</span><span class="string">{{$booking->package->price}}'</span><span>,</span></div>
+    <div class="indent"> <span class="property">start_date</span><span class="operator">:</span><span class="string">{{$booking->package->start_date}}</span><span>,</span></div>
+    <div class="indent"> <span class="property">number_of_day</span><span class="operator">:</span><span class="string">{{$booking->package->number_of_day}}</span><span>,</span></div>
+    <div class="indent"> <span class="property">end_date</span><span class="operator">:</span><span class="string">{{$booking->package->end_date}}</span><span>,</span></div>
+    <div class="indent"> <span class="property">number_of_people</span><span class="operator">:</span><span class="string">{{$booking->number_of_people}}</span><span>,</span></div>
+
+    {{-- @if($booking->airplaneClass->class_name) --}}
     @endif
  
     </div>
@@ -73,6 +116,12 @@
     *, *:before, *:after {
   box-sizing: border-box;
   outline: none;
+}
+
+.top-left {
+  position: absolute;
+  top: 1333px;
+  left: 16px;
 }
 
 html {
@@ -91,8 +140,23 @@ body {
   justify-content: center;
   width: 100%;
   height: 100vh;
-  background: linear-gradient(4deg, #1f3446, #014578);
+  background: linear-gradient(4deg, #061f36, #113855);
 }
+.parent {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.image1 {
+  position:absolute;
+      top: -15px;
+      left: -30px;
+      z-index: 222;
+      opacity: 0.2;
+
+}
+
 
 code, .card .line-numbers {
   font-family: "Lucida Console", Monaco, monospace;

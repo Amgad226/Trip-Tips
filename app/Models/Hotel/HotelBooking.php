@@ -20,7 +20,7 @@ class HotelBooking extends Authenticatable
         'number_of_people',
         'number_of_room',
         'price',
-        'stert_date',
+        'steat_date',
         'end_date',
         'note',
         'by_packge',

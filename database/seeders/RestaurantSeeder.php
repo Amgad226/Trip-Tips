@@ -9,20 +9,17 @@ use App\Models\Hotel\Hotel;
 use App\Models\Hotel\HotelClass;
 use App\Models\Hotel\HotelImages;
 use App\Models\Hotel\HotelRole;
+use App\Models\Place\Place;
+use App\Models\Place\PlaceImage;
 use App\Models\Restaurant\Restaurant;
 use App\Models\Restaurant\RestaurantImage;
 use App\Models\Restaurant\RestaurantRole;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class RestaurantSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+ 
     public function run()
     {
       $description="sdf hsdfd sfhdsf dkfadn fjkasn kashd lsadhkdsfhb skdfn jkdsfnlsadnfs dnfsdn fldsnflkasndlk asnkjsdnvsjkd nfld flkadj fl;asdjfl asdhf kjsdfh kdahfkadjfh ksjdfnka sdf rejgfhjgfefb ejfe e fkjewh fewk";
@@ -257,5 +254,46 @@ class RestaurantSeeder extends Seeder
       $airplane_role->role_facilities_name=$facilities_name;
       $airplane_role->save();
       
+
+
+
+
+
+      $user_id=3;
+      $data=[
+       'name'=>'Al 40 mountain',
+       'user_id'=>$user_id,
+       'location'=>'rkn alden',
+       'Payment'=>config('global.Payment_retaurant'),
+       'support_email'=>'sdsajfsld@gmail.com',
+      //  'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg',
+       'description'=>$description,
+      ];
+      User::where('id',$user_id)->update(['have_facilities'=>1]);
+     $place= Place::create($data);
+     $palce_id=$place->id;
+     $image_data1=['img'=>'/default_photo/palce/AL40mountain/40.jpg','place_id'=>$palce_id];
+    
+     PlaceImage::create($image_data1);    
+
+     $user_id=3;
+     $data=[
+      'name'=>'Al 50 mountain',
+      'user_id'=>$user_id,
+      'location'=>'rkn alden',
+      'Payment'=>config('global.Payment_retaurant'),
+      'support_email'=>'sdsajfsld@gmail.com',
+     //  'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg',
+      'description'=>$description,
+     ];
+     User::where('id',$user_id)->update(['have_facilities'=>1]);
+    $place= Place::create($data);
+    $palce_id=$place->id;
+    $image_data1=['img'=>'/default_photo/palce/AL40mountain/40.jpg','place_id'=>$palce_id];
+   
+    PlaceImage::create($image_data1);    
+
+
+
 }
 }

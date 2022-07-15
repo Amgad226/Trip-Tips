@@ -26,7 +26,7 @@ return new class extends Migration
             $table->integer('price');
             $table->timestamp('date');
             $table->boolean('by_packge')->nullable();
-            $table->text('unique')   ;
+            $table->text('unique')   ->nullable();
 
             
             // $table->integer('img_qr')           ;

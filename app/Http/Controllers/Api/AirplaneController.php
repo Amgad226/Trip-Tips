@@ -8,6 +8,8 @@ use App\Models\Airplane\AirplaneBooking;
 use App\Models\Airplane\AirplaneClass;
 use App\Models\Airplane\AirplaneRole;
 
+use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -102,7 +104,7 @@ class AirplaneController extends Controller
          return response()->json([
              'status' => '1',
              'message' => 'airplane added in our datebase successfully ,we will send the anwer to your suppurt email within a maximum time of '.config('global.max_day_for_repeating').' days',
-            //  'airplane_role'=>$airplane_role,
+             'id'=>$airplane->id,
          ]);      
     }
 
@@ -216,10 +218,27 @@ class AirplaneController extends Controller
             'date'             =>$request->date,
             'note'             =>$request->note,
             'by_packge'        =>0,
+            'unique'          =>Str::random(16)
+
 
            ];
         $BookingAirplane = AirplaneBooking::create($data);
     
+
+        $token = Str::random(4);
+
+        $image = QrCode::format('png')
+        ->generate('http://127.0.0.1:8000/api/booking-info/'.$BookingAirplane->user_id.'/'.$token.'/'.$BookingAirplane->id.'/'.$BookingAirplane->unique.'?type=air');
+
+        
+        Storage::disk('local')->makeDirectory('public/images/airplane/'.$BookingAirplane->airplane->name.'/qr');
+
+        $a='public/images/airplane/'.$BookingAirplane->airplane->name.'/qr/'.Auth::user()->name.time().'.png';
+        Storage::disk('local')->put($a, $image);  
+        
+ 
+
+
         return response()->json([
             'status' => '1',
             'message' => 'BookingAirplane added successfully ,go to your profile to get image Qr code ',

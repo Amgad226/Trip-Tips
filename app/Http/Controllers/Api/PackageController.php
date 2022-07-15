@@ -2,20 +2,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Mail\AcceptFacilities;
 use App\Models\Airplane\Airplane;
 use App\Models\Airplane\AirplaneBooking;
 use App\Models\Airplane\AirplaneClass;
-use App\Models\Airplane\AirplaneRole;
 use App\Models\Restaurant\RestaurantBooking;
 use App\Models\Restaurant\Restaurant;
-use App\Models\Restaurant\RestaurantImage;
-use App\Models\Restaurant\RestaurantRole;
-
 use App\Models\Hotel\Hotel;
 use App\Models\Hotel\HotelBooking;
 use App\Models\Hotel\HotelClass;
-
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Models\Package\Package;
 use App\Models\Package\PackageAirplane;
 use App\Models\Package\PackageBooking;
@@ -398,11 +395,25 @@ class PackageController extends Controller
                 'price'           =>$package->price*$request->number_of_people,
                 'start_date'        =>$start_date,
                 'end_date'          =>$end_date,
+                'unique'             =>Str::random(16)
+
                ];
            $BookingPackage = PackageBooking::create($data);
            Package::where('id',$package_id)->update(['number_of_reservation'=>$number_of_reservation]);
         //  return;
-             $Price_All=0;
+        $token = Str::random(4);
+        $image = QrCode::format('png')
+        ->generate('http://127.0.0.1:8000/api/booking-info/'.$BookingPackage->user_id.'/'.$token.'/'.$BookingPackage->id.'/'.$BookingPackage->unique.'?type=pack');
+        
+        
+        Storage::disk('local')->makeDirectory('public/images/package/'.$BookingPackage->package->name.'/qr');
+        
+        $a='public/images/package/'.$BookingPackage->package->name.'/qr/'.Auth::user()->name.time().'.png';
+        Storage::disk('local')->put($a, $image);  
+        
+        
+        $Price_All=0;
+        // dd($BookingPackage->unique);
     
              if($BookingPackage->package->PackageRestaurant){
                    foreach($BookingPackage->package->PackageRestaurant as $a)

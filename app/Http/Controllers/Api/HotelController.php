@@ -141,7 +141,7 @@ class HotelController extends Controller
          return response()->json([
              'status' => 1,
              'message' => 'hotel added in our datebase successfully ,we will send the anwer to your suppurt email within a maximum time of ' .config('global.max_day_for_repeating').' days',
-
+            'id'=>$hotel->id,
             //  'message' => 'hotel added successfully',
             //  'hotel'=>$hotellll,
          ]);    
@@ -270,16 +270,21 @@ class HotelController extends Controller
 
 
             $token = Str::random(4);
+
             $image = QrCode::format('png')
-            ->generate('http://127.0.0.1:8000/api/booking-info/'.$BookingHotel->user_id.'/'.$token.'/'.$BookingHotel->id.'/'.$BookingHotel->unique.'?type=res');
-            // $a="$BookingHotel->user_id.'.'.$token.'/'.$BookingHotel->id.'.'.$BookingHotel->unique.'?type=res'";
-            $output_file = '/public/images/hotel/'.$BookingHotel->hotel->name.'/qr-code/img-' . time() . '.png';
-            Storage::disk('local')->put($output_file, $image);
-        // return($BookingHotel);
+            ->generate('http://127.0.0.1:8000/api/booking-info/'.$BookingHotel->user_id.'/'.$token.'/'.$BookingHotel->id.'/'.$BookingHotel->unique.'?type=hot');
+    
+            
+            Storage::disk('local')->makeDirectory('public/images/hotel/'.$BookingHotel->hotel->name.'/qr');
+    
+            $a='public/images/hotel/'.$BookingHotel->hotel->name.'/qr/'.Auth::user()->name.time().'.png';
+            Storage::disk('local')->put($a, $image);  
+            
+
         return response()->json([
             'status' => 1,
             'message' => 'BookingHotel added successfully ,go to your profile to get image Qr code ',
-            // 'info'=>$BookingHotel,
+            'info'=>'public/images/restaurant/'.$BookingHotel->hotel->name.'/qr/'.Auth::user()->name.time().'.png',
         ]);      
   
  

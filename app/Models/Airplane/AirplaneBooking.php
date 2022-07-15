@@ -23,7 +23,7 @@ class AirplaneBooking extends Authenticatable
         'date',
         'number_of_people',
         'price',
-        'booking_date',
+        'date',
         'note',
         'by_packge',
         'airplane_class_id',
@@ -33,6 +33,11 @@ class AirplaneBooking extends Authenticatable
 
     public function airplane() {
         return $this->belongsTo(Airplane::class );
+    }
+
+    
+    public function airplaneClass(){
+        return $this->belongsTo(AirplaneClass::class,'airplane_class_id');
     }
     
  /*___________________________________________________________________________________________________________________________________*/

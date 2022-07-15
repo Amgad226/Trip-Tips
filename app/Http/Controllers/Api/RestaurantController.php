@@ -9,9 +9,9 @@ use App\Models\Restaurant\Restaurant;
 use App\Models\Restaurant\RestaurantClass;
 use App\Models\Restaurant\RestaurantImage;
 use App\Models\Restaurant\RestaurantRole;
-use Illuminate\Support\Str;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use Illuminate\Http\Request;
@@ -22,7 +22,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use  Image;
-use phpseclib3\Crypt\Random;
 
 class RestaurantController extends Controller
 {
@@ -151,7 +150,7 @@ class RestaurantController extends Controller
          return response()->json([
              'status' => '1',
              'message' => 'restaurant added in our datebase successfully ,we will send the anwer to your suppurt email within a maximum time of ' .config('global.max_day_for_repeating').' days',
-
+            'id'=>$restaurant->id,
             //  'restaurant'=>$restauranttt,
          ]);     
     }
@@ -259,14 +258,19 @@ class RestaurantController extends Controller
             
         ];
         $BookingRestaurant = RestaurantBooking::create($data);
-        // dd();
         
         $token = Str::random(4);
+
         $image = QrCode::format('png')
         ->generate('http://127.0.0.1:8000/api/booking-info/'.$BookingRestaurant->user_id.'/'.$token.'/'.$BookingRestaurant->id.'/'.$BookingRestaurant->unique.'?type=res');
-        $a="$BookingRestaurant->user_id.'.'.$token.'/'.$BookingRestaurant->id.'.'.$BookingRestaurant->unique.'?type=res'";
-        $output_file = '/images/qr-code/img-' . time() . '.png';
-        Storage::disk('local')->put($output_file, $image);
+
+        
+        Storage::disk('local')->makeDirectory('public/images/restaurant/'.$BookingRestaurant->restuarant->name.'/qr');
+
+        $a='public/images/restaurant/'.$BookingRestaurant->restuarant->name.'/qr/'.Auth::user()->name.time().'.png';
+        Storage::disk('local')->put($a, $image);  
+        
+        
         return response()->json([
             'status' => '1',
             'message' => 'BookingRestaurant added successfully ,go to your profile to get image Qr code ',

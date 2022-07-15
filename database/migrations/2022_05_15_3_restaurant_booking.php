@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('price')        ;
             $table->timestamp('booking_date');
             $table->text('note')   ->nullable();
-            $table->text('unique')   ;
+            $table->text('unique')   ->nullable();
             $table->boolean('by_packge')->nullable();
 
             // $table->integer('id_your_chois')    ->nullable();

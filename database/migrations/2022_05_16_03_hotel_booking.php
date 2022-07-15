@@ -23,7 +23,7 @@ return new class extends Migration
             $table->dateTime('end_date')->nullable();
             $table->text('note')   ->nullable();
             $table->boolean('by_packge')->nullable();
-            $table->text('unique')   ;
+            $table->text('unique')   ->nullable();
 
             // $table->integer('img_qr')           ->nullable();
             // $table->integer('id_your_chois')    ->nullable();

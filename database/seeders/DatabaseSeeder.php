@@ -7,6 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,8 +18,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Storage::disk('local')->makeDirectory('public/images/package    ');
+
+        File::deleteDirectory(public_path('storage/images'));
+
+
+        Storage::disk('local')->makeDirectory('public/images/package');
         Storage::disk('local')->makeDirectory('public/images/users');
+        Storage::disk('local')->makeDirectory('public/images/place');
+
+        // Storage::disk('local')->makeDirectory('public/images/restaurant/qr');
+        // Storage::disk('local')->makeDirectory('public/images/hotel/qr');
+        // Storage::disk('local')->makeDirectory('public/images/airplane/qr');
+        // Storage::disk('local')->makeDirectory('public/images/package/qr');
         Storage::disk('local')->makeDirectory('public/default_photo/SweetPark/title_deed');
         Storage::disk('local')->makeDirectory('public/default_photo/Mac/title_deed');
         Storage::disk('local')->makeDirectory('public/default_photo/meredean/title_deed');
