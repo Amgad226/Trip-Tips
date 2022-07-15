@@ -17,16 +17,16 @@ class booking_Info_Qr_Controller extends Controller
         echo $id;
         if(request()->a=='res')
         {
-        $booking = RestaurantBooking::where('id',$bookingid)->where('user_id',$id)->first(); 
+         $booking = RestaurantBooking::where('id',$bookingid)->where('user_id',$id)->first(); 
         }
 
         if(request()->a=='hot')
         {
-        $booking = HotelBooking::where('id',$bookingid)->where('user_id',$id)->first(); 
+         $booking = HotelBooking::where('id',$bookingid)->where('user_id',$id)->first(); 
         }
         if(request()->a=='air')
         {
-        $booking = AirplaneBooking::where('id',$bookingid)->where('user_id',$id)->first(); 
+         $booking = AirplaneBooking::where('id',$bookingid)->where('user_id',$id)->first(); 
         }
      
         $user = User::where('id',$id)->first(); 

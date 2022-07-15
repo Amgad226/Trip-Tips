@@ -34,6 +34,8 @@ $password=Hash::make(123456);
             'have_facilities'=>0,
             'is_registered'=>true,
             'is_verifaied'=>true,
+            'time'=>'2021-1-1',
+
 
       ];
       $ayham = [
@@ -46,6 +48,8 @@ $password=Hash::make(123456);
          'have_facilities'=>0,
          'is_registered'=>true,
          'is_verifaied'=>true,
+         'time'=>'2021-1-1',
+
 
   ];
 
@@ -59,6 +63,8 @@ $password=Hash::make(123456);
     'have_facilities'=>0,
     'is_registered'=>true,
     'is_verifaied'=>true,
+    'time'=>date('Y-m-d'),
+
 
 ];
 
@@ -72,6 +78,8 @@ $yassmin = [
     'have_facilities'=>0,
     'is_registered'=>true,
     'is_verifaied'=>true,
+    'time'=>'2021-1-1',
+
 ];
 $user = [
     'name'      =>'user',
@@ -83,6 +91,21 @@ $user = [
     'have_facilities'=>0,
     'is_registered'=>true,
     'is_verifaied'=>true,
+    'time'=>'2021-1-1',
+
+];
+$omar = [
+    'name'      =>'omar',
+    'email'     => 'omar@gmail.com',
+    'password'  => $password,
+    'phone'     => '985681',
+    'img'       => '/default_photo/user_default.png' ,
+    'role_person_id'=>1,
+    'have_facilities'=>0,
+    'is_registered'=>true,
+    'is_verifaied'=>true,
+    'time'=>date('Y-m-d'),
+
 ];
         //encoding password before adding to databse
 
@@ -92,6 +115,7 @@ $user = [
         User::create($aseel);
         User::create($yassmin);
         User::create($user);
+        User::create($omar);
 
 
     }

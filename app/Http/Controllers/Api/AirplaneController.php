@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AcceptFacilities;
@@ -20,6 +20,8 @@ use  Image;
 
 class AirplaneController extends Controller
 {
+    
+    public function a(Request $request){dd();}
 
     public function addAirplane(Request $request){
         $validator = Validator::make($request-> all(),[

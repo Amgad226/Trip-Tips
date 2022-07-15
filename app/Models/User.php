@@ -30,6 +30,7 @@ class User extends Authenticatable
         'role_person_id',
         'have_facilities',
         'wallet_id',
+        'time'
     ];
     
     public function RestaurantRole(){

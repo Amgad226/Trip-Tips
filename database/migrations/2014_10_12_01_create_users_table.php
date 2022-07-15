@@ -33,7 +33,7 @@ return new class extends Migration
             
             // $table->timestamps();
 
-            $table->timestamp('time')->useCurrent = true;
+            $table->date('time');
 
 
         });

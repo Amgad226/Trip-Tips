@@ -9,7 +9,6 @@ use App\Models\Hotel\HotelBooking;
 use App\Models\Hotel\HotelClass;
 use App\Models\Hotel\HotelRole;
 
-use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,8 +51,7 @@ class HotelController extends Controller
             $extension='.'.$request->img_title_deed->getclientoriginalextension();
 
             if(!in_array($extension, config('global.allowed_extention')))
-            {
-             
+            {  
              return response()->json(['message' => 'invalide image ectension' ,'status' => 0],400);   
             }
             $Hotel_Name= $request->name;  
@@ -94,13 +92,9 @@ class HotelController extends Controller
              $i=1;
              foreach($images_hotel as $image_hotel) 
                {     
-                  //  dd();
                    $extension='.'.$image_hotel->getclientoriginalextension();
-                  //  dd();
-                   if(!in_array($extension, config('global.allowed_extention')))// vendor\symfony\http-foundation\Response.php 446
+                   if(!in_array($extension, config('global.allowed_extention')))
                    {
-                    // dd();
-                       // File::deleteDirectory(public_path('storage/a'));
                        File::deleteDirectory(public_path('storage/images/hotel/'.$request->name));
                        HotelImages::where('hotel_id',$hotel->id)->delete();
                        $hotel->delete();
@@ -117,23 +111,20 @@ class HotelController extends Controller
                   //store without resize
                   // $image_hotel->storeAs($destination_path,  $i."_". $Hotel_Name.$extension);
                   
-                  
                   $image_path_to_database = "/storage/images/hotel/".$Hotel_Name ."/". $i."_".$Hotel_Name.$extension;   
-  
                   $image_data=['img'=>$image_path_to_database,'hotel_id'=>$hotel->id];
                   HotelImages::create($image_data);
-                  // dd($a);
                    $i++;
                 
                 }
-            }
+           }
             //اضافة الاسعر الخاصة بالاوتيل 
          $classes=$request->classes;
          $names=$request->names;
          $number_of_people=$request->number_of_people;
          for ($i=0;$i<count($classes);$i++)
          {
-         HotelClass::create(['hotel_id'=>$hotel->id,'money'=>$classes[$i],'class_name'=>$names[$i],'number_of_people'=>$number_of_people[$i] ,]);
+           HotelClass::create(['hotel_id'=>$hotel->id,'money'=>$classes[$i],'class_name'=>$names[$i],'number_of_people'=>$number_of_people[$i] ,]);
          }
           //  $hotellll=Hotel::with('images')->where('id',$hotel->id)->first();
          //  dd($hoteltt);
@@ -217,7 +208,6 @@ class HotelController extends Controller
 
     public function add_Hotel_Booking(Request $request)
     {
-      //    dd($request->a);
         $validator = Validator::make($request-> all(),[
             'number_of_people'=> 'required',
             'hotel_id'   => 'required',
@@ -227,11 +217,9 @@ class HotelController extends Controller
             'end_date'    => 'required|date',
 
         ]);
-    //   return  $request->hotel_class_id->hotel;
 
             if ($validator->fails())
             {
-                // return response()->json(['message'      => $validator->errors(),'status'=>0],400);
                 $errors = [];
                 foreach ($validator->errors()->messages() as $key => $value) {
                     $key = 'message';

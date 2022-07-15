@@ -12,7 +12,13 @@ class checkuer extends Controller
     public function check(Request $request)
     {
         // echo "hi admin/owner";
-        return response()->json(['message'=>'hi admin/owner'],200);
+        return response()->json(['message'=>'hi '.Auth::user()->name.'you are admin/owner'],200);
+    }
+    
+    public function nameByToken(Request $request)
+    {
+        // echo "hi admin/owner";
+        return response()->json(['message'=>'hi '.Auth::user()->name],200);
     }
     
 }

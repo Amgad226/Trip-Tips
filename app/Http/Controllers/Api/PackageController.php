@@ -13,10 +13,8 @@ use App\Models\Restaurant\RestaurantImage;
 use App\Models\Restaurant\RestaurantRole;
 
 use App\Models\Hotel\Hotel;
-use App\Models\Hotel\HotelImages;
 use App\Models\Hotel\HotelBooking;
 use App\Models\Hotel\HotelClass;
-use App\Models\Hotel\HotelRole;
 
 use App\Models\Package\Package;
 use App\Models\Package\PackageAirplane;
@@ -25,17 +23,11 @@ use App\Models\Package\PackageHotel;
 use App\Models\Package\PackagePlace;
 use App\Models\Package\PackageRestaurant;
 use App\Models\Place\Place;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
-use  Image;
-use Prophecy\Doubler\Generator\Node\ReturnTypeNode;
 
 class PackageController extends Controller
 {
@@ -371,7 +363,6 @@ class PackageController extends Controller
         */
 
         
-            
             //    return  $BookingPackage->package;
             $package=Package::with('PackageAirplane')->where('id',$package_id)->first();
             // return $package; 

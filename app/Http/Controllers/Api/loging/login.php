@@ -71,7 +71,8 @@ class login extends Controller
             'password'     => $request->password,
             'phone'        => $request->phone,
             'img'          => $image_path,   //هون حطيت باث الصورة يلي بل بابليك مشان يكون بل داتا بيز الباث يلي بينعرض  
-            'is_registered'=> '1',
+            'is_registered'=> 1,
+            'time'=>date('Y-m-d'),
       ];
         //encoding password before adding to databse
         $input['password'] = Hash::make($input['password']);
