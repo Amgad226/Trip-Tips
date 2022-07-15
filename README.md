@@ -10,6 +10,8 @@ and fill the database information .
 ## To install lib Open the console and cd your project root directory and wirte :
 - composer install 
 
+- composer require simplesoftwareio/simple-qrcode
+
 - php artisan key:generate
 
 - php artisan migrate:fresh --seed
@@ -23,4 +25,5 @@ and fill the database information .
 - php artisan storage:link
 
 - php artisan serve
+
 
