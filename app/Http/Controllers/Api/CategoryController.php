@@ -40,6 +40,7 @@ class CategoryController extends Controller
     public function getTouristSupervisor(){
       
         $TouristSupervisor=TouristSupervisor::all();
+        // dd($TouristSupervisor);
         return response()->json([
             'message'=>' done',
             'status'=>1,

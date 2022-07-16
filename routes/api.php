@@ -42,7 +42,7 @@ Route::controller(CategoryController::class)->group(function(){
         Route::get ('/getRestaurantCategory',    'getRestaurantCategory'     );
         Route::get ('/getHotelCategory',         'getHotelCategory'          );
         Route::get ('/getPackageCategory',       'getPackageCategory'        );
-        Route::get ('/TouristSupervisor',        'TouristSupervisor'         );
+        Route::get ('/getTouristSupervisor',        'getTouristSupervisor'         );
     });
 });
 //_____________________________________________________________________________________________________________________//

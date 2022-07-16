@@ -22,10 +22,10 @@ return new class extends Migration
             $table->string('description');
             $table->string('added_by');
             $table->integer('max_reservation');
-            $table->integer('discount_percentage');
+            $table->integer('discount_percentage')->nullable();
             $table->integer('number_of_day');
             $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->dateTime('end_date')  ;
 
             $table->integer('tourist_supervisor_id')->unsigned()->index();
             $table->foreign('tourist_supervisor_id')->references('id')->on('tourist_supervisors')->onDelete('cascade')->onUpdate('cascade');

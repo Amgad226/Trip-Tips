@@ -36,7 +36,6 @@ class PackageController extends Controller
             'name'               => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/', 'max:50','min:3'],
             'description'        => 'required',
             'max_reservation'    => 'required|integer',
-            'discount_percentage'=> 'required|integer',
             'start_date'               =>'required',
             'number_of_day'            =>'required',
             'tourist_supervisor_id'    =>'required',
@@ -90,20 +89,18 @@ class PackageController extends Controller
                 'discount_percentage'  => $request->discount_percentage,
                 'added_by'             => Auth::user()->name,
                 'img'                  => $image_path,
-                'start_date'           =>$start_end,
-                'end_date'             =>$end_date,
+                'start_date'           =>$start_end->format('Y-m-d H-i-s'),
+                'end_date'             =>$end_date->format('Y-m-d H-i-s'),
                 'number_of_day'        =>$request->number_of_day,
                 'tourist_supervisor_id'=>$request->tourist_supervisor_id,
                 'category_id'          =>$request->category_id,
 
                ];
          $Package = Package::create($data);
-     
          return response()->json([
              'status' => '1',
              'message' => 'Package added successfully',
              'package'=>$Package,
-            //  'item'=>$Package,
          ]);     
     }
 
@@ -111,8 +108,8 @@ class PackageController extends Controller
     {
         $validator = Validator::make($request-> all(),[
            
-            'package_id'      =>  ['required', 'exists:packages,id'],
-            // 'restaurant_id'      => 'required',
+            'package_id'          =>  ['required', 'exists:packages,id'],
+            'discount_percentage'=> 'required|integer',
             // 'hotel_class_id'     => 'required',
             // 'airplane_class_id'  => 'required',
         ]);
@@ -132,6 +129,9 @@ class PackageController extends Controller
         {
             return response()->json(['message'=>'allready add fasilitis to this package ','status'=>0],400);
         }
+         Package::where('id',$request->package_id)->update(['discount_percentage'=>$request->discount_percentage]);
+
+
         $package_id=$request->package_id;
       
         $restaurants_price=0;
