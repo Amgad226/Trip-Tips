@@ -5,9 +5,9 @@ namespace App\Models\Package;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PackageComment extends Model
+class PlaceComment extends Model
 {
-    protected $table = 'comment_packages';
+    protected $table = 'comment_place';
     public $timestamps = false;
 
     protected $fillable = [
@@ -21,7 +21,7 @@ class PackageComment extends Model
         return $this->belongsTo(Package::class,'package_id');
     }
 
-    public function  user()
+    public function  users()
     {
         return $this->belongsTo(User::class,'package_id');
     }

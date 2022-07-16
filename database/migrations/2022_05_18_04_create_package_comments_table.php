@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('restaurant_comments', function (Blueprint $table) {
+        Schema::create('package_comments', function (Blueprint $table) {
             $table->increments('id');
             $table->text('comment');
-            $table->date('date_restaurant');
-
+          
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->integer('resturant_id')->unsigned()->index();
-            $table->foreign('resturant_id')->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');
-            
+            $table->integer('package_id')->unsigned()->index();
+            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade')->onUpdate('cascade');
+
             // $table->timestamps();
             $table->timestamp('time')->useCurrent = true;
 
@@ -37,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('restaurant_comments');
+        Schema::dropIfExists('package_comments');
     }
 };

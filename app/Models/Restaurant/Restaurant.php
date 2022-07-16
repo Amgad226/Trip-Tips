@@ -2,6 +2,7 @@
 
 namespace App\Models\Restaurant;
 
+use App\Models\Restaurant\CategoryRestaurant;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,6 +13,7 @@ class Restaurant extends Authenticatable
 {
 
     protected $table = 'restaurants';
+    
     public $timestamps = false;
 
 
@@ -20,7 +22,7 @@ class Restaurant extends Authenticatable
         'rate',
         'location',
         'support_email',
-        'catigory_id',
+        'category_id',
         'img_title_deed',
         'img',
         'user_id',
@@ -30,17 +32,20 @@ class Restaurant extends Authenticatable
         'description',
 
     ];
-    public function catigorys(){
-        return $this->belongsTo(Category::class);
+    public function category(){
+        return $this->belongsTo(CategoryRestaurant::class,'category_id');
     }
-
-    public function restaurant_comments(){
-        return $this->hasMany(Restaurant_comment::class,'restaurant_id');
-    }
-
-    public function images(){
+   public function images(){
         return $this->hasMany(RestaurantImage::class);
     }
+
+    public function restaurantComments(){
+        return $this->hasMany(RestaurantComment::class);
+    }
+    //____________________________________
+    
+
+ 
     public function restaurant_favorites(){
         return $this->hasMany(Restaurant_favorite::class,'restaurant_id');
     }

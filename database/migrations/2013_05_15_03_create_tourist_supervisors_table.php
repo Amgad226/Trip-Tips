@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -14,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('roles_facilities', function (Blueprint $table) {
+        Schema::create('tourist_supervisors', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('role_name');//manager-supervisor
+            $table->string('name');
+            $table->string('phone');
+            $table->string('location');
             // $table->timestamps();
-           
+            $table->timestamp('time')->useCurrent = true;
+
         });
     }
 
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles_facilities');
+        Schema::dropIfExists('tourist_supervisors');
     }
 };

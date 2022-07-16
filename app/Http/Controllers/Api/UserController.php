@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
+use App\Models\AppReview;
+use App\Models\TouristSupervisor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -372,7 +374,98 @@ class UserController extends Controller
       
         }
     
-    }    
+    }
+
+    public function addCommentForApp(Request $req){   
+
+        
+        $validator = Validator::make($req-> all(),['comment'=>['required'],]);
+        if ($validator->fails())
+        {
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+        }
+
+        AppReview::create(['comment'=>$req->comment,'user_id'=>Auth::id()]);
+     
+         return response()->json([
+             'status' => 1,
+             'message' => 'done',
+             
+         ]);     
+    }
+
+    public function delleteCommentForApp(Request $req){   
+
+        
+        $validator = Validator::make($req-> all(),['comment_id'=>['required', 'exists:app_reviews,id'],]);
+        if ($validator->fails())
+        {
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+        }
+
+
+        $comment=AppReview::where('id',$req->comment_id)->first();
+        if(Auth::user()->role_person_id>1||$comment->user_id==Auth::id())
+        {
+            $comment->delete();
+            return response()->json([
+                'status' => 1,
+                'message'=>'comment has been deleted'
+            ]);
+        }
+
+     return response()->json([
+        'status' => 0,
+        'message' => 'access denied' ]); 
+    }
+    
+    
+    public function Show_Comments_For_App(){
+
+        $comments = AppReview::with('user')->get();
+            return( response()->json([ 
+                'status'=>1,
+                'message'=> $comments   ]));
+    } 
+
+    public function Show_Comment_For_App(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'comment_id'      =>['required', 'exists:app_reviews,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+        $comment = AppReview::with('user')->where('comment_id',$request->comment_id)->first();
+        //  dd($comments);
+            return( response()->json([ 
+                'status'=>1,
+                'message'=> $comment   ]));
+    } 
+        
 
 
 

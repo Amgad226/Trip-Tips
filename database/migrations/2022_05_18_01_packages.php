@@ -27,9 +27,12 @@ return new class extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date');
 
-            // $table->integer('tourist_supervisor_id')->unsigned()->index();
-            // $table->foreign('tourist_supervisor_id')->references('id')->on('tourist_supervisors')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('tourist_supervisor_id')->unsigned()->index();
+            $table->foreign('tourist_supervisor_id')->references('id')->on('tourist_supervisors')->onDelete('cascade')->onUpdate('cascade');
             
+            $table->integer('category_id')->unsigned()->index();
+            $table->foreign('category_id') ->references('id')->on('catigories_package')->onDelete('cascade')->onUpdate('cascade');
+         
             // $table->timestamps();
             $table->timestamp('time')->useCurrent = true;
 

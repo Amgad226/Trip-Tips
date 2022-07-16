@@ -7,6 +7,7 @@ use App\Mail\AcceptFacilities;
 use App\Models\Restaurant\RestaurantBooking;
 use App\Models\Restaurant\Restaurant;
 use App\Models\Restaurant\RestaurantClass;
+use App\Models\Restaurant\RestaurantComment;
 use App\Models\Restaurant\RestaurantImage;
 use App\Models\Restaurant\RestaurantRole;
 
@@ -37,6 +38,8 @@ class RestaurantController extends Controller
             'img'           => 'required',
             'price_booking' => 'required',
             'description'   => 'required',
+            'catigory_id'    =>    ['required', 'exists:catigories_restaurant,id'],
+            
         ]);
 
             if ($validator->fails())
@@ -90,6 +93,7 @@ class RestaurantController extends Controller
             'support_email' => $request->support_email,
             'img_title_deed'=> $image_title_deed_path, 
             'description'   =>$request->description,
+            'catigory_id'   =>$request->catigory_id,
 
            ];
            
@@ -208,7 +212,7 @@ class RestaurantController extends Controller
 
     public function ShowAllResturants(){
 
-        $restaurant_acceptable = Restaurant::with('images')->where('acceptable',1)->get();
+        $restaurant_acceptable = Restaurant::with('images','category')->where('acceptable',1)->get();
  
          return response()->json(['message'=>' successfuly','restaurants'=>$restaurant_acceptable,'status'=>1],200);
    
@@ -216,7 +220,7 @@ class RestaurantController extends Controller
     
     public function Show_Not_Active_Resturants(){
 
-        $restaurant_acceptable = Restaurant::with('images')->where('acceptable',0)->get();
+        $restaurant_acceptable = Restaurant::with('images','category')->where('acceptable',0)->get();
  
          return response()->json(['message'=>' successfuly','restaurants'=>$restaurant_acceptable,'status'=>1],200);
    
@@ -278,6 +282,127 @@ class RestaurantController extends Controller
         ]);     
     }
 
+    public function add_Restaurant_Comment(Request $request) {
+
+
+        $validator = Validator::make($request-> all(),[
+           
+            'user_id'      =>  ['required', 'exists:users,id'],
+            'restaurant_id'     =>  ['required', 'exists:restaurants,id'],
+            'comment'  => 'required',
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+        }
+        
+        $data_of_comment =
+                [
+                    'user_id'             => Auth::id(),
+                    'restaurant_id'         => $request->restaurant_id,
+                    'comment'             => $request->comment,                
+                ];
+      RestaurantComment::create($data_of_comment);
+
+        return response()->json([
+            'status' => 1,
+            'details'=>'Your comment has been added'
+        ]); 
+    }
+    
+    public function remove_Restaurant_Comment(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'comment_id'      =>  ['required', 'exists:restaurant_comments,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+         $comment=RestaurantComment::where('id',$request->comment_id)->first();
+            if(Auth::user()->role_person_id>1||$comment->user_id==Auth::id())
+            {
+                $comment->delete();
+                return response()->json([
+                    'status' => 1,
+                    'message'=>'Your comment has been deleted'
+                ]);
+            }
+    
+        return response()->json([
+            'status' => 0,
+            'message' => 'access denied' ]);
+    
+    }
+
+    public function Show_Restaurant_Comments(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'restaurant_id'      =>  ['required', 'exists:restaurants,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+        $comments = RestaurantComment::with('user')->where('restaurant_id',$request->restaurant_id)->get();
+        //  dd($comments);
+            return( response()->json([ 
+                'status'=>1,
+                'message'=> $comments   ]));
+    } 
+
+    public function Show_Restaurant_Comment(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'comment_id'      =>['required', 'exists:restaurant_comments,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+        $comment = RestaurantComment::with('user')->where('comment_id',$request->comment_id)->first();
+        //  dd($comments);
+            return( response()->json([ 
+                'status'=>1,
+                'message'=> $comment   ]));
+    } 
     
     
 }

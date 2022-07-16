@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Airplane\AirplaneComment;
 use App\Models\Airplane\AirplaneRole;
+use App\Models\Hotel\HotelComment;
 use App\Models\Hotel\HotelRole;
+use App\Models\Package\PackageComment;
 use App\Models\Place\PlaceRole;
+use App\Models\Restaurant\RestaurantComment;
 use App\Models\Restaurant\RestaurantRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -51,9 +55,25 @@ class User extends Authenticatable
     return $this->belongsTo(RolePerson::class,'role_person_id');
 
     }
+    public function AirplaneComment(){
+        return $this->hasMany(AirplaneComment ::class);
+    }
+    public function restaurantComment(){
+        return $this->hasMany(RestaurantComment ::class);
+    }
+    public function hotelComment(){
+        return $this->hasMany(HotelComment ::class);
+    }
+    public function packageComment(){
+        return $this->hasMany(PackageComment ::class);
+    }
+   
    
 //-------------------------------------------------------------------------------------------------------
-    
+public function placeComment(){
+    return $this->hasMany(PlaceComment ::class);
+}
+
     // public function role() {
     //     return $this->belongsTo(Role::class );
     // }

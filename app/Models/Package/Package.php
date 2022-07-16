@@ -3,12 +3,9 @@
 namespace App\Models\Package;
 
 use App\Models\Airplane\Airplane;
-use App\Models\Hotel\Hotel;
-use App\Models\Hotel\HotelClass;
-use App\Models\Hotel\HotelImages;
-use App\Models\Place\Place;
-use App\Models\Restaurant\Restaurant;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Package\CategoryPackage;
+
+use App\Models\TouristSupervisor;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -37,8 +34,9 @@ class Package extends Authenticatable
         'start_date',
         'number_of_day',
         'end_date',
-        
+        'tourist_supervisor_id',
         'added_by',//
+        'category_id',
     ];
 
     public function PackageAirplane() {
@@ -59,22 +57,26 @@ class Package extends Authenticatable
     public function BookingPackage() {
         return $this->hasMany(PackageBooking::class );
     }
-    
+
+    public function category(){
+        return $this->belongsTo(CategoryPackage::class,'category_id');
+    }
+    public function tourisSupervisor()
+    {
+        return $this->belongsTo(TouristSupervisor::class,'tourist_supervisor_id' );
+    }
+    public function packageComments(){
+        return $this->hasMany(PackageComment::class);
+    }
  /*___________________________________________________________________________________________________________________________________*/
     public function airplane()
     {
         return $this->hasMany(Airplane::class );
     }
-    // public function restaurant()
-    // {
-    //     return $this->belongsTo(Restaurant::class,'restaurant_id' );
-    // }
+  
     // public function hotel()
     // {
     //     return $this->belongsTo(Hotel::class,'hotel_id' );
     // }
-    public function hotelImg()
-    {
-        return $this->hasManyThrough( HotelImages::class,Hotel::class);
-    }
+   
 }

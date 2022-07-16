@@ -7,6 +7,7 @@ use App\Models\Hotel\Hotel;
 use App\Models\Hotel\HotelImages;
 use App\Models\Hotel\HotelBooking;
 use App\Models\Hotel\HotelClass;
+use App\Models\Hotel\HotelComment;
 use App\Models\Hotel\HotelRole;
 
 use Illuminate\Support\Str;
@@ -36,7 +37,9 @@ class HotelController extends Controller
             'img_title_deed'=> 'required',
             'img'           => 'required',
             'description'           => 'required',
-        
+            'catigory_id'    =>    ['required', 'exists:catigories_hotel,id'],
+
+            
         ]);
 
             if ($validator->fails())
@@ -81,6 +84,8 @@ class HotelController extends Controller
             'support_email' => $request->support_email,
             'img_title_deed'=> $image_title_deed_path, 
             'description'=>$request->description,
+            'catigory_id'   =>$request->catigory_id,
+
            ];
          $hotel = Hotel::create($data);
          DB::table('users')->where('id',Auth::id())->update(['have_facilities' =>1]);
@@ -201,7 +206,7 @@ class HotelController extends Controller
 
     public function ShowAllHotels(){
 
-        $hotels_acceptable = Hotel::with('images','classes')->where('acceptable',1)->get();
+        $hotels_acceptable = Hotel::with('images','classes','category')->where('acceptable',1)->get();
  
          return response()->json(['message'=>' successfuly','hotels'=>$hotels_acceptable,'status'=>1],200);
    
@@ -209,7 +214,7 @@ class HotelController extends Controller
 
     public function Show_Not_Active_Hotels(){
 
-        $hotels_acceptable = Hotel::with('images','classes')->where('acceptable',0)->get();
+        $hotels_acceptable = Hotel::with('images','classes','category')->where('acceptable',0)->get();
  
          return response()->json(['message'=>' successfuly','hotels'=>$hotels_acceptable,'status'=>1],200);
    
@@ -292,5 +297,127 @@ class HotelController extends Controller
     
 
     }
+
+    public function add_Hotel_Comment(Request $request) {
+
+
+        $validator = Validator::make($request-> all(),[
+           
+            'user_id'      =>  ['required', 'exists:users,id'],
+            'hotel_id'     =>  ['required', 'exists:hotels,id'],
+            'comment'  => 'required',
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+        }
+        
+        $data_of_comment =
+                [
+                    'user_id'             => Auth::id(),
+                    'hotel_id'             => $request->hotel_id,
+                    'comment'             => $request->comment,                
+                ];
+      HotelComment::create($data_of_comment);
+
+        return response()->json([
+            'status' => 1,
+            'details'=>'Your comment has been added'
+        ]); 
+    }
+    
+    public function remove_Hotel_Comment(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'Comment_id'      =>  ['required', 'exists:hotel_comments,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+         $comment=HotelComment::where('id',$request->Comment_id)->first();
+            if(Auth::user()->role_person_id>1||$comment->user_id==Auth::id())
+            {
+                $comment->delete();
+                return response()->json([
+                    'status' => 1,
+                    'message'=>'Your comment has been deleted'
+                ]);
+            }
+    
+        return response()->json([
+            'status' => 0,
+            'message' => 'access denied' ]);
+    
+    }
+    public function Show_Hotel_Comments(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'hotel_id'      =>  ['required', 'exists:hotels,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+        $comments = HotelComment::with('user')->where('hotel_id',$request->hotel_id)->get();
+        //  dd($comments);
+            return( response()->json([ 
+                'status'=>1,
+                'message'=> $comments   ]));
+    } 
+
+
+    public function Show_Hotel_Comment(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'comment_id'      =>['required', 'exists:hotel_comments,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+        $comment = HotelComment::with('user')->where('comment_id',$request->comment_id)->first();
+        //  dd($comments);
+            return( response()->json([ 
+                'status'=>1,
+                'message'=> $comment   ]));
+    } 
 
 }

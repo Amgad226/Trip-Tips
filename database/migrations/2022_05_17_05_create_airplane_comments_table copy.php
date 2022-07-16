@@ -13,16 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('package_comments', function (Blueprint $table) {
+        Schema::create('airplane_comments', function (Blueprint $table) {
             $table->increments('id');
             $table->text('comment');
-            $table->date('date_package');
-          
+
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->integer('package_id')->unsigned()->index();
-            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('airplane_id')->unsigned()->index();
+            $table->foreign('airplane_id')->references('id')->on('airplanes')->onDelete('cascade')->onUpdate('cascade');
 
             // $table->timestamps();
             $table->timestamp('time')->useCurrent = true;
@@ -37,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('package_comments');
+        Schema::dropIfExists('airplane_comments');
     }
 };

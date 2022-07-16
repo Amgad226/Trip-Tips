@@ -31,7 +31,10 @@ Route::get ('/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'      
 Route::post ('/Verify_checking',   [VerifyEmailController::class, 'Verify_checking'   ] )->middleware(['auth:api']);
     
 Route::post('registerSocialite',   [SocialiteLog::class, 'registerSocialite'          ] );
+
 Route::post('addPasswordSocialite',[SocialiteLog::class, 'addPasswordSocialite'       ] )->middleware(['auth:api']);
+
+
 //_____________________________________________________________________________________________________________________//
 //Restaurant
 
@@ -44,6 +47,11 @@ Route::controller(RestaurantController::class)->group(function(){
         Route::post ('/ShowAllResturants',          'ShowAllResturants'          );
         Route::post ('/Show_Not_Active_Resturants', 'Show_Not_Active_Resturants' )->middleware('admin');
         Route::post ('/add_Restaurant_Booking',     'add_Restaurant_Booking'     );
+
+        Route::post ('/add_Restaurant_Comment',     'add_Restaurant_Comment'     );
+        Route::post ('/remove_Restaurant_Comment',     'remove_Restaurant_Comment'     );
+        Route::post ('/Show_Restaurant_Comments',     'Show_Restaurant_Comments'     );
+        Route::post ('/Show_Restaurant_Comment',     'Show_Restaurant_Comment'     );
     });
 });
 //_____________________________________________________________________________________________________________________//
@@ -57,6 +65,12 @@ Route::controller(HotelController::class)->group(function(){
         Route::post ('/ShowAllHotels',            'ShowAllHotels'         );
         Route::post ('/Show_Not_Active_Hotels',   'Show_Not_Active_Hotels')->middleware('admin');
         Route::post ('/add_Hotel_Booking',        'add_Hotel_Booking'     );
+
+        Route::post ('/add_Hotel_Comment',        'add_Hotel_Comment'     );
+        Route::post ('/remove_Hotel_Comment',        'remove_Hotel_Comment'     );
+        Route::post ('/Show_Hotel_Comments',        'Show_Hotel_Comments'     );
+        Route::post ('/Show_Hotel_Comment',        'Show_Hotel_Comment'     );
+
     });
 });
 //_____________________________________________________________________________________________________________________//
@@ -70,6 +84,12 @@ Route::controller(AirplaneController::class)->group(function(){
         Route::post ('/ShowAllAirplane',            'ShowAllAirplane'           );
         Route::post ('/Show_Not_Active_Airplanes',  'Show_Not_Active_Airplanes' )->middleware('admin');
         Route::post ('/add_Airplane_Booking',       'add_Airplane_Booking'      );
+   
+        Route::post ('/add_Airplane_Comment',       'add_Airplane_Comment'      );
+        Route::post ('/remove_Airplane_Comment',       'remove_Airplane_Comment'      );
+        Route::post ('/Show_Airplane_Comments',       'Show_Airplane_Comments'      );
+        Route::post ('/Show_Airplane_Comment',       'Show_Airplane_Comment'      );
+        
     });
 });
 //_____________________________________________________________________________________________________________________//
@@ -82,6 +102,12 @@ Route::controller(PlaceController::class)->group(function(){
         Route::post ('/RefusPlace',              'RefusPlace'             )->middleware('admin');
         Route::post ('/ShowAllPlaces',           'ShowAllPlaces'          );
         Route::post ('/Show_Not_Active_Places',  'Show_Not_Active_Places' )->middleware('admin');
+
+        Route::post ('/add_Place_Comment',           'add_Place_Comment'          );
+        Route::post ('/remove_Place_Comment',           'remove_Place_Comment'          );
+        Route::post ('/Show_Place_Comments',           'Show_Place_Comments'          );
+        Route::post ('/Show_Place_Comment',           'Show_Place_Comment'          );
+
     });
 });
 //_____________________________________________________________________________________________________________________//
@@ -93,6 +119,15 @@ Route::controller(PackageController::class)->group(function(){
     Route::post ('/addFaciliticsToPackage'  ,'addFaciliticsToPackage' )->middleware('admin');
     Route::get  ('/get_Packages'            ,'get_Packages'           );
     Route::post ('/add_Package_Booking'     ,'add_Package_Booking'    );
+    Route::post ('/ِAddTouristSupervisor'     ,'ِAddTouristSupervisor'  )->middleware('admin');
+    Route::post ('/DeleteTouristSupervisor'  ,'DeleteTouristSupervisor')->middleware('admin');
+        
+    Route::post ('/add_Package_Comment'     ,'add_Package_Comment'    );
+    Route::post ('/remove_Package_Comment'     ,'remove_Package_Comment'    );
+    Route::post ('/Show_Package_Comments'     ,'Show_Package_Comments'    );
+    Route::post ('/Show_Package_Comment'     ,'Show_Package_Comment'    );
+    
+    
     });
 });
 //_____________________________________________________________________________________________________________________//
@@ -112,6 +147,10 @@ Route::prefix('user')->controller(UserController::class)->group(function(){
         Route::post('/unBlock','unBlock');
         Route::post('/Delete','Delete');
       });
+      Route::post('addCommentForApp',     'addCommentForApp'       )->middleware(['auth:api']);
+      Route::post('addCommentForApp',     'addCommentForApp'       )->middleware(['auth:api']);
+      Route::post('Show_Comments_For_App','Show_Comments_For_App'  )->middleware(['auth:api']);
+      Route::post('Show_Comment_For_App', 'Show_Comment_For_App'   )->middleware(['auth:api']);
 });
 //_____________________________________________________________________________________________________________________//
 

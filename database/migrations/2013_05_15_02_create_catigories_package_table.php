@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tourist_supervisors', function (Blueprint $table) {
+        Schema::create('catigories_package', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             // $table->timestamps();
-            $table->timestamp('time')->useCurrent = true;
-
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tourist_supervisors');
+        Schema::dropIfExists('catigories_package');
     }
 };

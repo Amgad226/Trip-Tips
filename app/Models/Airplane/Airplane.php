@@ -34,6 +34,10 @@ class Airplane extends Authenticatable
         return $this->hasMany(AirplaneClass::class);
     }
 
+    public function comment(){
+        return $this->hasMany(AirplaneComment::class);
+    }
+
     public function PackageAirplane() {
         return $this->hasMany(PackageAirplane::class );
     }

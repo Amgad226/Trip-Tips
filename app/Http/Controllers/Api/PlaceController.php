@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 
 use App\Mail\AcceptFacilities;
+use App\Models\Package\PlaceComment;
 use App\Models\Place\PlaceRole;
 use App\Models\Place\Place;
 use App\Models\Place\PlaceImage;
@@ -30,6 +31,8 @@ class PlaceController extends Controller
             'support_email' => 'required|email',
             'description'   => 'required',
             'img'           => 'required',
+            'category_id'    =>    ['required', 'exists:catigories_hotel,id'],
+
         ]);
 
             if ($validator->fails())
@@ -62,6 +65,7 @@ class PlaceController extends Controller
             'Payment'       => config('global.Payment_place'),
             'support_email' => $request->support_email,
             'description'   =>$request->description,
+            'category_id'   =>$request->category_id,
 
            ];
            
@@ -172,19 +176,140 @@ class PlaceController extends Controller
 
     public function ShowAllPlaces(){
 
-        $place_acceptable = Place::with('image')->where('acceptable',1)->get();
+        $place_acceptable = Place::with('image','category')->where('acceptable',1)->get();
  
-         return response()->json(['message'=>' successfuly','Place'=>$place_acceptable,'status'=>1],200);
+         return response()->json(['status'=>1,'message'=>' successfuly','Place'=>$place_acceptable],200);
    
     }
     
     public function Show_Not_Active_Places(){
 
-        $place_acceptable = Place::with('image')->where('acceptable',0)->get();
+        $place_acceptable = Place::with('image','category')->where('acceptable',0)->get();
  
-         return response()->json(['message'=>' successfuly','Place'=>$place_acceptable,'status'=>1],200);
+         return response()->json(['status'=>1,'message'=>' successfuly','Place'=>$place_acceptable],200);
    
     }
+    
+    public function add_Place_Comment(Request $request) {
+
+
+        $validator = Validator::make($request-> all(),[
+           
+            'user_id'      =>  ['required', 'exists:users,id'],
+            'place_id'     =>  ['required', 'exists:places,id'],
+            'comment'  => 'required',
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+        }
+        
+        $data_of_comment =
+                [
+                    'user_id'             => Auth::id(),
+                    'place_id'         => $request->place_id,
+                    'comment'             => $request->comment,                
+                ];
+      PlaceComment::create($data_of_comment);
+
+        return response()->json([
+            'status' => 1,
+            'details'=>'Your comment has been added'
+        ]); 
+    }
+    
+    public function remove_Place_Comment(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'comment_id'      =>  ['required', 'exists:place_comments,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+        }
+
+         $comment=PlaceComment::where('id',$request->comment_id)->first();
+            if(Auth::user()->role_person_id>1||$comment->user_id==Auth::id())
+            {
+                $comment->delete();
+                return response()->json([
+                    'status' => 1,
+                    'message'=>'Your comment has been deleted'
+                ]);
+            }
+    
+        return response()->json([
+            'status' => 0,
+            'message' => 'access denied' ]);
+    
+    }
+
+    public function Show_Place_Comments(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'place_id'      =>  ['required', 'exists:places,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+        $comments = PlaceComment::with('user')->where('place_id',$request->place_id)->get();
+        //  dd($comments);
+            return( response()->json([ 
+                'status'=>1,
+                'message'=> $comments   ]));
+    } 
+
+    public function Show_Place_Comment(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'comment_id'      =>['required', 'exists:place_comments,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+        $comment = PlaceComment::with('user')->where('comment_id',$request->comment_id)->first();
+        //  dd($comments);
+            return( response()->json([ 
+                'status'=>1,
+                'message'=> $comment   ]));
+    } 
 
     
     

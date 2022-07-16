@@ -6,6 +6,7 @@ use App\Mail\AcceptFacilities;
 use App\Models\Airplane\Airplane;
 use App\Models\Airplane\AirplaneBooking;
 use App\Models\Airplane\AirplaneClass;
+use App\Models\Airplane\AirplaneComment;
 use App\Models\Airplane\AirplaneRole;
 
 use Illuminate\Support\Str;
@@ -23,8 +24,6 @@ use  Image;
 class AirplaneController extends Controller
 {
     
-    public function a(Request $request){dd();}
-
     public function addAirplane(Request $request){
         $validator = Validator::make($request-> all(),[
             'name'          => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/', 'max:20','min:3'],
@@ -245,5 +244,128 @@ class AirplaneController extends Controller
             'info'=>$BookingAirplane,
         ]);    
     }
+
+    
+
+    public function add_Airplane_Comment(Request $request) {
+
+
+        $validator = Validator::make($request-> all(),[
+           
+            'user_id'      =>  ['required', 'exists:users,id'],
+            'airplane_id'     =>  ['required', 'exists:airplanes,id'],
+            'comment'  => 'required',
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+        }
+        
+        $data_of_comment =
+                [
+                    'user_id'             => Auth::id(),
+                    'airplane_id'         => $request->airplane_id,
+                    'comment'             => $request->comment,                
+                ];
+      AirplaneComment::create($data_of_comment);
+
+        return response()->json([
+            'status' => 1,
+            'details'=>'Your comment has been added'
+        ]); 
+    }
+    
+    public function remove_Airplane_Comment(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'comment_id'      =>  ['required', 'exists:airplane_comments,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+         $comment=AirplaneComment::where('id',$request->comment_id)->first();
+            if(Auth::user()->role_person_id>1||$comment->user_id==Auth::id())
+            {
+                $comment->delete();
+                return response()->json([
+                    'status' => 1,
+                    'message'=>'Your comment has been deleted'
+                ]);
+            }
+    
+        return response()->json([
+            'status' => 0,
+            'message' => 'access denied' ]);
+    
+    }
+    public function Show_Airplane_Comments(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'airplane_id'      =>  ['required', 'exists:airplanes,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+        $comments = AirplaneComment::with('user')->where('airplane_id',$request->airplane_id)->get();
+        //  dd($comments);
+            return( response()->json([ 
+                'status'=>1,
+                'message'=> $comments   ]));
+    } 
+
+    public function Show_Airplane_Comment(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'comment_id'      =>['required', 'exists:airplane_comments,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+        $comment = AirplaneComment::with('user')->where('comment_id',$request->comment_id)->first();
+        //  dd($comments);
+            return( response()->json([ 
+                'status'=>1,
+                'message'=> $comment   ]));
+    } 
 
 }

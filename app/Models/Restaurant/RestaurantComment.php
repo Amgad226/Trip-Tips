@@ -13,18 +13,17 @@ class RestaurantComment extends Model
 
     protected $fillable = [
         'comment',
-        'date_restaurant',
         'user_id',
         'restaurant_id',
     ];
 
     public function  restaurants()
     {
-        return $this->belongsTo(Restaurant::class);
+        return $this->belongsTo(Restaurant::class,'restaurant_id');
     }
 
     public function  users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 }

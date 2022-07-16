@@ -88,7 +88,7 @@ class login extends Controller
         $a->save();
         //welcome email and verifay Eamil to user
             // Mail::to($user->email)->send(new welcomeMail($input));
-            // $user->sendEmailVerificationNotification();
+            $user->sendEmailVerificationNotification();
 
         //create token 
         $token = $user->createToken('agmad')->accessToken;

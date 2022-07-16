@@ -2,6 +2,7 @@
 
 namespace App\Models\Hotel;
 
+use App\Models\Hotel\CategoryHotel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -21,11 +22,11 @@ use Laravel\Sanctum\HasApiTokens;
         'location',
         'Payment',
         'support_email',
-        // 'catigory_id',
         'img_title_deed',
         'user_id',
         'acceptable',
         'description',
+        'category_id',
 
 
     ];
@@ -37,25 +38,28 @@ use Laravel\Sanctum\HasApiTokens;
     public function classes(){
         return $this->hasMany(HotelClass::class);
     }
+    public function category(){
+        return $this->belongsTo(CategoryHotel::class,'category_id');
+    }
+
+    public function hotelComments(){
+        return $this->hasMany(Hotelcomment::class,'hotel_id');
+    }
+
     //------------------------------------------------------
 
-    public function catigorys(){
-        return $this->belongsTo(Category::class);
-    }
+  
+   
 
-    public function hotel_comments(){
-        return $this->hasMany(Hotel_comment::class,'hotel_id');
-    }
+    // public function hotel_favorites(){
+    //     return $this->hasMany(Hotel_favorite::class,'hotel_id');
+    // }
 
-    public function hotel_favorites(){
-        return $this->hasMany(Hotel_favorite::class,'hotel_id');
-    }
+    // public function packages(){
+    //     return $this->hasOne(Package::class,'hotel_id');
+    // }
 
-    public function packages(){
-        return $this->hasOne(Package::class,'hotel_id');
-    }
-
-    public function booking_hotels(){
-        return $this->hasMany(HotelBooking::class,'hotel_id');
-    }
+    // public function booking_hotels(){
+    //     return $this->hasMany(HotelBooking::class,'hotel_id');
+    // }
 }

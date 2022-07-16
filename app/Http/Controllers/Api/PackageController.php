@@ -16,10 +16,12 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Models\Package\Package;
 use App\Models\Package\PackageAirplane;
 use App\Models\Package\PackageBooking;
+use App\Models\Package\PackageComment;
 use App\Models\Package\PackageHotel;
 use App\Models\Package\PackagePlace;
 use App\Models\Package\PackageRestaurant;
 use App\Models\Place\Place;
+use App\Models\TouristSupervisor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +39,10 @@ class PackageController extends Controller
             'discount_percentage'=> 'required|integer',
             'start_date'               =>'required',
             'number_of_day'            =>'required',
+            'tourist_supervisor_id'    =>'required',
+            'category_id'    =>    ['required', 'exists:catigories_package,id'],
+
+            
             // 'img'                => 'required',
     
         ]);
@@ -77,16 +83,19 @@ class PackageController extends Controller
             // echo "\n".$end_date;
             // return;
             $data = [
-                'name'                => $request->name,
-                'price'               => $request->price,
-                'max_reservation'     => $request->max_reservation,
-                'description'         => $request->description,
-                'discount_percentage' => $request->discount_percentage,
-                'added_by'            => Auth::user()->name,
-                'img'                 => $image_path,
-                'start_date'          =>$start_end,
-                'end_date'            =>$end_date,
-                'number_of_day'       =>$request->number_of_day,
+                'name'                 => $request->name,
+                'price'                => $request->price,
+                'max_reservation'      => $request->max_reservation,
+                'description'          => $request->description,
+                'discount_percentage'  => $request->discount_percentage,
+                'added_by'             => Auth::user()->name,
+                'img'                  => $image_path,
+                'start_date'           =>$start_end,
+                'end_date'             =>$end_date,
+                'number_of_day'        =>$request->number_of_day,
+                'tourist_supervisor_id'=>$request->tourist_supervisor_id,
+                'category_id'          =>$request->category_id,
+
                ];
          $Package = Package::create($data);
      
@@ -107,6 +116,7 @@ class PackageController extends Controller
             // 'hotel_class_id'     => 'required',
             // 'airplane_class_id'  => 'required',
         ]);
+
         if ($validator->fails())
         {
             // return response()->json(['message'      => $validator->errors()],400);
@@ -118,8 +128,11 @@ class PackageController extends Controller
 
             return response()->json( ['message'=>$errors['message'],'status'=>0],400);
         }
+        if(PackageRestaurant::where('package_id',$request->package_id)->first()|| PackageHotel::where('package_id',$request->package_id)   ->first()  ||PackagePlace::where('package_id',$request->package_id) ->first()    ||PackageAirplane::where('package_id',$request->package_id)->first())
+        {
+            return response()->json(['message'=>'allready add fasilitis to this package ','status'=>0],400);
+        }
         $package_id=$request->package_id;
-        // $package=Package::where('id',$package_id);
       
         $restaurants_price=0;
         if($request->restaurant_id!=null && $request->restaurant_booking_date!=null){
@@ -292,7 +305,7 @@ class PackageController extends Controller
     }
    
     public function get_Packages(){
-        $Packages = Package::with('PackageAirplane','PackageRestaurant','PackageHotel','PackagePlace')->get();
+        $Packages = Package::with('PackageAirplane','PackageRestaurant','PackageHotel','PackagePlace','category','tourisSupervisor')->get();
 
         $airplanes=[];
         $restaurants=[];
@@ -311,7 +324,7 @@ class PackageController extends Controller
    
        
             foreach ($Package->PackageRestaurant as $PackageRestaurant ){
-                $restaurants[]=( Restaurant::with('images')->where('id', $PackageRestaurant->restaurant_id)->get());
+                $restaurants[]=( Restaurant::with('images','category')->where('id', $PackageRestaurant->restaurant_id)->get());
             }
 
         
@@ -319,7 +332,7 @@ class PackageController extends Controller
 
       
             foreach ($Package->PackageHotel as $PackageHotel ){
-                $hotels[]=( Hotel::with('images','classes')->where('id', $PackageHotel->hotel_id)->get());
+                $hotels[]=( Hotel::with('images','classes','category')->where('id', $PackageHotel->hotel_id)->get());
             }
         
          $hotels = array_unique($hotels); 
@@ -328,7 +341,7 @@ class PackageController extends Controller
 
        
             foreach ($Package->PackagePlace as $PackagePlace ){
-                $places[]=( Place::where('id', $PackagePlace->place_id)->get());
+                $places[]=( Place::with('image','category')->where('id', $PackagePlace->place_id)->get());
             }
           $places = array_unique($places); 
         }
@@ -544,4 +557,176 @@ class PackageController extends Controller
             'booking_info'=>$Booking,
          ]);     
     }
+
+    
+    public function ِAddTouristSupervisor(Request $req){   
+
+       
+        $validator = Validator::make($req-> all(),[
+            'name'    =>    ['required',],
+            'phone'   =>    ['required',],
+            'location'=>    ['required',],
+            ]);
+        if ($validator->fails())
+        {
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+        }
+
+        $TouristSupervisor=  TouristSupervisor::create( ['name'=>$req->name ,'phone'=>$req->phone,'location'=>$req->location  ]);
+        return response()->json( ['message'=>'done','status'=>1,'TouristSupervisor'=>$TouristSupervisor],200);
+        
+    }
+    
+    public function DeleteTouristSupervisor(Request $req){   
+
+       
+        $validator = Validator::make($req-> all(),[
+            'id'    =>    ['required', 'exists:tourist_supervisors,id'],
+            ]);
+        if ($validator->fails())
+        {
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+        }
+
+        $TouristSupervisor=  TouristSupervisor::where('id',$req->id);
+        $TouristSupervisor->delete();
+        return response()->json( ['message'=>'done','status'=>1],200);
+        
+    }
+
+    
+    public function add_Package_Comment(Request $request) {
+
+
+        $validator = Validator::make($request-> all(),[
+           
+            'user_id'      =>  ['required', 'exists:users,id'],
+            'package_id'     =>  ['required', 'exists:packages,id'],
+            'comment'  => 'required',
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+        }
+        
+        $data_of_comment =
+                [
+                    'user_id'             => Auth::id(),
+                    'package_id'         => $request->package_id,
+                    'comment'             => $request->comment,                
+                ];
+      PackageComment::create($data_of_comment);
+
+        return response()->json([
+            'status' => 1,
+            'details'=>'Your comment has been added'
+        ]); 
+    }
+    
+    public function remove_Package_Comment(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'comment_id'      =>  ['required', 'exists:package_comments,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+         $comment=PackageComment::where('id',$request->comment_id)->first();
+            if(Auth::user()->role_person_id>1||$comment->user_id==Auth::id())
+            {
+                $comment->delete();
+                return response()->json([
+                    'status' => 1,
+                    'message'=>'Your comment has been deleted'
+                ]);
+            }
+    
+        return response()->json([
+            'status' => 0,
+            'message' => 'access denied' ]);
+    
+    }
+
+    public function Show_Package_Comments(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'package_id'      =>  ['required', 'exists:packages,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+        $comments = PackageComment::with('user')->where('package_id',$request->package_id)->get();
+        //  dd($comments);
+            return( response()->json([ 
+                'status'=>1,
+                'message'=> $comments   ]));
+    } 
+
+    public function Show_Package_Comment(Request $request){
+
+        $validator = Validator::make($request-> all(),[
+
+            'comment_id'      =>['required', 'exists:package_comments,id'],
+        ]);
+
+        if ($validator->fails())
+        {
+            // return response()->json(['message'      => $validator->errors()],400);
+            $errors = [];
+            foreach ($validator->errors()->messages() as $key => $value) {
+                $key = 'message';
+                $errors[$key] = is_array($value) ? implode(',', $value) : $value;
+            }
+            return response()->json( ['message'=>$errors['message'],'status'=>0],400);
+
+        }
+
+        $comment = PackageComment::with('user')->where('comment_id',$request->comment_id)->first();
+        //  dd($comments);
+            return( response()->json([ 
+                'status'=>1,
+                'message'=> $comment   ]));
+    } 
+    
 }

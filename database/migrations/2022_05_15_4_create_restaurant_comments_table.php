@@ -13,24 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('places', function (Blueprint $table) {
+        Schema::create('restaurant_comments', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('comment');
 
-            $table->string('name') ;
-            $table->string('location');
-            $table->integer('Payment');
-            $table->string('support_email');
-            // $table->string('img_title_deed');
-            $table->string('description') ;
-
-            $table->boolean('acceptable')->default(0);
-            
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->integer('category_id')->unsigned()->index();
-            $table->foreign('category_id') ->references('id')->on('catigories_hotel')->onDelete('cascade')->onUpdate('cascade');
-         
+            $table->integer('resturant_id')->unsigned()->index();
+            $table->foreign('resturant_id')->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');
+            
+            // $table->timestamps();
             $table->timestamp('time')->useCurrent = true;
 
         });
@@ -43,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('places');
+        Schema::dropIfExists('restaurant_comments');
     }
 };

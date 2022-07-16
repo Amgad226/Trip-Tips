@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('catigories', function (Blueprint $table) {
+        Schema::create('catigories_restaurant', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             // $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('catigories');
+        Schema::dropIfExists('catigories_restaurant');
     }
 };

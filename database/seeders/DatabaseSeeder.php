@@ -34,8 +34,13 @@ class DatabaseSeeder extends Seeder
         Storage::disk('local')->makeDirectory('public/default_photo/Mac/title_deed');
         Storage::disk('local')->makeDirectory('public/default_photo/meredean/title_deed');
         Storage::disk('local')->makeDirectory('public/default_photo/hilton/title_deed');
+        Storage::disk('local')->makeDirectory('public/default_photo/place');
         
         
+        $this->call(TouristSupervisorSeeder::class);
+        $this->call(CategoryRestaurantSeeder::class);
+        $this->call(CategoryPackageSeeder::class);
+        $this->call(CategoryHotelSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(RestaurantSeeder::class);

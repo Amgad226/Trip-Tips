@@ -34,6 +34,7 @@ class RestaurantSeeder extends Seeder
         'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg',
         'price_booking'=>12,
         'description'=>$description,
+        'category_id'=>3,
        ];
        User::where('id',$user_id)->update(['have_facilities'=>1]);
       $res= Restaurant::create($data);
@@ -67,6 +68,8 @@ class RestaurantSeeder extends Seeder
         'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg',
         'price_booking'=>12,
         'description'=>$description,
+        'category_id'=>4,
+
 
 
        ];
@@ -99,6 +102,8 @@ class RestaurantSeeder extends Seeder
         'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg',
         'price_booking'=>12,
         'description'=>$description,
+        'category_id'=>3,
+
 
 
        ];
@@ -129,6 +134,8 @@ class RestaurantSeeder extends Seeder
         'support_email'=>'hilton@gmail.com',
         'img_title_deed'=>'/default_photo/hilton/title_deed/12.jpg',
         'description'=>$description,
+        'category_id'=>1,
+
 
        ];
       $hotel= Hotel::create($data);
@@ -166,6 +173,8 @@ class RestaurantSeeder extends Seeder
         'support_email'=>'meredean@gmail.com',
         'img_title_deed'=>'/default_photo/meredean/title_deed/12.jpg',
         'description'=>$description,
+        'category_id'=>2,
+
 
        ];
       $hotel= Hotel::create($data);
@@ -268,11 +277,12 @@ class RestaurantSeeder extends Seeder
        'support_email'=>'sdsajfsld@gmail.com',
       //  'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg',
        'description'=>$description,
+       'category_id'=>2
       ];
       User::where('id',$user_id)->update(['have_facilities'=>1]);
      $place= Place::create($data);
      $palce_id=$place->id;
-     $image_data1=['img'=>'/default_photo/palce/AL40mountain/40.jpg','place_id'=>$palce_id];
+     $image_data1=['img'=>'/default_photo/place/AL40mountain/40.jpg','place_id'=>$palce_id];
     
      PlaceImage::create($image_data1);    
 
@@ -285,11 +295,13 @@ class RestaurantSeeder extends Seeder
       'support_email'=>'sdsajfsld@gmail.com',
      //  'img_title_deed'=>'/default_photo/SweetPark/title_deed/12.jpg',
       'description'=>$description,
+      'category_id'=>2
+
      ];
      User::where('id',$user_id)->update(['have_facilities'=>1]);
     $place= Place::create($data);
     $palce_id=$place->id;
-    $image_data1=['img'=>'/default_photo/palce/AL40mountain/40.jpg','place_id'=>$palce_id];
+    $image_data1=['img'=>'/default_photo/place/AL40mountain/40.jpg','place_id'=>$palce_id,];
    
     PlaceImage::create($image_data1);    
 
