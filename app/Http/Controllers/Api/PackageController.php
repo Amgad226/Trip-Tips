@@ -37,11 +37,12 @@ class PackageController extends Controller
             'description'        => 'required',
             'max_reservation'    => 'required|integer',
             'start_date'               =>'required',
-            'number_of_day'            =>'required',
+            'number_of_day'            =>'required|integer',
             'tourist_supervisor_id'    =>'required',
             'category_id'    =>    ['required', 'exists:catigories_package,id'],
 
-            
+            'discount_percentage'=> 'required|integer',
+    
             // 'img'                => 'required',
     
         ]);
@@ -81,6 +82,7 @@ class PackageController extends Controller
             // echo $start_end;
             // echo "\n".$end_date;
             // return;
+            // dd($request->category_id);
             $data = [
                 'name'                 => $request->name,
                 'price'                => $request->price,
@@ -94,8 +96,9 @@ class PackageController extends Controller
                 'number_of_day'        =>$request->number_of_day,
                 'tourist_supervisor_id'=>$request->tourist_supervisor_id,
                 'category_id'          =>$request->category_id,
-
+                'discount_percentage'   =>$request->discount_percentage
                ];
+
          $Package = Package::create($data);
          return response()->json([
              'status' => '1',
@@ -109,10 +112,10 @@ class PackageController extends Controller
         $validator = Validator::make($request-> all(),[
            
             'package_id'          =>  ['required', 'exists:packages,id'],
-            'discount_percentage'=> 'required|integer',
             // 'hotel_class_id'     => 'required',
             // 'airplane_class_id'  => 'required',
         ]);
+   
 
         if ($validator->fails())
         {
@@ -129,7 +132,6 @@ class PackageController extends Controller
         {
             return response()->json(['message'=>'allready add fasilitis to this package ','status'=>0],400);
         }
-         Package::where('id',$request->package_id)->update(['discount_percentage'=>$request->discount_percentage]);
 
 
         $package_id=$request->package_id;
@@ -292,11 +294,11 @@ class PackageController extends Controller
        
         $Package = Package::where('id',$package_id)->first();
         $full_price=$restaurants_price + $hotels_price + $airplanes_price;
-        echo "full_price ".$full_price."\n";
+        // echo "full_price ".$full_price."\n";
         $Discount_price = ($Package->discount_percentage / 100) * $full_price;
-        echo "Discount_price  ".$Discount_price."\n";
+        // echo "Discount_price  ".$Discount_price."\n";
         $price_after_discount = $full_price-$Discount_price;
-        echo "price_after_discount  ".$price_after_discount."\n";
+        // echo "price_after_discount  ".$price_after_discount."\n";
 
         // return;
         $Package->update(['price'=>$price_after_discount]);
