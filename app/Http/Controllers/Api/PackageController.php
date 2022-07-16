@@ -302,7 +302,14 @@ class PackageController extends Controller
 
         // return;
         $Package->update(['price'=>$price_after_discount]);
-        return response()->json(['status'=>1,'message'=>'added successfully']);
+        return response()->json(['status'=>1,
+        'message'=>'added successfully',
+        'full_price'=>$full_price,
+        'Discount_price'=>$Discount_price,
+        'price_after_discount'=>$price_after_discount,
+        
+    
+    ]);
                
     }
    
