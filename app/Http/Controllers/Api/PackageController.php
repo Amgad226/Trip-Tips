@@ -102,7 +102,7 @@ class PackageController extends Controller
          return response()->json([
              'status' => '1',
              'message' => 'Package added successfully',
-             'package_id'=>$Package->id,
+             'package'=>$Package,
             //  'item'=>$Package,
          ]);     
     }

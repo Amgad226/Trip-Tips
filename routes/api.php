@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Api\AirplaneController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\booking_Info_Qr_Controller;
 use App\Http\Controllers\Api\checkuer;
 use App\Http\Controllers\Api\HotelController;
@@ -33,8 +34,17 @@ Route::post ('/Verify_checking',   [VerifyEmailController::class, 'Verify_checki
 Route::post('registerSocialite',   [SocialiteLog::class, 'registerSocialite'          ] );
 
 Route::post('addPasswordSocialite',[SocialiteLog::class, 'addPasswordSocialite'       ] )->middleware(['auth:api']);
+//_____________________________________________________________________________________________________________________//
+// Get category and TouristSupervisor
+Route::controller(CategoryController::class)->group(function(){
 
-
+    Route::middleware(['auth:api','admin'])->group(function () {
+        Route::get ('/getRestaurantCategory',    'getRestaurantCategory'     );
+        Route::get ('/getHotelCategory',         'getHotelCategory'          );
+        Route::get ('/getPackageCategory',       'getPackageCategory'        );
+        Route::get ('/TouristSupervisor',        'TouristSupervisor'         );
+    });
+});
 //_____________________________________________________________________________________________________________________//
 //Restaurant
 
@@ -153,6 +163,8 @@ Route::prefix('user')->controller(UserController::class)->group(function(){
       Route::post('Show_Comment_For_App', 'Show_Comment_For_App'   )->middleware(['auth:api']);
 });
 //_____________________________________________________________________________________________________________________//
+Route::get('/booking-info/{id}/{token}/{bookingid}/{unique}',[booking_Info_Qr_Controller::class,'show']);
+//_____________________________________________________________________________________________________________________//
 
 Route::get('/clear-cache', function() {
     $exitCode = Artisan::call('cache:clear');
@@ -163,5 +175,4 @@ Route::get('/clear-cache', function() {
 Route::post('/checkuer' ,   [checkuer ::class, 'check'      ])->middleware(['auth:api'])->middleware('checkuser');
 Route::post('/nameByToken' ,[checkuer ::class, 'nameByToken'])->middleware(['auth:api']);
 // Route::get('/qr/{id}/{bookingid}',[booking_Info_Qr_Controller::class,'show']);
-Route::get('/booking-info/{id}/{token}/{bookingid}/{unique}',[booking_Info_Qr_Controller::class,'show']);
 // Route::get('/booking-info/{id}/{bookingid}',[booking_Info_Qr_Controller::class,'show']);

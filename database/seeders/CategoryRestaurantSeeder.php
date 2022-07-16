@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use App\Models\CategoryRestaurant;
+use App\Models\Restaurant\CategoryRestaurant;
 use App\Models\Facilitie;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,12 +17,12 @@ class CategoryRestaurantSeeder extends Seeder
      */
     public function run()
     {
-        CategoryRestaurant::create( ['name'=>'بحري'   ]);
-        CategoryRestaurant::create( ['name'=>'عربي'       ]);
-        CategoryRestaurant::create( ['name'=>'اجنبي'    ]);
-        CategoryRestaurant::create( ['name'=>'عائلي'    ]);
-        CategoryRestaurant::create( ['name'=>'كازينو'    ]);
-        CategoryRestaurant::create( ['name'=>'بينزيما'    ]);
+        CategoryRestaurant::create( ['name'=>'Seafood'   ]);
+        CategoryRestaurant::create( ['name'=>'Arabic'       ]);
+        CategoryRestaurant::create( ['name'=>'Foreign '    ]);
+        CategoryRestaurant::create( ['name'=>'Family '    ]);
+        CategoryRestaurant::create( ['name'=>'Casino'    ]);
+        CategoryRestaurant::create( ['name'=>'Benzema'    ]);
 
       
     }

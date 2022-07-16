@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
             $table->integer('palce_id')->unsigned()->index();
-            $table->foreign('palce_id')->references('id')->on('plaecs')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('palce_id')->references('id')->on('places')->onDelete('cascade')->onUpdate('cascade');
 
             // $table->timestamps();
             $table->timestamp('time')->useCurrent = true;

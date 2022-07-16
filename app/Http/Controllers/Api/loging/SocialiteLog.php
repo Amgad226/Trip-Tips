@@ -81,7 +81,7 @@ function registerSocialite(Request $request){
 
             $validator = Validator::make($request-> all(),[
                 'password'   => ['required', 'string', 'min:4'],
-                'c_password' => 'required|same:password',
+                // 'c_password' => 'required|same:password',
             ]);
             if ($validator->fails())
             {

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use App\Models\CategoryPackage;
+use App\Models\Package\CategoryPackage;
 use App\Models\CategoryRestaurant;
 use App\Models\Facilitie;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -18,12 +18,11 @@ class CategoryPackageSeeder extends Seeder
      */
     public function run()
     {
-        CategoryPackage::create( ['name'=>'رومنسي'   ]);
-        CategoryPackage::create( ['name'=>'عائلية'       ]);
-        CategoryPackage::create( ['name'=>'العيد'    ]);
-        CategoryPackage::create( ['name'=>'بارتي'    ]);
+        CategoryPackage::create( ['name'=>'Romance'   ]);
+        CategoryPackage::create( ['name'=>'Family'       ]);
+        CategoryPackage::create( ['name'=>'Holidays'    ]);
+        CategoryPackage::create( ['name'=>'Party'    ]);
         CategoryPackage::create( ['name'=>'أمجدالوتاركينغ'    ]);
-        CategoryPackage::create( ['name'=>'دونت_نو'    ]);
 
       
     }

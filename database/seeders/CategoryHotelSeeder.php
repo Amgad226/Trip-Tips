@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use App\Models\CategoryHotel;
+use App\Models\Hotel\CategoryHotel;
 use App\Models\Facilitie;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,14 +17,13 @@ class CategoryHotelSeeder extends Seeder
      */
     public function run()
     {
-        CategoryHotel::create( ['name'=>'بحر'   ]);
-        CategoryHotel::create( ['name'=>'جبل'       ]);
-        CategoryHotel::create( ['name'=>'طبيعة'    ]);
-        CategoryHotel::create( ['name'=>'جبل'    ]);
-        CategoryHotel::create( ['name'=>'اثار'    ]);
-        CategoryHotel::create( ['name'=>'تاريخي'    ]);
-        CategoryHotel::create( ['name'=>'مدينة'    ]);
-        CategoryHotel::create( ['name'=>'ريف'    ]);
+        CategoryHotel::create( ['name'=>'Sea'   ]);
+        CategoryHotel::create( ['name'=>'mountain'       ]);
+        CategoryHotel::create( ['name'=>'nature'    ]);
+        CategoryHotel::create( ['name'=>'ruins'    ]);
+        CategoryHotel::create( ['name'=>'Historical'    ]);
+        CategoryHotel::create( ['name'=>'city'    ]);
+        CategoryHotel::create( ['name'=>'countryside'    ]);
       
     }
 }

@@ -83,9 +83,9 @@ class login extends Controller
         //عرفنا متحول وجبناه من جديد لليوزر مشان نحطو بل ريسبونس كامل
         // اما لو بدنا نبعتلو يلي فوق المعلومات يلي ما بدخلها بأيدو اليوزر ما رح تطلع متل الرول ايدي وال از فيريفاي
         $user =User::with('RestaurantRole','HotelRole','AirplaneRole','roles')->where('email',$a->email)->first(); 
-        // dd($user);
-        $a->role_peson_name=$user->roles->role_name;
-        $a->save();
+
+        $user->update(['role_peson_name'=>$user->roles->role_name]);
+
         //welcome email and verifay Eamil to user
             // Mail::to($user->email)->send(new welcomeMail($input));
             $user->sendEmailVerificationNotification();
