@@ -265,7 +265,8 @@ class RestaurantController extends Controller
         
         $token = Str::random(4);
 
-        $image = QrCode::format('png')
+        $image = QrCode::color(0, 36, 63)->format('png')->merge(public_path('default_photo/logo.png'), .3, true)
+        ->size(500)
         ->generate('http://127.0.0.1:8000/api/booking-info/'.$BookingRestaurant->user_id.'/'.$token.'/'.$BookingRestaurant->id.'/'.$BookingRestaurant->unique.'?type=res');
 
         
