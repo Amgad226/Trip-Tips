@@ -459,7 +459,7 @@ class UserController extends Controller
 
         }
 
-        $comment = AppReview::with('user')->where('comment_id',$request->comment_id)->first();
+        $comment = AppReview::with('user')->where('id',$request->comment_id)->first();
         //  dd($comments);
             return( response()->json([ 
                 'status'=>1,

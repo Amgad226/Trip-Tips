@@ -20,8 +20,8 @@ return new class extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->integer('resturant_id')->unsigned()->index();
-            $table->foreign('resturant_id')->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('restaurant_id')->unsigned()->index();
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');
             
             // $table->timestamps();
             $table->timestamp('time')->useCurrent = true;

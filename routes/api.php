@@ -157,8 +157,12 @@ Route::prefix('user')->controller(UserController::class)->group(function(){
         Route::post('/unBlock','unBlock');
         Route::post('/Delete','Delete');
       });
+});
+
+Route::controller(UserController::class)->group(function(){
+
       Route::post('addCommentForApp',     'addCommentForApp'       )->middleware(['auth:api']);
-      Route::post('addCommentForApp',     'addCommentForApp'       )->middleware(['auth:api']);
+      Route::post('delleteCommentForApp',     'delleteCommentForApp'       )->middleware(['auth:api']);
       Route::post('Show_Comments_For_App','Show_Comments_For_App'  )->middleware(['auth:api']);
       Route::post('Show_Comment_For_App', 'Show_Comment_For_App'   )->middleware(['auth:api']);
 });

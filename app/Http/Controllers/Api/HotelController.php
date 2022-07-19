@@ -303,7 +303,6 @@ class HotelController extends Controller
 
         $validator = Validator::make($request-> all(),[
            
-            'user_id'      =>  ['required', 'exists:users,id'],
             'hotel_id'     =>  ['required', 'exists:hotels,id'],
             'comment'  => 'required',
         ]);
@@ -326,11 +325,12 @@ class HotelController extends Controller
                     'hotel_id'             => $request->hotel_id,
                     'comment'             => $request->comment,                
                 ];
-      HotelComment::create($data_of_comment);
+        $comment=  HotelComment::create($data_of_comment);
 
         return response()->json([
             'status' => 1,
-            'details'=>'Your comment has been added'
+            'message'=>'Your comment has been added',
+            'id'=>$comment->id,
         ]); 
     }
     
@@ -413,7 +413,7 @@ class HotelController extends Controller
 
         }
 
-        $comment = HotelComment::with('user')->where('comment_id',$request->comment_id)->first();
+        $comment = HotelComment::with('user')->where('id',$request->comment_id)->first();
         //  dd($comments);
             return( response()->json([ 
                 'status'=>1,

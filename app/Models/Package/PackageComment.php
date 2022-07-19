@@ -2,12 +2,13 @@
 
 namespace App\Models\Package;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PackageComment extends Model
 {
-    protected $table = 'comment_packages';
+    protected $table = 'package_comments';
     public $timestamps = false;
 
     protected $fillable = [

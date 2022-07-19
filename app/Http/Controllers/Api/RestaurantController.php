@@ -287,7 +287,6 @@ class RestaurantController extends Controller
 
         $validator = Validator::make($request-> all(),[
            
-            'user_id'      =>  ['required', 'exists:users,id'],
             'restaurant_id'     =>  ['required', 'exists:restaurants,id'],
             'comment'  => 'required',
         ]);
@@ -314,7 +313,7 @@ class RestaurantController extends Controller
 
         return response()->json([
             'status' => 1,
-            'details'=>'Your comment has been added'
+            'message'=>'Your comment has been added'
         ]); 
     }
     
@@ -396,9 +395,7 @@ class RestaurantController extends Controller
             return response()->json( ['message'=>$errors['message'],'status'=>0],400);
 
         }
-
-        $comment = RestaurantComment::with('user')->where('comment_id',$request->comment_id)->first();
-        //  dd($comments);
+        $comment = RestaurantComment::with('user')->where('id',$request->comment_id)->first();
             return( response()->json([ 
                 'status'=>1,
                 'message'=> $comment   ]));

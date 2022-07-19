@@ -252,7 +252,6 @@ class AirplaneController extends Controller
 
         $validator = Validator::make($request-> all(),[
            
-            'user_id'      =>  ['required', 'exists:users,id'],
             'airplane_id'     =>  ['required', 'exists:airplanes,id'],
             'comment'  => 'required',
         ]);
@@ -275,11 +274,13 @@ class AirplaneController extends Controller
                     'airplane_id'         => $request->airplane_id,
                     'comment'             => $request->comment,                
                 ];
-      AirplaneComment::create($data_of_comment);
+      $comment=AirplaneComment::create($data_of_comment);
 
         return response()->json([
             'status' => 1,
-            'details'=>'Your comment has been added'
+            'message'=>'Your comment has been added',
+            'id' => $comment->id
+
         ]); 
     }
     
@@ -361,7 +362,7 @@ class AirplaneController extends Controller
 
         }
 
-        $comment = AirplaneComment::with('user')->where('comment_id',$request->comment_id)->first();
+        $comment = AirplaneComment::with('user')->where('id',$request->comment_id)->first();
         //  dd($comments);
             return( response()->json([ 
                 'status'=>1,

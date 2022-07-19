@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Models\Package;
+namespace App\Models\Place;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PlaceComment extends Model
 {
-    protected $table = 'comment_place';
+    protected $table = 'place_comments';
     public $timestamps = false;
 
     protected $fillable = [
         'comment',
         'user_id',
-        'package_id',
+        'place_id',
     ];
 
     public function  packages()
@@ -21,8 +22,8 @@ class PlaceComment extends Model
         return $this->belongsTo(Package::class,'package_id');
     }
 
-    public function  users()
+    public function  user()
     {
-        return $this->belongsTo(User::class,'package_id');
+        return $this->belongsTo(User::class,'place_id');
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 
 use App\Mail\AcceptFacilities;
-use App\Models\Package\PlaceComment;
+use App\Models\Place\PlaceComment;
 use App\Models\Place\PlaceRole;
 use App\Models\Place\Place;
 use App\Models\Place\PlaceImage;
@@ -195,7 +195,6 @@ class PlaceController extends Controller
 
         $validator = Validator::make($request-> all(),[
            
-            'user_id'      =>  ['required', 'exists:users,id'],
             'place_id'     =>  ['required', 'exists:places,id'],
             'comment'  => 'required',
         ]);
@@ -218,11 +217,12 @@ class PlaceController extends Controller
                     'place_id'         => $request->place_id,
                     'comment'             => $request->comment,                
                 ];
-      PlaceComment::create($data_of_comment);
+      $comment=PlaceComment::create($data_of_comment);
 
         return response()->json([
             'status' => 1,
-            'details'=>'Your comment has been added'
+            'message'=>'Your comment has been added',
+            'id'=>$comment->id
         ]); 
     }
     
@@ -304,7 +304,7 @@ class PlaceController extends Controller
 
         }
 
-        $comment = PlaceComment::with('user')->where('comment_id',$request->comment_id)->first();
+        $comment = PlaceComment::with('user')->where('id',$request->comment_id)->first();
         //  dd($comments);
             return( response()->json([ 
                 'status'=>1,

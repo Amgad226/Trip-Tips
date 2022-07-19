@@ -2,6 +2,7 @@
 
 namespace App\Models\Restaurant;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,7 +23,7 @@ class RestaurantComment extends Model
         return $this->belongsTo(Restaurant::class,'restaurant_id');
     }
 
-    public function  users()
+    public function  user()
     {
         return $this->belongsTo(User::class,'user_id');
     }

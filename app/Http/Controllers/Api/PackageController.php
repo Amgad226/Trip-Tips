@@ -621,7 +621,6 @@ class PackageController extends Controller
 
         $validator = Validator::make($request-> all(),[
            
-            'user_id'      =>  ['required', 'exists:users,id'],
             'package_id'     =>  ['required', 'exists:packages,id'],
             'comment'  => 'required',
         ]);
@@ -644,11 +643,12 @@ class PackageController extends Controller
                     'package_id'         => $request->package_id,
                     'comment'             => $request->comment,                
                 ];
-      PackageComment::create($data_of_comment);
+     $commnet= PackageComment::create($data_of_comment);
 
         return response()->json([
             'status' => 1,
-            'details'=>'Your comment has been added'
+            'message'=>'Your comment has been added',
+            'id'=>$commnet->id
         ]); 
     }
     
@@ -730,8 +730,7 @@ class PackageController extends Controller
             return response()->json( ['message'=>$errors['message'],'status'=>0],400);
 
         }
-
-        $comment = PackageComment::with('user')->where('comment_id',$request->comment_id)->first();
+        $comment = PackageComment::with('user')->where('id',$request->comment_id)->first();
         //  dd($comments);
             return( response()->json([ 
                 'status'=>1,
