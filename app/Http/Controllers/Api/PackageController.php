@@ -424,13 +424,18 @@ class PackageController extends Controller
            Package::where('id',$package_id)->update(['number_of_reservation'=>$number_of_reservation]);
         //  return;
         $token = Str::random(4);
-        $image = QrCode::format('png')
+        // backgroundColor(255, 244, 63)->
+        $image = QrCode::color(0, 36, 63)->format('png')->merge(public_path('default_photo/logo.png'), .3, true)
+        ->size(500)
         ->generate('http://127.0.0.1:8000/api/booking-info/'.$BookingPackage->user_id.'/'.$token.'/'.$BookingPackage->id.'/'.$BookingPackage->unique.'?type=pack');
         
         
         Storage::disk('local')->makeDirectory('public/images/package/'.$BookingPackage->package->name.'/qr');
         
         $a='public/images/package/'.$BookingPackage->package->name.'/qr/'.Auth::user()->name.time().'.png';
+        $link_qr_in_public='/storage/images/package/'.$BookingPackage->package->name.'/qr/'.Auth::user()->name.time().'.png';
+        $BookingPackage->img_qr=$link_qr_in_public;
+        $BookingPackage->save();
         Storage::disk('local')->put($a, $image);  
         
         
@@ -562,8 +567,8 @@ class PackageController extends Controller
 
          return response()->json([
             'status'=>1,
-            'message' => 'Booking Package  added successfully',
-            'booking_info'=>$Booking,
+            'message' => 'Booking Package  added successfully qr code in your profile ',
+            // 'booking_info'=>$Booking,
          ]);     
     }
 

@@ -64,8 +64,8 @@
 
       <code><span class="variable">name</span><span class="function"> :{{$user->name}}</span><span class="operator">=</span><span>{</span>
         {{-- <div class="indent"> <span class="property">hotel name</span><span class="operator">:</span><span>{{$booking->hotel->name}}'</span></div> --}}
-        <div class="indent"> <span class="property">hotel class name</span><span class="operator">:</span><span class="string">{{$booking->hotel->name}}'</span><span>,</span></div>
-      <div class="indent"> <span class="property">booking start_date</span><span class="operator">:</span><span class="string">{{$booking->hotelClass->class_name}}</span><span>,</span></div>
+        <div class="indent"> <span class="property">hotel  name</span><span class="operator">:</span><span class="string">{{$booking->hotel->name}}'</span><span>,</span></div>
+      <div class="indent"> <span class="property">hotel Class</span><span class="operator">:</span><span class="string">{{$booking->hotelClass->class_name}}</span><span>,</span></div>
       <div class="indent"> <span class="property">booking start_date</span><span class="operator">:</span><span class="string">{{$booking->start_date}}</span><span>,</span></div>
       <div class="indent"> <span class="property">booking end_date</span><span class="operator">:</span><span class="string">{{$booking->end_date}}</span><span>,</span></div>
       <div class="indent"> <span class="property">number_of_people</span><span class="operator">:</span><span class="string">{{$booking->number_of_people}}</span><span>,</span></div>

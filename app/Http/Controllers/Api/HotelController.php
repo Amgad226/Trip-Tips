@@ -37,7 +37,7 @@ class HotelController extends Controller
             'img_title_deed'=> 'required',
             'img'           => 'required',
             'description'           => 'required',
-            'catigory_id'    =>    ['required', 'exists:catigories_hotel,id'],
+            'category_id'    =>    ['required', 'exists:catigories_hotel,id'],
 
             
         ]);
@@ -84,7 +84,7 @@ class HotelController extends Controller
             'support_email' => $request->support_email,
             'img_title_deed'=> $image_title_deed_path, 
             'description'=>$request->description,
-            'catigory_id'   =>$request->catigory_id,
+            'category_id'   =>$request->category_id,
 
            ];
          $hotel = Hotel::create($data);
@@ -276,20 +276,23 @@ class HotelController extends Controller
 
             $token = Str::random(4);
 
-            $image = QrCode::format('png')
+            $image = QrCode::color(0, 36, 63)->format('png')->merge(public_path('default_photo/logo.png'), .3, true)
+            ->size(500)
             ->generate('http://127.0.0.1:8000/api/booking-info/'.$BookingHotel->user_id.'/'.$token.'/'.$BookingHotel->id.'/'.$BookingHotel->unique.'?type=hot');
     
             
             Storage::disk('local')->makeDirectory('public/images/hotel/'.$BookingHotel->hotel->name.'/qr');
     
             $a='public/images/hotel/'.$BookingHotel->hotel->name.'/qr/'.Auth::user()->name.time().'.png';
+            $link_qr_in_public='/storage/images/hotel/'.$BookingHotel->hotel->name.'/qr/'.Auth::user()->name.time().'.png';
+            $BookingHotel->img_qr=$link_qr_in_public;
+            $BookingHotel->save();
             Storage::disk('local')->put($a, $image);  
             
 
         return response()->json([
             'status' => 1,
             'message' => 'BookingHotel added successfully ,go to your profile to get image Qr code ',
-            'info'=>'public/images/restaurant/'.$BookingHotel->hotel->name.'/qr/'.Auth::user()->name.time().'.png',
         ]);      
   
  

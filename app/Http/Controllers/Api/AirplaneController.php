@@ -176,6 +176,7 @@ class AirplaneController extends Controller
          return response()->json(['message'=>' successfuly','airplane'=>$airplane_acceptable,'status'=>1],200);
    
     }
+
     public function add_Airplane_Booking(Request $request){
        
       
@@ -187,8 +188,7 @@ class AirplaneController extends Controller
             'date'             => 'required',
             'number_of_people' => 'required',
             'price'            => 'required',
-            // 'booking_date'    => 'required|date',
-            // 'note'            => 'required',
+      
         ]);
 
             if ($validator->fails())
@@ -226,13 +226,17 @@ class AirplaneController extends Controller
 
         $token = Str::random(4);
 
-        $image = QrCode::format('png')
+        $image = QrCode::color(0, 36, 63)->format('png')->merge(public_path('default_photo/logo.png'), .3, true)
+        ->size(500)
         ->generate('http://127.0.0.1:8000/api/booking-info/'.$BookingAirplane->user_id.'/'.$token.'/'.$BookingAirplane->id.'/'.$BookingAirplane->unique.'?type=air');
 
         
         Storage::disk('local')->makeDirectory('public/images/airplane/'.$BookingAirplane->airplane->name.'/qr');
 
         $a='public/images/airplane/'.$BookingAirplane->airplane->name.'/qr/'.Auth::user()->name.time().'.png';
+        $link_qr_in_public='/storage/images/airplane/'.$BookingAirplane->airplane->name.'/qr/'.Auth::user()->name.time().'.png';
+        $BookingAirplane->img_qr=$link_qr_in_public;
+        $BookingAirplane->save();
         Storage::disk('local')->put($a, $image);  
         
  
@@ -241,11 +245,9 @@ class AirplaneController extends Controller
         return response()->json([
             'status' => '1',
             'message' => 'BookingAirplane added successfully ,go to your profile to get image Qr code ',
-            'info'=>$BookingAirplane,
+            // 'info'=>$BookingAirplane,
         ]);    
     }
-
-    
 
     public function add_Airplane_Comment(Request $request) {
 

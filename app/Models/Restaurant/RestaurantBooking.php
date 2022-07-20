@@ -24,6 +24,7 @@ class RestaurantBooking extends Authenticatable
         'note',
         'by_packge',
         'unique',
+        'img_qr',
 
     ];
     public function restuarant(){

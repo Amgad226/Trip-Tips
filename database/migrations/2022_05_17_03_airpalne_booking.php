@@ -29,7 +29,7 @@ return new class extends Migration
             $table->text('unique')   ->nullable();
 
             
-            // $table->integer('img_qr')           ;
+            $table->text('img_qr')->nullable();
             // $table->integer('id_your_chois')    ->nullable()    ;
 
             $table->foreign('user_id')           ->references('id')->on('users')           ->onDelete('cascade')->onUpdate('cascade');

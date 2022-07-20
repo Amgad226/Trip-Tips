@@ -25,9 +25,9 @@ return new class extends Migration
             $table->dateTime('end_date');
             $table->text('unique')   ;
 
+            $table->text('img_qr')->nullable();
             $table->timestamp('time')->useCurrent = true;
             
-            // $table->integer('img_qr')           ->nullable()    ;
 
             $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')   ->references('id')->on('users')  ->onDelete('cascade')->onUpdate('cascade');

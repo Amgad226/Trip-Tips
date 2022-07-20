@@ -38,7 +38,7 @@ class RestaurantController extends Controller
             'img'           => 'required',
             'price_booking' => 'required',
             'description'   => 'required',
-            'catigory_id'    =>    ['required', 'exists:catigories_restaurant,id'],
+            'category_id'    =>    ['required', 'exists:catigories_restaurant,id'],
             
         ]);
 
@@ -93,7 +93,7 @@ class RestaurantController extends Controller
             'support_email' => $request->support_email,
             'img_title_deed'=> $image_title_deed_path, 
             'description'   =>$request->description,
-            'catigory_id'   =>$request->catigory_id,
+            'category_id'   =>$request->category_id,
 
            ];
            
@@ -274,12 +274,13 @@ class RestaurantController extends Controller
 
         $a='public/images/restaurant/'.$BookingRestaurant->restuarant->name.'/qr/'.Auth::user()->name.time().'.png';
         Storage::disk('local')->put($a, $image);  
-        
-        
+        $link_qr_in_public='/storage/images/restaurant/'.$BookingRestaurant->restuarant->name.'/qr/'.Auth::user()->name.time().'.png';
+        $BookingRestaurant->img_qr=$link_qr_in_public;
+        $BookingRestaurant->save();
         return response()->json([
             'status' => '1',
             'message' => 'BookingRestaurant added successfully ,go to your profile to get image Qr code ',
-            'info'=>$BookingRestaurant,
+            // 'info'=>$BookingRestaurant,
         ]);     
     }
 

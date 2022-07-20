@@ -25,7 +25,7 @@ return new class extends Migration
             $table->boolean('by_packge')->nullable();
             $table->text('unique')   ->nullable();
 
-            // $table->integer('img_qr')           ->nullable();
+            $table->text('img_qr')->nullable();
             // $table->integer('id_your_chois')    ->nullable();
 
             $table->timestamp('time')->useCurrent = true;
