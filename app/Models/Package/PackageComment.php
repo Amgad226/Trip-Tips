@@ -24,6 +24,6 @@ class PackageComment extends Model
 
     public function  user()
     {
-        return $this->belongsTo(User::class,'package_id');
+        return $this->belongsTo(User::class,'user_id');
     }
 }

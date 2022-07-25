@@ -222,7 +222,8 @@ class PlaceController extends Controller
         return response()->json([
             'status' => 1,
             'message'=>'Your comment has been added',
-            'id'=>$comment->id
+            'id'=>$comment->id,
+            // 'userName'=>Auth::user()->name,
         ]); 
     }
     
@@ -281,6 +282,7 @@ class PlaceController extends Controller
         $comments = PlaceComment::with('user')->where('place_id',$request->place_id)->get();
         //  dd($comments);
             return( response()->json([ 
+                // 'username'=>Auth::user()->name,
                 'status'=>1,
                 'message'=> $comments   ]));
     } 
