@@ -152,7 +152,7 @@ class RestaurantController extends Controller
       
        
          return response()->json([
-             'status' => '1',
+             'status' => 1,
              'message' => 'restaurant added in our datebase successfully ,we will send the anwer to your suppurt email within a maximum time of ' .config('global.max_day_for_repeating').' days',
             'id'=>$restaurant->id,
             //  'restaurant'=>$restauranttt,
@@ -278,7 +278,7 @@ class RestaurantController extends Controller
         $BookingRestaurant->img_qr=$link_qr_in_public;
         $BookingRestaurant->save();
         return response()->json([
-            'status' => '1',
+            'status' => 1,
             'message' => 'BookingRestaurant added successfully ,go to your profile to get image Qr code ',
             // 'info'=>$BookingRestaurant,
         ]);     

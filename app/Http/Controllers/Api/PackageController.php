@@ -101,7 +101,7 @@ class PackageController extends Controller
 
          $Package = Package::create($data);
          return response()->json([
-             'status' => '1',
+             'status' => 1,
              'message' => 'Package added successfully',
              'package'=>$Package,
          ]);     

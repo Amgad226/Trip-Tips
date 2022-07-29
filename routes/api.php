@@ -28,7 +28,7 @@ Route::post('/reset' ,             [ForgetAndRestPass    ::class, 'reset'       
 Route::post('/checkToken' ,        [ForgetAndRestPass    ::class, 'checkToken'        ] );
     
 Route::post('/send_notification',  [VerifyEmailController::class, 'resend'            ] )->middleware(['auth:api']);
-Route::get ('/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'            ] )->middleware(['signed'  ])->name('verify');
+Route::get ('/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'            ] )->middleware(['signed'  ])->name('verification.verify');
 Route::post ('/Verify_checking',   [VerifyEmailController::class, 'Verify_checking'   ] )->middleware(['auth:api']);
     
 Route::post('registerSocialite',   [SocialiteLog::class, 'registerSocialite'          ] );
@@ -38,7 +38,7 @@ Route::post('addPasswordSocialite',[SocialiteLog::class, 'addPasswordSocialite' 
 // Get category and TouristSupervisor
 Route::controller(CategoryController::class)->group(function(){
 
-    Route::middleware(['auth:api','admin'])->group(function () {
+    Route::middleware(['auth:api'])->group(function () {
         Route::get ('/getRestaurantCategory',    'getRestaurantCategory'     );
         Route::get ('/getHotelCategory',         'getHotelCategory'          );
         Route::get ('/getPackageCategory',       'getPackageCategory'        );
@@ -176,7 +176,9 @@ Route::get('/clear-cache', function() {
     return 'DONE'; //Return anything
 });
 
-Route::post('/checkuer' ,   [checkuer ::class, 'check'      ])->middleware(['auth:api'])->middleware('checkuser');
+Route::post('/info_by_token' ,   [checkuer ::class, 'info_by_token'      ])->middleware(['auth:api']);
+Route::post('/check_grade_user' ,   [checkuer ::class, 'check_grade_user'      ])->middleware(['auth:api'])->middleware('checkuser');
 Route::post('/nameByToken' ,[checkuer ::class, 'nameByToken'])->middleware(['auth:api']);
-// Route::get('/qr/{id}/{bookingid}',[booking_Info_Qr_Controller::class,'show']);
-// Route::get('/booking-info/{id}/{bookingid}',[booking_Info_Qr_Controller::class,'show']);
+
+Route::get('/qr/{id}/{bookingid}',[booking_Info_Qr_Controller::class,'show']);
+Route::get('/booking-info/{id}/{bookingid}',[booking_Info_Qr_Controller::class,'show']);

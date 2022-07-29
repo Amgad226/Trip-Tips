@@ -101,7 +101,7 @@ class AirplaneController extends Controller
          //  dd($airplanett);
        
          return response()->json([
-             'status' => '1',
+             'status' => 1,
              'message' => 'airplane added in our datebase successfully ,we will send the anwer to your suppurt email within a maximum time of '.config('global.max_day_for_repeating').' days',
              'id'=>$airplane->id,
          ]);      
@@ -243,7 +243,7 @@ class AirplaneController extends Controller
 
 
         return response()->json([
-            'status' => '1',
+            'status' => 1,
             'message' => 'BookingAirplane added successfully ,go to your profile to get image Qr code ',
             // 'info'=>$BookingAirplane,
         ]);    

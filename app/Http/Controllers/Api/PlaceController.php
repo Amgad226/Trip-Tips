@@ -116,7 +116,7 @@ class PlaceController extends Controller
       
        
          return response()->json([
-             'status' => '1',
+             'status' => 1,
              'message' => 'place added in our datebase successfully ,we will send the anwer to your suppurt email within a maximum time of ' .config('global.max_day_for_repeating').' days',
 
             //  'place'=>$placett,
